@@ -1,18 +1,20 @@
 package nl.rug.oop.rts;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
+import nl.rug.oop.rts.view.Game;
 
 /**
- * Main class of the application. Add more details here.
+ * The main class that starts the game.
  */
 public class Main {
-
     /**
-     * Main function. Add more details here.
+     * The main method of the game.
      *
-     * @param args Commandline arguments.
+     * @param args The command line arguments.
      */
     public static void main(String[] args) {
         FlatDarculaLaf.setup(); // Dark mode
+        Game game = new Game();
+        game.start();
     }
 }
