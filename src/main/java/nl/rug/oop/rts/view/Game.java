@@ -1,28 +1,82 @@
 package nl.rug.oop.rts.view;
 
+import lombok.Getter;
+import nl.rug.oop.rts.controller.GraphController;
+import nl.rug.oop.rts.controller.MainController;
+import nl.rug.oop.rts.controller.MouseController;
+import nl.rug.oop.rts.model.GraphModel;
+import nl.rug.oop.rts.model.ViewModel;
+
 /**
  * The main class that starts the game.
  */
+@Getter
 public class Game {
-    //    private final MainView mainView;
-    //    private final GraphPanel graphPanel;
-    //    private final TopMenuPanel topMenuPanel;
-    //    private final MainController mainController;
+    /**
+     * The graph model of the game.
+     * Stores all the information of the graph.
+     * All the edges and nodes are stored in this model.
+     */
+    private final GraphModel graphModel;
+    /**
+     * The view model of the game.
+     * Stores all the information of the view.
+     * The zoom level, view position, etc. are stored in this model.
+     */
+    private final ViewModel viewModel;
+
+    /**
+     * The main controller of the game.
+     */
+    private final MainController mainController;
+    /**
+     * The graph controller of the game.
+     */
+    private final GraphController graphController;
+    /**
+     * The mouse controller of the game.
+     */
+    private final MouseController mouseController;
+
+    /**
+     * The top menu panel of the game.
+     * Shows all kinds of buttons.
+     */
+    private final TopMenuPanel topMenuPanel;
+    /**
+     * The graph panel of the game.
+     * Shows the map with all the nodes and edges.
+     */
+    private final GraphPanel graphPanel;
+    /**
+     * The main view of the game.
+     * Shows all the panels.
+     */
+    private final MainView mainView;
 
     /**
      * Constructor for the Game class.
      */
     public Game() {
-        /*
+        this.graphModel = new GraphModel();
+        this.viewModel = new ViewModel();
 
-         */
+        this.mainController = new MainController(graphModel, viewModel);
+        graphController = new GraphController(mainController, graphModel);
+        mouseController = new MouseController(mainController);
 
+        this.graphPanel = new GraphPanel(viewModel, graphModel);
+        this.topMenuPanel = new TopMenuPanel(graphController, graphModel);
+        this.mainView = new MainView(graphPanel, topMenuPanel);
+
+        graphPanel.observe(viewModel);
+        graphPanel.observe(graphModel);
     }
 
     /**
      * Starts the game by showing the main menu.
      */
     public void start() {
-        //        mainView.setVisible(true);
+        mainView.setVisible(true);
     }
 }

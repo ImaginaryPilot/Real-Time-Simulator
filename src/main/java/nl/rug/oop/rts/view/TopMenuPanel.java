@@ -1,5 +1,8 @@
 package nl.rug.oop.rts.view;
 
+import nl.rug.oop.rts.controller.GraphController;
+import nl.rug.oop.rts.model.GraphModel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,35 +12,58 @@ import java.awt.*;
  */
 public class TopMenuPanel extends JPanel {
     /**
-     * The graph panel of the game.
+     * The graph controller of the game.
      */
-    private final GraphPanel graphPanel;
+    private final GraphController graphController;
+    /**
+     * The graph model of the game.
+     */
+    private final GraphModel graphModel;
 
     /**
      * Constructor for the TopMenuPanel class.
-     * @param graphPanel The graph panel of the game.
+     *
+     * @param graphController The graph controller of the game.
+     *                        Used to add and remove nodes and edges.
+     * @param graphModel      The graph model of the game.
+     *                        Used to get the map width and height.
      */
-    public TopMenuPanel(GraphPanel graphPanel) {
-        this.graphPanel = graphPanel;
-
+    public TopMenuPanel(GraphController graphController, GraphModel graphModel) {
+        this.graphModel = graphModel;
+        this.graphController = graphController;
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         setBackground(Color.DARK_GRAY);
         setBounds(0, 0, 1200, 40);
 
-        setupButtons();
+        setupTestButtons();
 
         setVisible(true);
     }
 
     /**
-     * Sets up the buttons of the top menu panel.
+     * Set up some buttons to test at the top menu panel.
      */
-    private void setupButtons() {
+    private void setupTestButtons() {
         JButton button = new JButton("Button 1");
-        button.addActionListener(e -> System.out.println("Button 1 clicked"));
+        button.addActionListener(e -> {
+            System.out.println("Button 1 clicked");
+            graphController.addNode("Node 1", 100, 100);
+        });
 
         JButton button2 = new JButton("Button 2");
+        button2.addActionListener(e -> {
+            System.out.println("Button 2 clicked");
+            while (!graphModel.getNodes().isEmpty()) {
+                graphController.removeNode(graphModel.getNodes().get(0));
+            }
+            graphController.addNode("Node 2", 200, 200);
+
+        });
         JButton button3 = new JButton("Button buttonaosndf 3");
+        button3.addActionListener(e -> {
+            System.out.println("Button 3 clicked");
+            graphController.addNode("Node 3", 300, 300);
+        });
 
         add(button);
         add(button2);

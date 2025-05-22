@@ -1,6 +1,9 @@
 package nl.rug.oop.rts.view;
 
-import nl.rug.oop.rts.model.View;
+import nl.rug.oop.rts.model.GraphModel;
+import nl.rug.oop.rts.model.Node;
+import nl.rug.oop.rts.model.ViewModel;
+import nl.rug.oop.rts.observer.Observer;
 import nl.rug.oop.rts.util.TextureLoader;
 
 import javax.swing.*;
@@ -9,7 +12,7 @@ import java.awt.*;
 /**
  * The graph panel of the game.
  */
-public class GraphPanel extends JPanel {
+public class GraphPanel extends JPanel implements Observer {
     /**
      * The width of a node.
      * For selecting.
@@ -23,7 +26,11 @@ public class GraphPanel extends JPanel {
     /**
      * The model of the graph panel.
      */
-    private final View model;
+    private final ViewModel model;
+    /**
+     * The graph model of the game.
+     */
+    private final GraphModel graphModel;
     /**
      * The background image of the map.
      */
@@ -32,9 +39,11 @@ public class GraphPanel extends JPanel {
     /**
      * Constructor for the GraphPanel class.
      *
-     * @param model The model of the graph panel.
+     * @param model      The model of the graph panel.
+     * @param graphModel The graph model of the game.
      */
-    public GraphPanel(View model) {
+    public GraphPanel(ViewModel model, GraphModel graphModel) {
+        this.graphModel = graphModel;
         this.model = model;
         setLayout(null);
         setBounds(0, 40, 1200, 700);
@@ -66,7 +75,18 @@ public class GraphPanel extends JPanel {
         /*
          * Paint nodes and edges.
          */
+        for (Node node : graphModel.getNodes()) {
+            g.setColor(Color.BLACK);
+            g.fillRect(node.getX() - nodeWidth / 2, node.getY() - nodeHeight / 2, nodeWidth, nodeHeight);
+            g.setColor(Color.WHITE);
+            g.drawString(node.getName(), node.getX(), node.getY());
+        }
         g.translate(-model.getViewX(), -model.getViewY());
+    }
+
+    @Override
+    public void update() {
+        repaint();
     }
 
 }

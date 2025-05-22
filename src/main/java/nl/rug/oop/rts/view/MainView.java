@@ -19,7 +19,8 @@ public class MainView extends JFrame implements Observer {
 
     /**
      * Constructor for the MainView class.
-     * @param graphPanel The graph panel of the game.
+     *
+     * @param graphPanel   The graph panel of the game.
      * @param topMenuPanel The top menu panel of the game.
      */
     public MainView(GraphPanel graphPanel, TopMenuPanel topMenuPanel) {

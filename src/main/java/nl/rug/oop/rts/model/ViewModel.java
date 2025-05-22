@@ -14,7 +14,7 @@ import java.util.List;
  * Later, zoom level etc.
  */
 @Getter
-public class View implements Observable {
+public class ViewModel implements Observable {
     /**
      * The width of the map.
      */
@@ -52,26 +52,11 @@ public class View implements Observable {
     /**
      * Constructor for the View class.
      */
-    public View() {
+    public ViewModel() {
         this.viewX = 0;
         this.viewY = 0;
         this.selectedNode = null;
         this.observers = new ArrayList<>();
     }
 
-    /*
-    private void addTestData() {
-        Node node1 = new Node(1, "Node 1");
-        Node node2 = new Node(2, "Node 2");
-        Node node3 = new Node(3, "Node 3");
-
-        nodes.add(node1);
-        nodes.add(node2);
-        nodes.add(node3);
-
-        edges.add(new Edge(1, node1, node2));
-        edges.add(new Edge(2, node2, node3));
-        edges.add(new Edge(3, node1, node3));
-    }
-    */
 }

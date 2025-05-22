@@ -9,4 +9,12 @@ public interface Observer {
      */
     void update();
 
+    /**
+     * Observes an observable.
+     *
+     * @param observable The observable to observe.
+     */
+    default void observe(Observable observable) {
+        observable.getObservers().add(this);
+    }
 }

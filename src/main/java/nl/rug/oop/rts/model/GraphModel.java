@@ -11,7 +11,7 @@ import java.util.List;
  * Graph class that holds all the nodes and edges of the graph.
  */
 @Getter
-public class Graph implements Observable {
+public class GraphModel implements Observable {
     /**
      * List of all the nodes in the graph.
      */
@@ -36,7 +36,7 @@ public class Graph implements Observable {
     /**
      * Constructor for the Graph class.
      */
-    public Graph() {
+    public GraphModel() {
         this.nodes = new ArrayList<>();
         this.edges = new ArrayList<>();
         this.nodeIdCounter = 0;
@@ -51,6 +51,7 @@ public class Graph implements Observable {
      */
     public void addNode(Node node) {
         nodes.add(node);
+        updateAllObservers();
     }
 
     /**
@@ -64,6 +65,7 @@ public class Graph implements Observable {
          */
         node.getEdges().forEach(this::removeEdge);
         nodes.remove(node);
+        updateAllObservers();
     }
 
     /**
@@ -73,6 +75,7 @@ public class Graph implements Observable {
      */
     public void addEdge(Edge edge) {
         edges.add(edge);
+        updateAllObservers();
     }
 
     /**
@@ -82,6 +85,7 @@ public class Graph implements Observable {
      */
     public void removeEdge(Edge edge) {
         edges.remove(edge);
+        updateAllObservers();
     }
 
     /**
