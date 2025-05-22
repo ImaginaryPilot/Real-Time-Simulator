@@ -60,10 +60,16 @@ public class GraphModel implements Observable {
      * @param node The node to remove from the graph.
      */
     public void removeNode(Node node) {
-        /*
-        Needs updating, should also remove the edge from the node on the other side)
-         */
-        node.getEdges().forEach(this::removeEdge);
+        List<Edge> edgesToRemove = new ArrayList<>();
+        for (Edge edge : edges) {
+            if (edge.getNodeA() == node || edge.getNodeB() == node) {
+                edgesToRemove.add(edge);
+            }
+        }
+        for (Edge edge : edgesToRemove) {
+            removeEdge(edge);
+        }
+
         nodes.remove(node);
         updateAllObservers();
     }

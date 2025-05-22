@@ -1,5 +1,6 @@
 package nl.rug.oop.rts.view;
 
+import nl.rug.oop.rts.model.Edge;
 import nl.rug.oop.rts.model.GraphModel;
 import nl.rug.oop.rts.model.Node;
 import nl.rug.oop.rts.model.ViewModel;
@@ -75,12 +76,17 @@ public class GraphPanel extends JPanel implements Observer {
         /*
          * Paint nodes and edges.
          */
+        for (Edge edge : graphModel.getEdges()) {
+            g.setColor(Color.BLUE);
+            g.drawLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
+        }
         for (Node node : graphModel.getNodes()) {
             g.setColor(Color.BLACK);
             g.fillRect(node.getX() - nodeWidth / 2, node.getY() - nodeHeight / 2, nodeWidth, nodeHeight);
             g.setColor(Color.WHITE);
             g.drawString(node.getName(), node.getX(), node.getY());
         }
+
         g.translate(-model.getViewX(), -model.getViewY());
     }
 

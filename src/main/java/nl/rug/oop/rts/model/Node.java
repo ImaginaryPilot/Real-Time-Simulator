@@ -2,9 +2,6 @@ package nl.rug.oop.rts.model;
 
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * Node class that holds all the information of a node in the graph.
@@ -27,10 +24,6 @@ public class Node {
      * Name of the node.
      */
     private final String name;
-    /**
-     * List of edges that connect to this node.
-     */
-    private List<Edge> edges;
 
     /**
      * Constructor for the Node class.
@@ -45,6 +38,5 @@ public class Node {
         this.y = y;
         this.id = id;
         this.name = name;
-        this.edges = new ArrayList<>();
     }
 }

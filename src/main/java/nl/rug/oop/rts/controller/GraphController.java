@@ -6,6 +6,8 @@ import nl.rug.oop.rts.model.Edge;
 import nl.rug.oop.rts.model.GraphModel;
 import nl.rug.oop.rts.model.Node;
 
+import java.util.List;
+
 /**
  * Graph controller class.
  */
@@ -75,4 +77,23 @@ public class GraphController {
     >Moving nodes.
      */
 
+    /**
+     * Generates a test graph.
+     */
+    public void generateTest() {
+
+        addNode("NOde 1", 100, 100);
+        addNode("NOde 2", 200, 200);
+        addNode("NOde 3", 300, 100);
+        addNode("NOde 4", 200, 500);
+        addNode("NOde 5", 500, 500);
+
+        List Nodes = graphModel.getNodes();
+        addEdge((Node) Nodes.get(0), (Node) Nodes.get(1));
+        addEdge((Node) Nodes.get(0), (Node) Nodes.get(2));
+        addEdge((Node) Nodes.get(0), (Node) Nodes.get(3));
+        addEdge((Node) Nodes.get(1), (Node) Nodes.get(2));
+        addEdge((Node) Nodes.get(1), (Node) Nodes.get(3));
+        addEdge((Node) Nodes.get(4), (Node) Nodes.get(3));
+    }
 }

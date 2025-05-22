@@ -56,7 +56,7 @@ public class TopMenuPanel extends JPanel {
             while (!graphModel.getNodes().isEmpty()) {
                 graphController.removeNode(graphModel.getNodes().get(0));
             }
-            graphController.addNode("Node 2", 200, 200);
+            //            graphController.addNode("Node 2", 200, 200);
 
         });
         JButton button3 = new JButton("Button buttonaosndf 3");
@@ -64,10 +64,15 @@ public class TopMenuPanel extends JPanel {
             System.out.println("Button 3 clicked");
             graphController.addNode("Node 3", 300, 300);
         });
-
+        JButton button4 = new JButton("Generate somthing cool :KJ");
+        button4.addActionListener(e -> {
+            System.out.println("Button 4 clicked");
+            graphController.generateTest();
+        });
         add(button);
         add(button2);
         add(button3);
+        add(button4);
     }
 
 }
