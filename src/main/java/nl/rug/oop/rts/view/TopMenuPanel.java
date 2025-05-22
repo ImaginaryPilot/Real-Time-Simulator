@@ -33,8 +33,7 @@ public class TopMenuPanel extends JPanel {
         this.graphController = graphController;
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         setBackground(Color.DARK_GRAY);
-        setBounds(0, 0, 1200, 40);
-
+        setPreferredSize(new Dimension(1200, 40));
         setupTestButtons();
 
         setVisible(true);

@@ -18,12 +18,12 @@ public class GraphPanel extends JPanel implements Observer {
      * The width of a node.
      * For selecting.
      */
-    private final int nodeWidth = 60;
+    private final int nodeWidth;
     /**
      * The height of a node.
      * For selecting.
      */
-    private final int nodeHeight = 60;
+    private final int nodeHeight;
     /**
      * The model of the graph panel.
      */
@@ -46,8 +46,10 @@ public class GraphPanel extends JPanel implements Observer {
     public GraphPanel(ViewModel model, GraphModel graphModel) {
         this.graphModel = graphModel;
         this.model = model;
+        this.nodeWidth = model.getNodeWidth();
+        this.nodeHeight = model.getNodeHeight();
         setLayout(null);
-        setBounds(0, 40, 1200, 700);
+        setPreferredSize(new Dimension(1200, 700));
 
         backgroundImage = TextureLoader.getInstance().getTexture(
                 "mapTexture", model.getMapWidth(), model.getMapHeight());
@@ -65,23 +67,21 @@ public class GraphPanel extends JPanel implements Observer {
         super.paintComponent(g);
 
         g.translate(model.getViewX(), model.getViewY());
-        /*
-        Not sure if this is drawing in the right place now.
-         */
 
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, null);
         }
 
-        /*
-         * Paint nodes and edges.
-         */
         for (Edge edge : graphModel.getEdges()) {
             g.setColor(Color.BLUE);
             g.drawLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
         }
         for (Node node : graphModel.getNodes()) {
-            g.setColor(Color.BLACK);
+            if (node == model.getSelectedNode()) {
+                g.setColor(Color.RED);
+            } else {
+                g.setColor(Color.BLACK);
+            }
             g.fillRect(node.getX() - nodeWidth / 2, node.getY() - nodeHeight / 2, nodeWidth, nodeHeight);
             g.setColor(Color.WHITE);
             g.drawString(node.getName(), node.getX(), node.getY());

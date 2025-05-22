@@ -1,21 +1,23 @@
 package nl.rug.oop.rts.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 
 /**
  * Node class that holds all the information of a node in the graph.
  */
 @Getter
+@Setter
 public class Node {
     /**
      * The x coordinate of the node.
      */
-    private final int x;
+    private int x;
     /**
      * The y coordinate of the node.
      */
-    private final int y;
+    private int y;
     /**
      * Unique identifier of the node.
      */

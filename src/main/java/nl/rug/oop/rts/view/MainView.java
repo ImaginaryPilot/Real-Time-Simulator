@@ -1,12 +1,15 @@
 package nl.rug.oop.rts.view;
 
+import lombok.Getter;
 import nl.rug.oop.rts.observer.Observer;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * The main menu of the game.
  */
+@Getter
 public class MainView extends JFrame implements Observer {
     /**
      * The graph panel of the game.
@@ -27,12 +30,13 @@ public class MainView extends JFrame implements Observer {
         this.graphPanel = graphPanel;
         this.topMenuPanel = topMenuPanel;
 
-        setLayout(null);
-        setSize(1200, 800);
+        setResizable(false);
+        setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        add(graphPanel);
-        add(topMenuPanel);
+        add(topMenuPanel, BorderLayout.NORTH);
+        add(graphPanel, BorderLayout.CENTER);
+        pack();
 
         setLocationRelativeTo(null);
         setVisible(true);
@@ -40,9 +44,7 @@ public class MainView extends JFrame implements Observer {
 
     @Override
     public void update() {
-        /*
-         * Not sure if this is updating enough.
-         */
+
         repaint();
     }
 

@@ -63,11 +63,14 @@ public class Game {
 
         this.mainController = new MainController(graphModel, viewModel);
         graphController = new GraphController(mainController, graphModel);
-        mouseController = new MouseController(mainController);
+        mouseController = new MouseController(mainController, viewModel, graphModel);
 
         this.graphPanel = new GraphPanel(viewModel, graphModel);
         this.topMenuPanel = new TopMenuPanel(graphController, graphModel);
         this.mainView = new MainView(graphPanel, topMenuPanel);
+
+        graphPanel.addMouseListener(mouseController);
+        graphPanel.addMouseMotionListener(mouseController);
 
         graphPanel.observe(viewModel);
         graphPanel.observe(graphModel);

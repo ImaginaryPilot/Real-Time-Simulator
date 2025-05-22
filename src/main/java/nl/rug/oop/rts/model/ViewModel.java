@@ -31,6 +31,14 @@ public class ViewModel implements Observable {
      * The height of the panel.
      */
     private final int panelHeight = 700;
+    /**
+     * The width of a node.
+     */
+    private final int nodeWidth = 60;
+    /**
+     * The height of a node.
+     */
+    private final int nodeHeight = 60;
 
     /**
      * The x coordinate of the view.
@@ -57,6 +65,28 @@ public class ViewModel implements Observable {
         this.viewY = 0;
         this.selectedNode = null;
         this.observers = new ArrayList<>();
+    }
+
+    /**
+     * Adds an observer to the view.
+     *
+     * @param x The x coordinate of the new view.
+     * @param y The y coordinate of the new view.
+     */
+    public void setViewPosition(int x, int y) {
+        this.viewX = x;
+        this.viewY = y;
+        updateAllObservers();
+    }
+
+    /**
+     * Set the selected node.
+     *
+     * @param node The node to set as selected.
+     */
+    public void setSelectedNode(Node node) {
+        this.selectedNode = node;
+        updateAllObservers();
     }
 
 }

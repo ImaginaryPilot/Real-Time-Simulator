@@ -95,6 +95,19 @@ public class GraphModel implements Observable {
     }
 
     /**
+     * Set the position of a node.
+     *
+     * @param node The node to set the position of.
+     * @param x    The x coordinate of the node.
+     * @param y    The y coordinate of the node.
+     */
+    public void setNodePosition(Node node, int x, int y) {
+        node.setX(x);
+        node.setY(y);
+        updateAllObservers();
+    }
+
+    /**
      * Creates a unique identifier for a node.
      *
      * @return The unique identifier of the node.
