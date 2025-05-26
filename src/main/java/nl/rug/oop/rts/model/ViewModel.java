@@ -1,7 +1,6 @@
 package nl.rug.oop.rts.model;
 
 import lombok.Getter;
-import lombok.Setter;
 import nl.rug.oop.rts.observer.Observable;
 import nl.rug.oop.rts.observer.Observer;
 
@@ -60,7 +59,6 @@ public class ViewModel implements Observable {
      * The selected edge.
      */
     private Edge selectedEdge;
-    @Setter
     private boolean createNodeMode;
     private boolean createEdgeMode;
 
@@ -77,6 +75,8 @@ public class ViewModel implements Observable {
         this.viewY = 0;
         this.selectedNode = null;
         this.selectedEdge = null;
+        this.createNodeMode = false;
+        this.createEdgeMode = false;
         this.observers = new ArrayList<>();
     }
 
@@ -126,6 +126,11 @@ public class ViewModel implements Observable {
 
     public void setCreateNodeMode(boolean createNodeMode) {
         this.createNodeMode = createNodeMode;
+        updateAllObservers();
+    }
+
+    public void setCreateEdgeMode(boolean createEdgeMode) {
+        this.createEdgeMode = createEdgeMode;
         updateAllObservers();
     }
 

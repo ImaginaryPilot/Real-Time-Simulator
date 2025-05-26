@@ -5,7 +5,6 @@ import nl.rug.oop.rts.controller.commands.*;
 import nl.rug.oop.rts.model.Edge;
 import nl.rug.oop.rts.model.GraphModel;
 import nl.rug.oop.rts.model.Node;
-import nl.rug.oop.rts.model.ViewModel;
 
 import java.util.List;
 
@@ -23,8 +22,6 @@ public class GraphController {
      * The graph of the game.
      */
     private final GraphModel graphModel;
-
-    private final ViewModel viewModel;
 
     /**
      * Adding a node to the graph.
@@ -57,11 +54,12 @@ public class GraphController {
      * @param nodeA The first node connected to the edge.
      * @param nodeB The second node connected to this edge.
      */
-    public void addEdge(Node nodeA, Node nodeB) {
+    public Edge addEdge(Node nodeA, Node nodeB) {
         int id = graphModel.createEdgeId();
         Edge edge = new Edge(id, nodeA, nodeB);
         Command command = new AddEdgeCommand(graphModel, edge);
         mainController.createCommand(command);
+        return edge;
     }
 
     /**
@@ -72,6 +70,18 @@ public class GraphController {
     public void removeEdge(Edge edge) {
         Command command = new RemoveEdgeCommand(graphModel, edge);
         mainController.createCommand(command);
+    }
+
+    public boolean existEdge(Node nodeA, Node nodeB) {
+        for (Edge edge : graphModel.getEdges()) {
+            if (edge.getNodeA() == nodeA && edge.getNodeB() == nodeB) {
+                return true;
+            }
+            if (edge.getNodeA() == nodeB && edge.getNodeB() == nodeA) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

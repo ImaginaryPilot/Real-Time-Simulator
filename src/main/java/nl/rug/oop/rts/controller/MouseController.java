@@ -129,14 +129,30 @@ public class MouseController extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-//        System.out.println("Mouse clicked: " + x + " " + y);
+        int realX = e.getX() - viewModel.getViewX();
+        int realY = e.getY() - viewModel.getViewY();
         if (viewModel.isCreateNodeMode()) {
-            int realX = e.getX() - viewModel.getViewX();
-            int realY = e.getY() - viewModel.getViewY();
             Node node = graphController.addNode(realX, realY);
             viewModel.setCreateNodeMode(false);
             viewModel.setSelectedNode(node);
             return;
+        }
+        if (viewModel.isCreateEdgeMode()) {
+            Node node = clickedNode(x, y);
+            if (node != null) {
+                if (node != viewModel.getSelectedNode()) {
+                    if (!graphController.existEdge(viewModel.getSelectedNode(), node)) {
+                        Edge edge = graphController.addEdge(node, viewModel.getSelectedNode());
+                        viewModel.setSelectedEdge(edge);
+                    }
+                }
+                viewModel.setCreateEdgeMode(false);
+                return;
+            }
+            viewModel.setSelectedNode(null);
+            viewModel.setCreateEdgeMode(false);
+            return;
+
         }
         viewModel.setSelectedNode(clickedNode(x, y));
         if (viewModel.getSelectedNode() == null) {

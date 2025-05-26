@@ -2,9 +2,7 @@ package nl.rug.oop.rts.view;
 
 import nl.rug.oop.rts.controller.GraphController;
 import nl.rug.oop.rts.controller.TopMenuController;
-import nl.rug.oop.rts.model.Edge;
 import nl.rug.oop.rts.model.GraphModel;
-import nl.rug.oop.rts.model.Node;
 import nl.rug.oop.rts.model.ViewModel;
 import nl.rug.oop.rts.observer.Observer;
 
@@ -68,41 +66,22 @@ public class TopMenuPanel extends JPanel implements Observer {
 
         this.removeNode = new JButton("Remove Node");
         removeNode.addActionListener(e -> {
-            Node selectedNode = viewModel.getSelectedNode();
-            if (selectedNode != null) {
-                System.out.println("Node removed");
-                graphController.removeNode(selectedNode);
-                viewModel.setSelectedNode(null);
-            } else {
-                System.out.println("No node selected.");
-            }
+            topMenuController.removeNodeButton();
         });
 
         this.addEdge = new JButton("Add Edge");
         addEdge.addActionListener(e -> {
-            System.out.println("Added Edge");
+            topMenuController.addEdgeButton();
         });
 
         this.removeEdge = new JButton("Remove Edge");
         removeEdge.addActionListener(e -> {
-            Edge selectedEdge = viewModel.getSelectedEdge();
-            if (selectedEdge != null) {
-                System.out.println("Edge Removed");
-                graphController.removeEdge(selectedEdge);
-                viewModel.setSelectedEdge(null);
-            } else {
-                System.out.println("No edge selected.");
-            }
+            topMenuController.removeEdgeButton();
         });
 
         JButton clear = new JButton("Clear");
         clear.addActionListener(e -> {
-            System.out.println("Map cleared.");
-            while (!graphModel.getNodes().isEmpty()) {
-                graphController.removeNode(graphModel.getNodes().get(0));
-            }
-            //            graphController.addNode("Node 2", 200, 200);
-
+            topMenuController.clearButton();
         });
 
         JButton generateRandomMap = new JButton("Generate Random Map");
@@ -116,6 +95,7 @@ public class TopMenuPanel extends JPanel implements Observer {
         add(removeEdge);
         add(generateRandomMap);
         add(clear);
+        update();
     }
 
     @Override
@@ -125,6 +105,20 @@ public class TopMenuPanel extends JPanel implements Observer {
         } else {
             addNode.setBackground(new JButton().getBackground());
         }
+        if (viewModel.isCreateEdgeMode()) {
+            addEdge.setBackground(Color.RED);
+        } else {
+            addEdge.setBackground(new JButton().getBackground());
+        }
+        if (viewModel.getSelectedNode() == null) {
+            removeNode.setEnabled(false);
+            addEdge.setEnabled(false);
+
+        } else {
+            removeNode.setEnabled(true);
+            addEdge.setEnabled(true);
+        }
+        removeEdge.setEnabled(viewModel.getSelectedEdge() != null);
     }
 
 }
