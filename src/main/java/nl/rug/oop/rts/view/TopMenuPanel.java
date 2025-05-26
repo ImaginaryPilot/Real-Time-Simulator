@@ -1,7 +1,10 @@
 package nl.rug.oop.rts.view;
 
 import nl.rug.oop.rts.controller.GraphController;
+import nl.rug.oop.rts.model.Edge;
 import nl.rug.oop.rts.model.GraphModel;
+import nl.rug.oop.rts.model.Node;
+import nl.rug.oop.rts.model.ViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +22,10 @@ public class TopMenuPanel extends JPanel {
      * The graph model of the game.
      */
     private final GraphModel graphModel;
+    /**
+     *  The viewModel of the game (for accessing selecteed nodes/edges).
+     */
+    private final ViewModel viewModel;
 
     /**
      * Constructor for the TopMenuPanel class.
@@ -28,9 +35,10 @@ public class TopMenuPanel extends JPanel {
      * @param graphModel      The graph model of the game.
      *                        Used to get the map width and height.
      */
-    public TopMenuPanel(GraphController graphController, GraphModel graphModel) {
+    public TopMenuPanel(GraphController graphController, GraphModel graphModel, ViewModel viewModel) {
         this.graphModel = graphModel;
         this.graphController = graphController;
+        this.viewModel = viewModel;
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         setBackground(Color.DARK_GRAY);
         setPreferredSize(new Dimension(1200, 40));
@@ -43,35 +51,64 @@ public class TopMenuPanel extends JPanel {
      * Set up some buttons to test at the top menu panel.
      */
     private void setupTestButtons() {
-        JButton button = new JButton("Button 1");
-        button.addActionListener(e -> {
-            System.out.println("Button 1 clicked");
+        JButton addNode = new JButton("Add Node");
+        addNode.addActionListener(e -> {
+            System.out.println("Node created");
             graphController.addNode("Node 1", 100, 100);
         });
 
-        JButton button2 = new JButton("Button 2");
-        button2.addActionListener(e -> {
-            System.out.println("Button 2 clicked");
+        JButton removeNode = new JButton("Remove Node");
+        removeNode.addActionListener(e ->{
+            Node selectedNode = viewModel.getSelectedNode();
+            if(selectedNode != null){
+                System.out.println("Node removed");
+                graphController.removeNode(selectedNode);
+                viewModel.setSelectedNode(null);
+            }
+            else{
+                System.out.println("No node selected.");
+            }
+        });
+
+        JButton addEdge = new JButton("Add Edge");
+        addEdge.addActionListener(e ->{
+            System.out.println("Added Edge");
+        });
+
+        JButton removeEdge = new JButton("Remove Edge");
+        removeEdge.addActionListener(e ->{
+            Edge selectedEdge = viewModel.getSelectedEdge();
+            if(selectedEdge != null){
+                System.out.println("Edge Removed");
+                graphController.removeEdge(selectedEdge);
+                viewModel.setSelectedEdge(null);
+            }
+            else{
+                System.out.println("No edge selected.");
+            }
+        });
+
+        JButton clear = new JButton("Clear");
+        clear.addActionListener(e -> {
+            System.out.println("Map cleared.");
             while (!graphModel.getNodes().isEmpty()) {
                 graphController.removeNode(graphModel.getNodes().get(0));
             }
             //            graphController.addNode("Node 2", 200, 200);
 
         });
-        JButton button3 = new JButton("Button buttonaosndf 3");
-        button3.addActionListener(e -> {
-            System.out.println("Button 3 clicked");
-            graphController.addNode("Node 3", 300, 300);
-        });
-        JButton button4 = new JButton("Generate somthing cool :KJ");
-        button4.addActionListener(e -> {
-            System.out.println("Button 4 clicked");
+
+        JButton generateRandomMap = new JButton("Generate Random Map");
+        generateRandomMap.addActionListener(e -> {
+            System.out.println("Map generated.");
             graphController.generateTest();
         });
-        add(button);
-        add(button2);
-        add(button3);
-        add(button4);
+        add(addNode);
+        add(removeNode);
+        add(addEdge);
+        add(removeEdge);
+        add(generateRandomMap);
+        add(clear);
     }
 
 }

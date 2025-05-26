@@ -1,9 +1,11 @@
 package nl.rug.oop.rts.controller;
 
+import nl.rug.oop.rts.model.Edge;
 import nl.rug.oop.rts.model.GraphModel;
 import nl.rug.oop.rts.model.Node;
 import nl.rug.oop.rts.model.ViewModel;
 
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -11,10 +13,6 @@ import java.awt.event.MouseEvent;
  * Mouse controller class.
  */
 public class MouseController extends MouseAdapter {
-    /**
-     * The main controller of the game.
-     */
-    private final MainController mainController;
     /**
      * The view of the game.
      */
@@ -49,7 +47,6 @@ public class MouseController extends MouseAdapter {
      * @param graphModel     The graph of the game.
      */
     public MouseController(MainController mainController, ViewModel viewModel, GraphModel graphModel) {
-        this.mainController = mainController;
         this.viewModel = viewModel;
         this.graphModel = graphModel;
 
@@ -81,6 +78,18 @@ public class MouseController extends MouseAdapter {
         }
         return null;
     }
+/*
+    private Edge clickedEdge(int x, int y){
+        int realX = x - viewModel.getViewX();
+        int realY = y - viewModel.getViewY();
+
+        for(Edge edge : graphModel.getEdges()){
+            int xA = edge.getNodeA().getX();
+            int yA = edge.getNodeA().getY();
+            int xB = edge.getNodeB().getX();
+            int yB = edge.getNodeB().getY();
+        }
+    }*/
 
     @Override
     public void mousePressed(MouseEvent e) {

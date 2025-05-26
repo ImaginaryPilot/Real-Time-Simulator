@@ -39,7 +39,10 @@ public class ViewModel implements Observable {
      * The height of a node.
      */
     private final int nodeHeight = 60;
-
+    /**
+     *
+     */
+    private final int edgeWidth = 5;
     /**
      * The x coordinate of the view.
      */
@@ -53,6 +56,10 @@ public class ViewModel implements Observable {
      */
     private Node selectedNode;
     /**
+     * The selected edge.
+     */
+    private Edge selectedEdge;
+    /**
      * List of all the observers of the view.
      */
     private List<Observer> observers;
@@ -64,6 +71,7 @@ public class ViewModel implements Observable {
         this.viewX = 0;
         this.viewY = 0;
         this.selectedNode = null;
+        this.selectedEdge = null;
         this.observers = new ArrayList<>();
     }
 
@@ -86,7 +94,18 @@ public class ViewModel implements Observable {
      */
     public void setSelectedNode(Node node) {
         this.selectedNode = node;
+        this.selectedEdge = null;
         updateAllObservers();
     }
 
+    /**
+     * Set the selected edge.
+     *
+     * @param edge The edge that is selected.
+     */
+    public void setSelectedEdge(Edge edge){
+        this.selectedEdge = edge;
+        this.selectedNode = null;
+        updateAllObservers();
+    }
 }

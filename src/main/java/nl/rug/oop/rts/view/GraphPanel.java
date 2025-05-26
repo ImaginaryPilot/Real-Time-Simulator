@@ -24,6 +24,8 @@ public class GraphPanel extends JPanel implements Observer {
      * For selecting.
      */
     private final int nodeHeight;
+    /*
+    private final int edgeWidth;*/
     /**
      * The model of the graph panel.
      */

@@ -44,6 +44,11 @@ public class Game {
      */
     private final TopMenuPanel topMenuPanel;
     /**
+     * The side menu panel of the game
+     * Shows information about the node and buttons that influence it.
+     */
+    /*private final SideMenuPanel sideMenuPanel;*/
+    /**
      * The graph panel of the game.
      * Shows the map with all the nodes and edges.
      */
@@ -66,7 +71,8 @@ public class Game {
         mouseController = new MouseController(mainController, viewModel, graphModel);
 
         this.graphPanel = new GraphPanel(viewModel, graphModel);
-        this.topMenuPanel = new TopMenuPanel(graphController, graphModel);
+        this.topMenuPanel = new TopMenuPanel(graphController, graphModel, viewModel);
+        /*this.sideMenuPanel = new SideMenuPanel(viewModel);*/
         this.mainView = new MainView(graphPanel, topMenuPanel);
 
         graphPanel.addMouseListener(mouseController);
