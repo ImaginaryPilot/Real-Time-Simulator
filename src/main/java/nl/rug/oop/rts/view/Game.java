@@ -4,6 +4,7 @@ import lombok.Getter;
 import nl.rug.oop.rts.controller.GraphController;
 import nl.rug.oop.rts.controller.MainController;
 import nl.rug.oop.rts.controller.MouseController;
+import nl.rug.oop.rts.controller.TopMenuController;
 import nl.rug.oop.rts.model.GraphModel;
 import nl.rug.oop.rts.model.ViewModel;
 
@@ -38,6 +39,7 @@ public class Game {
      */
     private final MouseController mouseController;
 
+    private final TopMenuController topMenuController;
     /**
      * The top menu panel of the game.
      * Shows all kinds of buttons.
@@ -67,11 +69,11 @@ public class Game {
         this.viewModel = new ViewModel();
 
         this.mainController = new MainController(graphModel, viewModel);
-        graphController = new GraphController(mainController, graphModel);
-        mouseController = new MouseController(mainController, viewModel, graphModel);
-
+        graphController = new GraphController(mainController, graphModel, viewModel);
+        mouseController = new MouseController(mainController, viewModel, graphModel, graphController);
+        this.topMenuController = new TopMenuController(mainController, viewModel);
         this.graphPanel = new GraphPanel(viewModel, graphModel);
-        this.topMenuPanel = new TopMenuPanel(graphController, graphModel, viewModel);
+        this.topMenuPanel = new TopMenuPanel(graphController, graphModel, viewModel, topMenuController);
         /*this.sideMenuPanel = new SideMenuPanel(viewModel);*/
         this.mainView = new MainView(graphPanel, topMenuPanel);
 
@@ -80,6 +82,7 @@ public class Game {
 
         graphPanel.observe(viewModel);
         graphPanel.observe(graphModel);
+        topMenuPanel.observe(viewModel);
     }
 
     /**

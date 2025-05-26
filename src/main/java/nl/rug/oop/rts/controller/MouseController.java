@@ -5,14 +5,15 @@ import nl.rug.oop.rts.model.GraphModel;
 import nl.rug.oop.rts.model.Node;
 import nl.rug.oop.rts.model.ViewModel;
 
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Line2D;
 
 /**
  * Mouse controller class.
  */
 public class MouseController extends MouseAdapter {
+    private final GraphController graphController;
     /**
      * The view of the game.
      */
@@ -46,9 +47,10 @@ public class MouseController extends MouseAdapter {
      * @param viewModel      The view of the game.
      * @param graphModel     The graph of the game.
      */
-    public MouseController(MainController mainController, ViewModel viewModel, GraphModel graphModel) {
+    public MouseController(MainController mainController, ViewModel viewModel, GraphModel graphModel, GraphController graphController) {
         this.viewModel = viewModel;
         this.graphModel = graphModel;
+        this.graphController = graphController;
 
     }
 
@@ -57,7 +59,7 @@ public class MouseController extends MouseAdapter {
      *
      * @param x The x coordinate of the mouse.
      * @param y The y coordinate of the mouse.
-     * @return The node that is clicked. If no node is clicked, returns null.
+     * @return The node that is clicked. If no node is clicked, return null.
      */
     private Node clickedNode(int x, int y) {
         int realX = x - viewModel.getViewX();
@@ -78,18 +80,33 @@ public class MouseController extends MouseAdapter {
         }
         return null;
     }
-/*
-    private Edge clickedEdge(int x, int y){
+
+    /**
+     * Finds the edge that is clicked.
+     *
+     * @param x The x coordinate of the mouse.
+     * @param y The y coordinate of the mouse.
+     * @return The edge that is clicked. If no edge is clicked, return null.
+     */
+    private Edge clickedEdge(int x, int y) {
         int realX = x - viewModel.getViewX();
         int realY = y - viewModel.getViewY();
 
-        for(Edge edge : graphModel.getEdges()){
+        int edgeWidth = viewModel.getEdgeWidth();
+
+        for (Edge edge : graphModel.getEdges()) {
             int xA = edge.getNodeA().getX();
             int yA = edge.getNodeA().getY();
             int xB = edge.getNodeB().getX();
             int yB = edge.getNodeB().getY();
+
+            double distance = Line2D.ptSegDist(xA, yA, xB, yB, realX, realY);
+            if (distance <= edgeWidth) {
+                return edge;
+            }
         }
-    }*/
+        return null;
+    }
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -112,9 +129,19 @@ public class MouseController extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        System.out.println("Mouse clicked: " + x + " " + y);
-
+//        System.out.println("Mouse clicked: " + x + " " + y);
+        if (viewModel.isCreateNodeMode()) {
+            int realX = e.getX() - viewModel.getViewX();
+            int realY = e.getY() - viewModel.getViewY();
+            Node node = graphController.addNode(realX, realY);
+            viewModel.setCreateNodeMode(false);
+            viewModel.setSelectedNode(node);
+            return;
+        }
         viewModel.setSelectedNode(clickedNode(x, y));
+        if (viewModel.getSelectedNode() == null) {
+            viewModel.setSelectedEdge(clickedEdge(x, y));
+        }
     }
 
     @Override

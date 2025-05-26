@@ -5,6 +5,7 @@ import nl.rug.oop.rts.controller.commands.*;
 import nl.rug.oop.rts.model.Edge;
 import nl.rug.oop.rts.model.GraphModel;
 import nl.rug.oop.rts.model.Node;
+import nl.rug.oop.rts.model.ViewModel;
 
 import java.util.List;
 
@@ -23,18 +24,21 @@ public class GraphController {
      */
     private final GraphModel graphModel;
 
+    private final ViewModel viewModel;
+
     /**
      * Adding a node to the graph.
      *
-     * @param name Name of the node.
-     * @param x    X coordinate of the node.
-     * @param y    Y coordinate of the node.
+     * @param x X coordinate of the node.
+     * @param y Y coordinate of the node.
      */
-    public void addNode(String name, int x, int y) {
+    public Node addNode(int x, int y) {
         int id = graphModel.createNodeId();
+        String name = "Node " + id;
         Node node = new Node(id, name, x, y);
         Command command = new AddNodeCommand(graphModel, node);
         mainController.createCommand(command);
+        return node;
     }
 
     /**
@@ -70,23 +74,16 @@ public class GraphController {
         mainController.createCommand(command);
     }
 
-    /*
-    Methods for "getting information" from the graph.
-    >If mouse clicks, coordinates can be used to get the node/edge.
-
-    >Moving nodes.
-     */
-
     /**
      * Generates a test graph.
      */
     public void generateTest() {
 
-        addNode("NOde 1", 100, 100);
-        addNode("NOde 2", 200, 200);
-        addNode("NOde 3", 300, 100);
-        addNode("NOde 4", 200, 500);
-        addNode("NOde 5", 500, 500);
+        addNode(100, 100);
+        addNode(200, 200);
+        addNode(300, 100);
+        addNode(200, 500);
+        addNode(500, 500);
 
         List Nodes = graphModel.getNodes();
         addEdge((Node) Nodes.get(0), (Node) Nodes.get(1));

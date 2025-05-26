@@ -24,8 +24,6 @@ public class GraphPanel extends JPanel implements Observer {
      * For selecting.
      */
     private final int nodeHeight;
-    /*
-    private final int edgeWidth;*/
     /**
      * The model of the graph panel.
      */
@@ -75,7 +73,11 @@ public class GraphPanel extends JPanel implements Observer {
         }
 
         for (Edge edge : graphModel.getEdges()) {
-            g.setColor(Color.BLUE);
+            if (edge == model.getSelectedEdge()) {
+                g.setColor(Color.RED);
+            } else {
+                g.setColor(Color.BLUE);
+            }
             g.drawLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
         }
         for (Node node : graphModel.getNodes()) {
