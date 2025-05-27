@@ -2,8 +2,8 @@ package nl.rug.oop.rts.view;
 
 import nl.rug.oop.rts.controller.GraphController;
 import nl.rug.oop.rts.controller.TopMenuController;
-import nl.rug.oop.rts.model.GraphModel;
-import nl.rug.oop.rts.model.ViewModel;
+import nl.rug.oop.rts.model.panel.GraphModel;
+import nl.rug.oop.rts.model.panel.ViewModel;
 import nl.rug.oop.rts.observer.Observer;
 
 import javax.swing.*;

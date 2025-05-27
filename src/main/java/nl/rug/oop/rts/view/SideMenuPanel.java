@@ -1,8 +1,8 @@
 package nl.rug.oop.rts.view;
 
-import nl.rug.oop.rts.model.Edge;
-import nl.rug.oop.rts.model.Node;
-import nl.rug.oop.rts.model.ViewModel;
+import nl.rug.oop.rts.model.panel.Edge;
+import nl.rug.oop.rts.model.panel.Node;
+import nl.rug.oop.rts.model.panel.ViewModel;
 import nl.rug.oop.rts.observer.Observer;
 
 import javax.swing.*;
@@ -21,17 +21,10 @@ public class SideMenuPanel extends JPanel implements Observer {
      */
     private final SideMenuController sideMenuController;
     /**
-     * The title of the panel.
-     */
-    private final JLabel titleLabel;
-    /**
      * The change name field.
      */
     private final JTextField nodeNameField;
-    /**
-     * The button that allows you to rename the node.
-     */
-    private final JButton renameNodeButton;
+    private boolean isVisible = false;
 
     public SideMenuPanel (ViewModel viewModel, SideMenuController sideMenuController){
         this.viewModel = viewModel;
@@ -41,17 +34,16 @@ public class SideMenuPanel extends JPanel implements Observer {
         setPreferredSize(new Dimension(200, 700));
         setBackground(Color.DARK_GRAY);
 
-        titleLabel = new JLabel("Nothing Selected.");
         nodeNameField = new JTextField();
-        renameNodeButton = new JButton("Rename Node");
-        renameNodeButton.addActionListener(e -> {
+        nodeNameField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // height: 30px
+        nodeNameField.addActionListener(e -> {
             sideMenuController.renameSelectedNode(nodeNameField.getText());
         });
 
-        add(titleLabel);
-        add(new JLabel("Node Name:"));
+        add(Box.createVerticalStrut(10));
         add(nodeNameField);
-        add(renameNodeButton);
+        add(Box.createVerticalStrut(5));
+        add(new JSeparator(SwingConstants.HORIZONTAL));
         update();
     }
 
@@ -61,18 +53,20 @@ public class SideMenuPanel extends JPanel implements Observer {
     public void update() {
         Node node = viewModel.getSelectedNode();
         Edge edge = viewModel.getSelectedEdge();
+        boolean checkVisibility = node != null || edge != null;
+
+        if (checkVisibility != isVisible) {
+            isVisible = checkVisibility;
+            this.setVisible(isVisible); // THIS is what makes it work
+            this.revalidate();
+            this.repaint();
+        }
 
         if (node != null) {
-            titleLabel.setText("Node Selected");
-            renameNodeButton.setEnabled(true);
             nodeNameField.setText(node.getName());
         } else if (edge != null) {
-            titleLabel.setText("Edge Selected");
-            renameNodeButton.setEnabled(false);
             nodeNameField.setText("");
         } else {
-            titleLabel.setText("No selection");
-            renameNodeButton.setEnabled(false);
             nodeNameField.setText("");
         }
     }

@@ -1,9 +1,9 @@
 package nl.rug.oop.rts.controller;
 
-import nl.rug.oop.rts.model.Edge;
-import nl.rug.oop.rts.model.GraphModel;
-import nl.rug.oop.rts.model.Node;
-import nl.rug.oop.rts.model.ViewModel;
+import nl.rug.oop.rts.model.panel.Edge;
+import nl.rug.oop.rts.model.panel.GraphModel;
+import nl.rug.oop.rts.model.panel.Node;
+import nl.rug.oop.rts.model.panel.ViewModel;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

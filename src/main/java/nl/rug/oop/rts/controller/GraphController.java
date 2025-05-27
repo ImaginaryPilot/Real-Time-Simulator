@@ -2,9 +2,9 @@ package nl.rug.oop.rts.controller;
 
 import lombok.RequiredArgsConstructor;
 import nl.rug.oop.rts.controller.commands.*;
-import nl.rug.oop.rts.model.Edge;
-import nl.rug.oop.rts.model.GraphModel;
-import nl.rug.oop.rts.model.Node;
+import nl.rug.oop.rts.model.panel.Edge;
+import nl.rug.oop.rts.model.panel.GraphModel;
+import nl.rug.oop.rts.model.panel.Node;
 
 import java.util.List;
 

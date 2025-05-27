@@ -1,8 +1,8 @@
 package nl.rug.oop.rts.view;
 
 import lombok.AllArgsConstructor;
-import nl.rug.oop.rts.model.Node;
-import nl.rug.oop.rts.model.ViewModel;
+import nl.rug.oop.rts.model.panel.Node;
+import nl.rug.oop.rts.model.panel.ViewModel;
 
 
 @AllArgsConstructor

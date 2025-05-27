@@ -1,8 +1,8 @@
 package nl.rug.oop.rts.controller;
 
 import nl.rug.oop.rts.controller.commands.Command;
-import nl.rug.oop.rts.model.GraphModel;
-import nl.rug.oop.rts.model.ViewModel;
+import nl.rug.oop.rts.model.panel.GraphModel;
+import nl.rug.oop.rts.model.panel.ViewModel;
 
 /**
  * The main controller class that holds all the logic of the game.

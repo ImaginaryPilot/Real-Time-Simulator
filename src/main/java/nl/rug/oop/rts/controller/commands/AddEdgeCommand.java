@@ -1,7 +1,7 @@
 package nl.rug.oop.rts.controller.commands;
 
-import nl.rug.oop.rts.model.GraphModel;
-import nl.rug.oop.rts.model.Edge;
+import nl.rug.oop.rts.model.panel.GraphModel;
+import nl.rug.oop.rts.model.panel.Edge;
 
 /**
  * Command for adding an edge to the graph.

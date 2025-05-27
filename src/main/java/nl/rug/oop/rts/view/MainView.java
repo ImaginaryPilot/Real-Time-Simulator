@@ -41,6 +41,7 @@ public class MainView extends JFrame implements Observer {
         add(topMenuPanel, BorderLayout.NORTH);
         add(graphPanel, BorderLayout.CENTER);
         add(sideMenuPanel, BorderLayout.WEST);
+        sideMenuPanel.setVisible(false); // Start hidden
         pack();
 
         setLocationRelativeTo(null);
@@ -49,7 +50,6 @@ public class MainView extends JFrame implements Observer {
 
     @Override
     public void update() {
-
         repaint();
     }
 

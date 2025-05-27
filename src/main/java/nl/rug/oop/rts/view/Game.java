@@ -5,8 +5,8 @@ import nl.rug.oop.rts.controller.GraphController;
 import nl.rug.oop.rts.controller.MainController;
 import nl.rug.oop.rts.controller.MouseController;
 import nl.rug.oop.rts.controller.TopMenuController;
-import nl.rug.oop.rts.model.GraphModel;
-import nl.rug.oop.rts.model.ViewModel;
+import nl.rug.oop.rts.model.panel.GraphModel;
+import nl.rug.oop.rts.model.panel.ViewModel;
 
 /**
  * The main class that starts the game.
