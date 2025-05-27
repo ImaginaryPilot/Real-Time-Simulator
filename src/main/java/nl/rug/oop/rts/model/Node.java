@@ -25,7 +25,7 @@ public class Node {
     /**
      * Name of the node.
      */
-    private final String name;
+    private String name;
 
     /**
      * Constructor for the Node class.

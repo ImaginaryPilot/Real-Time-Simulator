@@ -1,7 +1,6 @@
 package nl.rug.oop.rts.view;
 
 import nl.rug.oop.rts.model.Edge;
-import nl.rug.oop.rts.model.GraphModel;
 import nl.rug.oop.rts.model.Node;
 import nl.rug.oop.rts.model.ViewModel;
 import nl.rug.oop.rts.observer.Observer;
@@ -10,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- *
+ * The side menu panel
  */
 public class SideMenuPanel extends JPanel implements Observer {
     /**
@@ -18,73 +17,64 @@ public class SideMenuPanel extends JPanel implements Observer {
      */
     private final ViewModel viewModel;
     /**
-     * Used for changing the name.
+     * The controller for the side menu.
      */
-
-    private JPanel content;
-    private final JTextField objectName = new JTextField();
+    private final SideMenuController sideMenuController;
     /**
-     * The header of the pop-up menu.
+     * The title of the panel.
      */
-    private final JLabel header = new JLabel("Details");
-
+    private final JLabel titleLabel;
     /**
-     * @param viewModel
+     * The change name field.
      */
-    public SideMenuPanel(ViewModel viewModel) {
+    private final JTextField nodeNameField;
+    /**
+     * The button that allows you to rename the node.
+     */
+    private final JButton renameNodeButton;
+
+    public SideMenuPanel (ViewModel viewModel, SideMenuController sideMenuController){
         this.viewModel = viewModel;
-        setupSidePanel();
-        update();
-        setVisible(true);
-    }
+        this.sideMenuController = sideMenuController;
 
-    /**
-     *
-     */
-    private void setupSidePanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setPreferredSize(new Dimension(200, 700));
         setBackground(Color.DARK_GRAY);
-        setPreferredSize(new Dimension(250, 700));
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JLabel headerLabel = new JLabel("Details");
-        headerLabel.setForeground(Color.WHITE);
-        headerLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        headerLabel.setAlignmentX(CENTER_ALIGNMENT);
-        add(headerLabel);
-        add(Box.createVerticalStrut(20));
+        titleLabel = new JLabel("Nothing Selected.");
+        nodeNameField = new JTextField();
+        renameNodeButton = new JButton("Rename Node");
+        renameNodeButton.addActionListener(e -> {
+            sideMenuController.renameSelectedNode(nodeNameField.getText());
+        });
 
-        JPanel detailsPanel = new JPanel();
-        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
-        detailsPanel.setBackground(new Color(70, 70, 70));
-        detailsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JTextField nameField = new JTextField();
-        nameField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        nameField.setBackground(Color.LIGHT_GRAY);
-        detailsPanel.add(new JLabel("Name:"));
-        detailsPanel.add(nameField);
-        detailsPanel.add(Box.createVerticalStrut(10));
+        add(titleLabel);
+        add(new JLabel("Node Name:"));
+        add(nodeNameField);
+        add(renameNodeButton);
+        update();
     }
 
-    /**
-     *
-     */
+
+
+    @Override
     public void update() {
-        if (viewModel.getSelectedNode() != null) {
-            Node node = viewModel.getSelectedNode();
-            header.setText("NODE DETAILS");
-            objectName.setText(node.getName());
-            objectName.setEnabled(true);
-        } else if (viewModel.getSelectedEdge() != null) {
-            Edge edge = viewModel.getSelectedEdge();
-            header.setText("EDGE DETAILS");
-            objectName.setText(edge.getNodeA().getName() + " ↔ " + edge.getNodeB().getName());
-            objectName.setEnabled(false); // Edges don't have editable names in this example
+        Node node = viewModel.getSelectedNode();
+        Edge edge = viewModel.getSelectedEdge();
+
+        if (node != null) {
+            titleLabel.setText("Node Selected");
+            renameNodeButton.setEnabled(true);
+            nodeNameField.setText(node.getName());
+        } else if (edge != null) {
+            titleLabel.setText("Edge Selected");
+            renameNodeButton.setEnabled(false);
+            nodeNameField.setText("");
         } else {
-            header.setText("NO SELECTION");
-            objectName.setText("");
-            objectName.setEnabled(false);
+            titleLabel.setText("No selection");
+            renameNodeButton.setEnabled(false);
+            nodeNameField.setText("");
         }
     }
+
 }

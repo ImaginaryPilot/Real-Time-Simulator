@@ -20,15 +20,19 @@ public class MainView extends JFrame implements Observer {
      */
     private final TopMenuPanel topMenuPanel;
 
+    private final SideMenuPanel sideMenuPanel;
+
     /**
      * Constructor for the MainView class.
      *
-     * @param graphPanel   The graph panel of the game.
-     * @param topMenuPanel The top menu panel of the game.
+     * @param graphPanel    The graph panel of the game.
+     * @param topMenuPanel  The top menu panel of the game.
+     * @param sideMenuPanel
      */
-    public MainView(GraphPanel graphPanel, TopMenuPanel topMenuPanel) {
+    public MainView(GraphPanel graphPanel, TopMenuPanel topMenuPanel, SideMenuPanel sideMenuPanel) {
         this.graphPanel = graphPanel;
         this.topMenuPanel = topMenuPanel;
+        this.sideMenuPanel = sideMenuPanel;
 
         setResizable(false);
         setLayout(new BorderLayout());
@@ -36,6 +40,7 @@ public class MainView extends JFrame implements Observer {
 
         add(topMenuPanel, BorderLayout.NORTH);
         add(graphPanel, BorderLayout.CENTER);
+        add(sideMenuPanel, BorderLayout.WEST);
         pack();
 
         setLocationRelativeTo(null);
