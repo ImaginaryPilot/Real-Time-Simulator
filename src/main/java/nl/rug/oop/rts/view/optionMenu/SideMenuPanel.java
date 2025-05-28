@@ -21,57 +21,62 @@ public class SideMenuPanel extends JPanel implements Observer {
      * The controller for the side menu.
      */
     private final SideMenuController sideMenuController;
-
-    private final JPanel contentPanel;
-    private final CardLayout cardLayout;
-
-    // Different "views" we can show
+    /**
+     * The current panel that gets shown.
+     */
+    private JPanel currentViewPanel;
+    /**
+     * The panel for when no node or edge is selected.
+     */
     private final JPanel emptyPanel;
+    /**
+     * The panel for the node properties.
+     */
     private final NodePanel nodePanel;
+    /**
+     * The panel for the edge properties.
+     */
     private final EdgePanel edgePanel;
 
+    /**
+     * Constructor for the SideMenuPanel class.
+     *
+     * @param viewModel          The view model of the game.
+     * @param sideMenuController The controller for the side menu.
+     */
     public SideMenuPanel(ViewModel viewModel, SideMenuController sideMenuController) {
         this.viewModel = viewModel;
         this.sideMenuController = sideMenuController;
-
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setPreferredSize(new Dimension(200, 700));
         setBackground(Color.DARK_GRAY);
 
-        cardLayout = new CardLayout();
-        contentPanel = new JPanel(cardLayout);
-        contentPanel.setBackground(Color.DARK_GRAY);
-
-        // Create the different views
         emptyPanel = new EmptyPanel();
         nodePanel = new NodePanel(sideMenuController);
         edgePanel = new EdgePanel(sideMenuController);
 
-        // Add all views to the card layout
-        contentPanel.add(emptyPanel, "EMPTY");
-        contentPanel.add(nodePanel, "NODE");
-        contentPanel.add(edgePanel, "EDGE");
-
-        add(contentPanel, BorderLayout.CENTER);
-
+        currentViewPanel = emptyPanel;
+        add(currentViewPanel, BorderLayout.CENTER);
         update();
     }
 
-
     @Override
     public void update() {
+        remove(currentViewPanel);
         Node node = viewModel.getSelectedNode();
         Edge edge = viewModel.getSelectedEdge();
 
         if (node != null) {
             nodePanel.setNode(node);
-            cardLayout.show(contentPanel, "NODE");
+            currentViewPanel = nodePanel;
         } else if (edge != null) {
             edgePanel.setEdge(edge);
-            cardLayout.show(contentPanel, "EDGE");
+            currentViewPanel = edgePanel;
         } else {
-            cardLayout.show(contentPanel, "EMPTY");
+            currentViewPanel = emptyPanel;
         }
+        add(currentViewPanel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
     }
-
 }

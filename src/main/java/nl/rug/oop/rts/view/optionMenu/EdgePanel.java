@@ -20,6 +20,11 @@ class EdgePanel extends JPanel {
      */
     private final SideMenuController sideMenuController;
 
+    /**
+     * Constructor for the EdgePanel class.
+     *
+     * @param sideMenuController The controller for the side menu.
+     */
     public EdgePanel(SideMenuController sideMenuController) {
         this.sideMenuController = sideMenuController;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -32,6 +37,11 @@ class EdgePanel extends JPanel {
         add(new JSeparator(SwingConstants.HORIZONTAL));
     }
 
+    /**
+     * Sets the edge.
+     *
+     * @param edge The edge to set.
+     */
     public void setEdge(Edge edge) {
         edgeNameField.setValidName(edge.getName());
         System.out.println("new edge with name: " + edge.getName());

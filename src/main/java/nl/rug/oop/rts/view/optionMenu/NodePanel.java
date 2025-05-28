@@ -9,7 +9,6 @@ import java.awt.*;
 /**
  * The panel for the node properties.
  */
-
 class NodePanel extends JPanel {
     /**
      * The name field for the node.
@@ -20,6 +19,11 @@ class NodePanel extends JPanel {
      */
     private final SideMenuController sideMenuController;
 
+    /**
+     * Constructor for the NodePanel class.
+     *
+     * @param sideMenuController The controller for the side menu.
+     */
     public NodePanel(SideMenuController sideMenuController) {
         this.sideMenuController = sideMenuController;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -32,6 +36,11 @@ class NodePanel extends JPanel {
         add(new JSeparator(SwingConstants.HORIZONTAL));
     }
 
+    /**
+     * Sets the node.
+     *
+     * @param node The node to set.
+     */
     public void setNode(Node node) {
         nodeNameField.setValidName(node.getName());
         System.out.println("new node with name: " + node.getName());
