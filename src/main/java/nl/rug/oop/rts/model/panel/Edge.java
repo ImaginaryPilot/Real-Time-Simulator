@@ -1,4 +1,4 @@
-package nl.rug.oop.rts.model.panel;
+package nl.rug.oop.rts.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,11 +16,11 @@ public class Edge {
     /**
      * The first node connected to the edge.
      */
-    private final Node NodeA;
+    private final Node nodeA;
     /**
      * The second node connected to this edge.
      */
-    private final Node NodeB;
+    private final Node nodeB;
 
     /**
      * The name of the edge.
@@ -36,8 +36,8 @@ public class Edge {
      */
     public Edge(int id, Node nodeA, Node nodeB) {
         this.id = id;
-        this.NodeA = nodeA;
-        this.NodeB = nodeB;
+        this.nodeA = nodeA;
+        this.nodeB = nodeB;
         this.name = "Edge " + id;
     }
 }
