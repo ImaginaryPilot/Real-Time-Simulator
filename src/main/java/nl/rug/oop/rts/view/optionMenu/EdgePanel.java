@@ -25,7 +25,7 @@ class EdgePanel extends JPanel {
      *
      * @param sideMenuController The controller for the side menu.
      */
-    public EdgePanel(SideMenuController sideMenuController) {
+    EdgePanel(SideMenuController sideMenuController) {
         this.sideMenuController = sideMenuController;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.DARK_GRAY);

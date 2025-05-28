@@ -20,7 +20,9 @@ public class MainView extends JFrame implements Observer {
      * The top menu panel of the game.
      */
     private final TopMenuPanel topMenuPanel;
-
+    /**
+     * The side menu panel of the game.
+     */
     private final SideMenuPanel sideMenuPanel;
 
     /**
@@ -28,7 +30,7 @@ public class MainView extends JFrame implements Observer {
      *
      * @param graphPanel    The graph panel of the game.
      * @param topMenuPanel  The top menu panel of the game.
-     * @param sideMenuPanel
+     * @param sideMenuPanel The side menu panel of the game.
      */
     public MainView(GraphPanel graphPanel, TopMenuPanel topMenuPanel, SideMenuPanel sideMenuPanel) {
         this.graphPanel = graphPanel;

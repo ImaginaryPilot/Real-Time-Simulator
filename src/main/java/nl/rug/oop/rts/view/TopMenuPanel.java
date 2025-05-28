@@ -18,6 +18,9 @@ public class TopMenuPanel extends JPanel implements Observer {
      * The graph controller of the game.
      */
     private final GraphController graphController;
+    /**
+     * The controller for the top menu.
+     */
     private final TopMenuController topMenuController;
     /**
      * The graph model of the game.
@@ -28,21 +31,36 @@ public class TopMenuPanel extends JPanel implements Observer {
      */
     private final ViewModel viewModel;
 
+    /**
+     * Button for adding a node.
+     */
     private JButton addNode;
+    /**
+     * Button for removing a node.
+     */
     private JButton removeNode;
+    /**
+     * Button for adding an edge.
+     */
     private JButton addEdge;
+    /**
+     * Button for removing an edge.
+     */
     private JButton removeEdge;
-
 
     /**
      * Constructor for the TopMenuPanel class.
      *
-     * @param graphController The graph controller of the game.
-     *                        Used to add and remove nodes and edges.
-     * @param graphModel      The graph model of the game.
-     *                        Used to get the map width and height.
+     * @param graphController   The graph controller of the game.
+     * @param graphModel        The graph model of the game.
+     * @param viewModel         The viewModel of the game.
+     * @param topMenuController The controller for the top menu.
      */
-    public TopMenuPanel(GraphController graphController, GraphModel graphModel, ViewModel viewModel, TopMenuController topMenuController) {
+    public TopMenuPanel(
+            GraphController graphController,
+            GraphModel graphModel,
+            ViewModel viewModel,
+            TopMenuController topMenuController) {
         this.graphModel = graphModel;
         this.graphController = graphController;
         this.viewModel = viewModel;

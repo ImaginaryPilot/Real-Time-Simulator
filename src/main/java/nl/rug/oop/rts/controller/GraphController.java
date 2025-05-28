@@ -28,6 +28,7 @@ public class GraphController {
      *
      * @param x X coordinate of the node.
      * @param y Y coordinate of the node.
+     * @return The node that was added.
      */
     public Node addNode(int x, int y) {
         int id = graphModel.createNodeId();
@@ -53,6 +54,7 @@ public class GraphController {
      *
      * @param nodeA The first node connected to the edge.
      * @param nodeB The second node connected to this edge.
+     * @return The edge that was added.
      */
     public Edge addEdge(Node nodeA, Node nodeB) {
         int id = graphModel.createEdgeId();
@@ -70,18 +72,6 @@ public class GraphController {
     public void removeEdge(Edge edge) {
         Command command = new RemoveEdgeCommand(graphModel, edge);
         mainController.createCommand(command);
-    }
-
-    public boolean existEdge(Node nodeA, Node nodeB) {
-        for (Edge edge : graphModel.getEdges()) {
-            if (edge.getNodeA() == nodeA && edge.getNodeB() == nodeB) {
-                return true;
-            }
-            if (edge.getNodeA() == nodeB && edge.getNodeB() == nodeA) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

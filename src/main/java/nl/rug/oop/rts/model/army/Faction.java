@@ -2,9 +2,17 @@ package nl.rug.oop.rts.model.army;
 
 import java.util.List;
 
+/**
+ * Faction enum.
+ */
 public enum Faction {
     MEN, ELVES, DWARVES, MORDOR, ISENGARD;
 
+    /**
+     * Gets the unit names of the faction.
+     *
+     * @return The unit names of the faction.
+     */
     public List<String> getUnitNames() {
         return switch (this) {
             case MEN -> List.of("Gondor Soldier", "Tower Guard", "Ithilien Ranger");
@@ -15,6 +23,12 @@ public enum Faction {
         };
     }
 
+    /**
+     * Checks if the factions are teamed.
+     *
+     * @param other The other faction.
+     * @return True if the factions are teamed, false otherwise.
+     */
     public boolean isTeamedWith(Faction other) {
         return (this == MEN || this == ELVES || this == DWARVES) &&
                 (other == MEN || other == ELVES || other == DWARVES)

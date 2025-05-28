@@ -59,7 +59,15 @@ public class ViewModel implements Observable {
      * The selected edge.
      */
     private Edge selectedEdge;
+    /**
+     * Whether the user is in create node mode or not.
+     * True if the user is in create node mode, false if not.
+     */
     private boolean createNodeMode;
+    /**
+     * Whether the user is in create edge mode or not.
+     * True if the user is in create edge mode, false if not.
+     */
     private boolean createEdgeMode;
 
     /**
@@ -114,21 +122,37 @@ public class ViewModel implements Observable {
         updateAllObservers();
     }
 
+    /**
+     * Toggles the "create node" mode.
+     */
     public void toggleCreateNodeMode() {
         this.createNodeMode = !this.createNodeMode;
         updateAllObservers();
     }
 
+    /**
+     * Toggles the "create edge" mode.
+     */
     public void toggleCreateEdgeMode() {
         this.createEdgeMode = !this.createEdgeMode;
         updateAllObservers();
     }
 
+    /**
+     * Sets the "create node" mode.
+     *
+     * @param createNodeMode What "create node" mode to set. True if the user is in create node mode, false if not.
+     */
     public void setCreateNodeMode(boolean createNodeMode) {
         this.createNodeMode = createNodeMode;
         updateAllObservers();
     }
 
+    /**
+     * Sets the "create edge" mode.
+     *
+     * @param createEdgeMode What "create edge" mode to set. True if the user is in create edge mode, false if not.
+     */
     public void setCreateEdgeMode(boolean createEdgeMode) {
         this.createEdgeMode = createEdgeMode;
         updateAllObservers();

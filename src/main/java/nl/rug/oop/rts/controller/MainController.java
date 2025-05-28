@@ -1,5 +1,6 @@
-package nl.rug.oop.rts.controller.commands;
+package nl.rug.oop.rts.controller;
 
+import nl.rug.oop.rts.controller.commands.Command;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.ViewModel;
 

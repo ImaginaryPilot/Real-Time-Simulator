@@ -130,6 +130,25 @@ public class GraphModel implements Observable {
     }
 
     /**
+     * Checks if a node exists in the graph.
+     *
+     * @param nodeA The node to check.
+     * @param nodeB The node to check.
+     * @return True if the node exists, false if not.
+     */
+    public boolean existEdge(Node nodeA, Node nodeB) {
+        for (Edge edge : getEdges()) {
+            if (edge.getNodeA() == nodeA && edge.getNodeB() == nodeB) {
+                return true;
+            }
+            if (edge.getNodeA() == nodeB && edge.getNodeB() == nodeA) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Creates a unique identifier for a node.
      *
      * @return The unique identifier of the node.

@@ -7,22 +7,48 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
+/**
+ * Document listener for the name text fields.
+ */
 @AllArgsConstructor
 public class MyDocumentListener implements DocumentListener {
+    /**
+     * The controller for the side menu.
+     */
     private final SideMenuController sideMenuController;
 
+    /**
+     * Called when the text in the text field changes.
+     *
+     * @param e the document event that occurred.
+     */
     public void insertUpdate(DocumentEvent e) {
         handleChange(e);
     }
 
+    /**
+     * Called when the text in the text field is removed.
+     *
+     * @param e the document event that occurred.
+     */
     public void removeUpdate(DocumentEvent e) {
         handleChange(e);
     }
 
+    /**
+     * Called when the text in the text field is changed.
+     *
+     * @param e the document event that occurred.
+     */
     public void changedUpdate(DocumentEvent e) {
         handleChange(e);
     }
 
+    /**
+     * Handles the change in the text field.
+     *
+     * @param e The document event that occurred.
+     */
     private void handleChange(DocumentEvent e) {
         try {
             String text = e.getDocument().getText(0, e.getDocument().getLength());

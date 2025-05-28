@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * The side menu panel
+ * The side menu panel.
  */
 public class SideMenuPanel extends JPanel implements Observer {
     /**

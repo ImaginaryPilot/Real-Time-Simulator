@@ -13,6 +13,9 @@ import java.awt.geom.Line2D;
  * Mouse controller class.
  */
 public class MouseController extends MouseAdapter {
+    /**
+     * The graph controller of the game.
+     */
     private final GraphController graphController;
     /**
      * The view of the game.
@@ -43,15 +46,15 @@ public class MouseController extends MouseAdapter {
     /**
      * Constructor for the MouseController class.
      *
-     * @param mainController The main controller of the game.
-     * @param viewModel      The view of the game.
-     * @param graphModel     The graph of the game.
+     * @param viewModel       The view of the game.
+     * @param graphModel      The graph of the game.
+     * @param graphController The graph controller.
      */
-    public MouseController(MainController mainController, ViewModel viewModel, GraphModel graphModel, GraphController graphController) {
+    public MouseController(
+            ViewModel viewModel, GraphModel graphModel, GraphController graphController) {
         this.viewModel = viewModel;
         this.graphModel = graphModel;
         this.graphController = graphController;
-
     }
 
     /**
@@ -141,7 +144,7 @@ public class MouseController extends MouseAdapter {
             Node node = clickedNode(x, y);
             if (node != null) {
                 if (node != viewModel.getSelectedNode()) {
-                    if (!graphController.existEdge(viewModel.getSelectedNode(), node)) {
+                    if (!graphModel.existEdge(viewModel.getSelectedNode(), node)) {
                         Edge edge = graphController.addEdge(node, viewModel.getSelectedNode());
                         viewModel.setSelectedEdge(edge);
                     }

@@ -2,6 +2,7 @@ package nl.rug.oop.rts.view;
 
 import lombok.Getter;
 import nl.rug.oop.rts.controller.*;
+import nl.rug.oop.rts.controller.MainController;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.ViewModel;
 import nl.rug.oop.rts.view.optionMenu.SideMenuPanel;
@@ -36,10 +37,15 @@ public class Game {
      * The mouse controller of the game.
      */
     private final MouseController mouseController;
-
+    /**
+     * The top menu controller of the game.
+     */
     private final TopMenuController topMenuController;
-
+    /**
+     * The side menu controller of the game.
+     */
     private final SideMenuController sideMenuController;
+
     /**
      * The top menu panel of the game.
      * Shows all kinds of buttons.
@@ -70,7 +76,7 @@ public class Game {
 
         this.mainController = new MainController(graphModel, viewModel);
         this.graphController = new GraphController(mainController, graphModel);
-        this.mouseController = new MouseController(mainController, viewModel, graphModel, graphController);
+        this.mouseController = new MouseController(viewModel, graphModel, graphController);
         this.topMenuController = new TopMenuController(graphController, viewModel, graphModel);
         this.sideMenuController = new SideMenuController(viewModel, graphModel);
 
