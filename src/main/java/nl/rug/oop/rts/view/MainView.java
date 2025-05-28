@@ -2,6 +2,7 @@ package nl.rug.oop.rts.view;
 
 import lombok.Getter;
 import nl.rug.oop.rts.observer.Observer;
+import nl.rug.oop.rts.view.optionMenu.SideMenuPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,7 +42,6 @@ public class MainView extends JFrame implements Observer {
         add(topMenuPanel, BorderLayout.NORTH);
         add(graphPanel, BorderLayout.CENTER);
         add(sideMenuPanel, BorderLayout.WEST);
-        sideMenuPanel.setVisible(false); // Start hidden
         pack();
 
         setLocationRelativeTo(null);

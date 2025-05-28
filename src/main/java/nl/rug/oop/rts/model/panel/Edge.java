@@ -1,11 +1,13 @@
 package nl.rug.oop.rts.model.panel;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Edge class that holds all the information of an edge in the graph.
  */
 @Getter
+@Setter
 public class Edge {
     /**
      * Unique identifier of the edge.
@@ -21,6 +23,11 @@ public class Edge {
     private final Node NodeB;
 
     /**
+     * The name of the edge.
+     */
+    private String name;
+
+    /**
      * Constructor for the Edge class.
      *
      * @param id    The unique identifier of the edge.
@@ -31,5 +38,6 @@ public class Edge {
         this.id = id;
         this.NodeA = nodeA;
         this.NodeB = nodeB;
+        this.name = "Edge " + id;
     }
 }

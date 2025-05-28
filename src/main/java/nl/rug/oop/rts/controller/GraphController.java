@@ -95,7 +95,7 @@ public class GraphController {
         addNode(200, 500);
         addNode(500, 500);
 
-        List Nodes = graphModel.getNodes();
+        List<Node> Nodes = graphModel.getNodes();
         addEdge((Node) Nodes.get(0), (Node) Nodes.get(1));
         addEdge((Node) Nodes.get(0), (Node) Nodes.get(2));
         addEdge((Node) Nodes.get(0), (Node) Nodes.get(3));

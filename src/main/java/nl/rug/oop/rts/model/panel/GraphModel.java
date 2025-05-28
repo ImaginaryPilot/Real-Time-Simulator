@@ -108,6 +108,28 @@ public class GraphModel implements Observable {
     }
 
     /**
+     * Set the name of a node.
+     *
+     * @param node The node to set the name of.
+     * @param name The new name of the node.
+     */
+    public void setNodeName(Node node, String name) {
+        node.setName(name);
+        updateAllObservers();
+    }
+
+    /**
+     * Set the name of an edge.
+     *
+     * @param edge The edge to set the name of.
+     * @param name The new name of the edge.
+     */
+    public void setEdgeName(Edge edge, String name) {
+        edge.setName(name);
+        updateAllObservers();
+    }
+
+    /**
      * Creates a unique identifier for a node.
      *
      * @return The unique identifier of the node.
