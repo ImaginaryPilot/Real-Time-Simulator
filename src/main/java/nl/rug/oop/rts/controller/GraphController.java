@@ -5,6 +5,7 @@ import nl.rug.oop.rts.controller.commands.*;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
+import nl.rug.oop.rts.model.panel.ViewModel;
 
 import java.util.List;
 
@@ -22,6 +23,10 @@ public class GraphController {
      * The graph of the game.
      */
     private final GraphModel graphModel;
+    /**
+     * The view model of the game.
+     */
+    private final ViewModel viewModel;
 
     /**
      * Adding a node to the graph.
@@ -34,7 +39,7 @@ public class GraphController {
         int id = graphModel.createNodeId();
         String name = "Node " + id;
         Node node = new Node(id, name, x, y);
-        Command command = new AddNodeCommand(graphModel, node);
+        Command command = new AddNodeCommand(graphModel, viewModel, node);
         mainController.addCommand(command);
         mainController.executeCommand(command);
         return node;
@@ -46,7 +51,7 @@ public class GraphController {
      * @param node The node to remove.
      */
     public void removeNode(Node node) {
-        Command command = new RemoveNodeCommand(graphModel, node);
+        Command command = new RemoveNodeCommand(graphModel, viewModel, node);
         mainController.addCommand(command);
         mainController.executeCommand(command);
     }
@@ -61,7 +66,7 @@ public class GraphController {
     public Edge addEdge(Node nodeA, Node nodeB) {
         int id = graphModel.createEdgeId();
         Edge edge = new Edge(id, nodeA, nodeB);
-        Command command = new AddEdgeCommand(graphModel, edge);
+        Command command = new AddEdgeCommand(graphModel, viewModel, edge);
         mainController.addCommand(command);
         mainController.executeCommand(command);
         return edge;
@@ -73,7 +78,7 @@ public class GraphController {
      * @param edge The edge to remove.
      */
     public void removeEdge(Edge edge) {
-        Command command = new RemoveEdgeCommand(graphModel, edge);
+        Command command = new RemoveEdgeCommand(graphModel, viewModel, edge);
         mainController.addCommand(command);
         mainController.executeCommand(command);
     }

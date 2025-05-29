@@ -2,8 +2,12 @@ package nl.rug.oop.rts.controller;
 
 import lombok.Getter;
 import nl.rug.oop.rts.controller.commands.Command;
+import nl.rug.oop.rts.controller.commands.ChangeNodeNameCommand;
 import nl.rug.oop.rts.model.panel.GraphModel;
+import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;
+
+import java.util.EmptyStackException;
 
 /**
  * The main controller class that holds all the logic of the game.
@@ -65,6 +69,30 @@ public class MainController {
     }
 
     /**
+     * Renames a node.
+     *
+     * @param node    The node to rename.
+     * @param newName The new name of the node.
+     */
+    public void addRenameNodeCommand(Node node, String newName) {
+        Command command;
+        try {
+            if (undoStack.peek().getClass() == ChangeNodeNameCommand.class &&
+                    ((ChangeNodeNameCommand) undoStack.peek()).getNode().equals(node)) {
+                ChangeNodeNameCommand oldChangeNodeNameCommand = (ChangeNodeNameCommand) undoStack.pop();
+                String oldName = oldChangeNodeNameCommand.getOldName();
+                command = new ChangeNodeNameCommand(node, oldName, newName, graphModel);
+            } else {
+                command = new ChangeNodeNameCommand(node, node.getName(), newName, graphModel);
+            }
+        } catch (EmptyStackException e) {
+            command = new ChangeNodeNameCommand(node, node.getName(), newName, graphModel);
+        }
+        addCommand(command);
+        executeCommand(command);
+    }
+
+    /**
      * Undo.
      * If there is a command to undo, the command will be undone and added to the redo stack.
      */
@@ -73,6 +101,7 @@ public class MainController {
             Command command = undoStack.pop();
             redoStack.push(command);
             command.undo();
+            System.out.println(command);
         }
     }
 

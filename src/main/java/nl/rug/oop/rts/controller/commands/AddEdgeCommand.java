@@ -1,39 +1,37 @@
 package nl.rug.oop.rts.controller.commands;
 
+import lombok.AllArgsConstructor;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Edge;
+import nl.rug.oop.rts.model.panel.ViewModel;
 
 /**
  * Command for adding an edge to the graph.
  */
+@AllArgsConstructor
 public class AddEdgeCommand implements Command {
     /**
      * The graph of the game.
      */
     private final GraphModel graphModel;
     /**
+     * The view model of the game.
+     */
+    private final ViewModel viewModel;
+    /**
      * The edge to add.
      */
     private final Edge edge;
 
-    /**
-     * Constructor for the AddEdgeCommand class.
-     *
-     * @param graphModel The graph of the game.
-     * @param edge       The edge to add.
-     */
-    public AddEdgeCommand(GraphModel graphModel, Edge edge) {
-        this.graphModel = graphModel;
-        this.edge = edge;
-    }
-
     @Override
     public void execute() {
         graphModel.addEdge(edge);
+        viewModel.setSelectedEdge(edge);
     }
 
     @Override
     public void undo() {
         graphModel.removeEdge(edge);
+        viewModel.setSelectedEdge(null);
     }
 }

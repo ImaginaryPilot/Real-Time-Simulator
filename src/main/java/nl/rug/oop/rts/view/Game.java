@@ -75,10 +75,10 @@ public class Game {
         this.viewModel = new ViewModel();
 
         this.mainController = new MainController(graphModel, viewModel);
-        this.graphController = new GraphController(mainController, graphModel);
+        this.graphController = new GraphController(mainController, graphModel, viewModel);
         this.mouseController = new MouseController(viewModel, graphModel, graphController);
         this.topMenuController = new TopMenuController(graphController, viewModel, graphModel);
-        this.sideMenuController = new SideMenuController(viewModel, graphModel);
+        this.sideMenuController = new SideMenuController(mainController, viewModel, graphModel);
 
         this.graphPanel = new GraphPanel(viewModel, graphModel);
         this.topMenuPanel = new TopMenuPanel(graphController, graphModel, viewModel, topMenuController, mainController);

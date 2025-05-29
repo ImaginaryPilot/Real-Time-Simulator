@@ -12,6 +12,10 @@ import nl.rug.oop.rts.model.panel.ViewModel;
 @AllArgsConstructor
 public class SideMenuController {
     /**
+     * The main controller of the game.
+     */
+    private final MainController mainController;
+    /**
      * The view model of the game.
      */
     private final ViewModel viewModel;
@@ -44,7 +48,7 @@ public class SideMenuController {
     public void renameSelectedNode(String newName) {
         Node node = viewModel.getSelectedNode();
         if (node != null) {
-            graphModel.setNodeName(node, newName);
+            mainController.addRenameNodeCommand(node, newName);
         }
     }
 
