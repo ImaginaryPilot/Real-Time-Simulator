@@ -81,7 +81,7 @@ public class Game {
         this.sideMenuController = new SideMenuController(viewModel, graphModel);
 
         this.graphPanel = new GraphPanel(viewModel, graphModel);
-        this.topMenuPanel = new TopMenuPanel(graphController, graphModel, viewModel, topMenuController);
+        this.topMenuPanel = new TopMenuPanel(graphController, graphModel, viewModel, topMenuController, mainController);
         this.sideMenuPanel = new SideMenuPanel(viewModel, sideMenuController);
 
         this.mainView = new MainView(graphPanel, topMenuPanel, sideMenuPanel);

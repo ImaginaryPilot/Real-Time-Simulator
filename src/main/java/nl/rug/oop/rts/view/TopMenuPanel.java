@@ -1,6 +1,7 @@
 package nl.rug.oop.rts.view;
 
 import nl.rug.oop.rts.controller.GraphController;
+import nl.rug.oop.rts.controller.MainController;
 import nl.rug.oop.rts.controller.TopMenuController;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.ViewModel;
@@ -22,6 +23,11 @@ public class TopMenuPanel extends JPanel implements Observer {
      * The controller for the top menu.
      */
     private final TopMenuController topMenuController;
+    /**
+     * The main controller of the game.
+     * Used for the undo/redo buttons.
+     */
+    private final MainController mainController;
     /**
      * The graph model of the game.
      */
@@ -55,16 +61,20 @@ public class TopMenuPanel extends JPanel implements Observer {
      * @param graphModel        The graph model of the game.
      * @param viewModel         The viewModel of the game.
      * @param topMenuController The controller for the top menu.
+     * @param mainController    The main controller of the game.
      */
     public TopMenuPanel(
             GraphController graphController,
             GraphModel graphModel,
             ViewModel viewModel,
-            TopMenuController topMenuController) {
+            TopMenuController topMenuController,
+            MainController mainController) {
+
         this.graphModel = graphModel;
         this.graphController = graphController;
         this.viewModel = viewModel;
         this.topMenuController = topMenuController;
+        this.mainController = mainController;
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         setBackground(Color.DARK_GRAY);
         setPreferredSize(new Dimension(1200, 40));
@@ -81,38 +91,34 @@ public class TopMenuPanel extends JPanel implements Observer {
         addNode.addActionListener(e -> {
             topMenuController.addNodeButton();
         });
-
+        add(addNode);
         this.removeNode = new JButton("Remove Node");
         removeNode.addActionListener(e -> {
             topMenuController.removeNodeButton();
         });
-
+        add(removeNode);
         this.addEdge = new JButton("Add Edge");
         addEdge.addActionListener(e -> {
             topMenuController.addEdgeButton();
         });
-
+        add(addEdge);
         this.removeEdge = new JButton("Remove Edge");
         removeEdge.addActionListener(e -> {
             topMenuController.removeEdgeButton();
         });
-
-        JButton clear = new JButton("Clear");
-        clear.addActionListener(e -> {
-            topMenuController.clearButton();
-        });
-
-        JButton generateRandomMap = new JButton("Generate Random Map");
-        generateRandomMap.addActionListener(e -> {
-            System.out.println("Map generated.");
-            graphController.generateTest();
-        });
-        add(addNode);
-        add(removeNode);
-        add(addEdge);
         add(removeEdge);
-        add(generateRandomMap);
-        add(clear);
+        add(new JButton("Generate Random Map") {{
+                addActionListener(e -> graphController.generateTest());
+            }});
+        add(new JButton("Clear") {{
+                addActionListener(e -> topMenuController.clearButton());
+            }});
+        add(new JButton("Undo") {{
+                addActionListener(e -> mainController.undo());
+            }});
+        add(new JButton("Redo") {{
+                addActionListener(e -> mainController.redo());
+            }});
         update();
     }
 
@@ -138,5 +144,4 @@ public class TopMenuPanel extends JPanel implements Observer {
         }
         removeEdge.setEnabled(viewModel.getSelectedEdge() != null);
     }
-
 }

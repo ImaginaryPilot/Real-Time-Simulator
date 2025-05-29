@@ -53,7 +53,7 @@ public class SideMenuPanel extends JPanel implements Observer {
 
         emptyPanel = new EmptyPanel();
         nodePanel = new NodePanel(sideMenuController);
-        edgePanel = new EdgePanel(sideMenuController);
+        edgePanel = new EdgePanel(sideMenuController, viewModel);
 
         currentViewPanel = emptyPanel;
         add(currentViewPanel, BorderLayout.CENTER);

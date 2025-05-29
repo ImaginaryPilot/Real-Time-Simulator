@@ -28,7 +28,7 @@ public class AddNodeCommand implements Command {
     }
 
     @Override
-    public void redo() {
+    public void execute() {
         graphModel.addNode(node);
         System.out.println("redoing the add note command");
     }

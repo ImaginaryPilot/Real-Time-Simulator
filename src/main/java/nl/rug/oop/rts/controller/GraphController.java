@@ -35,7 +35,8 @@ public class GraphController {
         String name = "Node " + id;
         Node node = new Node(id, name, x, y);
         Command command = new AddNodeCommand(graphModel, node);
-        mainController.createCommand(command);
+        mainController.addCommand(command);
+        mainController.executeCommand(command);
         return node;
     }
 
@@ -46,7 +47,8 @@ public class GraphController {
      */
     public void removeNode(Node node) {
         Command command = new RemoveNodeCommand(graphModel, node);
-        mainController.createCommand(command);
+        mainController.addCommand(command);
+        mainController.executeCommand(command);
     }
 
     /**
@@ -60,7 +62,8 @@ public class GraphController {
         int id = graphModel.createEdgeId();
         Edge edge = new Edge(id, nodeA, nodeB);
         Command command = new AddEdgeCommand(graphModel, edge);
-        mainController.createCommand(command);
+        mainController.addCommand(command);
+        mainController.executeCommand(command);
         return edge;
     }
 
@@ -71,7 +74,8 @@ public class GraphController {
      */
     public void removeEdge(Edge edge) {
         Command command = new RemoveEdgeCommand(graphModel, edge);
-        mainController.createCommand(command);
+        mainController.addCommand(command);
+        mainController.executeCommand(command);
     }
 
     /**

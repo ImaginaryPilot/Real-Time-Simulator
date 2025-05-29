@@ -7,7 +7,7 @@ public interface Command {
     /**
      * Execute the command.
      */
-    void redo();
+    void execute();
 
     /**
      * Undo the command.

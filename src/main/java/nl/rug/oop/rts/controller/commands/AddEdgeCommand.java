@@ -28,7 +28,7 @@ public class AddEdgeCommand implements Command {
     }
 
     @Override
-    public void redo() {
+    public void execute() {
         graphModel.addEdge(edge);
     }
 
