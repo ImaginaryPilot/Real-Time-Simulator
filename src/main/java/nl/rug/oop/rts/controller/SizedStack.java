@@ -2,6 +2,7 @@ package nl.rug.oop.rts.controller;
 
 import lombok.AllArgsConstructor;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
@@ -22,5 +23,15 @@ public class SizedStack<T> extends Stack<T> {
             this.remove(0);
         }
         return super.push(item);
+    }
+
+    @Override
+    public T pop() {
+        try {
+            System.out.println("Popped item: " + super.peek());
+        } catch (EmptyStackException e) {
+            System.err.println("Stack is empty");
+        }
+        return super.pop();
     }
 }

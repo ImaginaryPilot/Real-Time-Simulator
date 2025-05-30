@@ -8,6 +8,7 @@ import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;
 
 import java.util.EmptyStackException;
+import java.util.Objects;
 
 /**
  * The main controller class that holds all the logic of the game.
@@ -57,6 +58,7 @@ public class MainController {
     public void addCommand(Command command) {
         undoStack.push(command);
         redoStack.clear();
+        System.out.println("Added command to stack: " + command);
     }
 
     /**
@@ -78,9 +80,14 @@ public class MainController {
         Command command;
         try {
             if (undoStack.peek().getClass() == ChangeNodeNameCommand.class &&
-                    ((ChangeNodeNameCommand) undoStack.peek()).getNode().equals(node)) {
+                    ((ChangeNodeNameCommand) undoStack.peek()).getNode().equals(node)) { // renaming the same node
                 ChangeNodeNameCommand oldChangeNodeNameCommand = (ChangeNodeNameCommand) undoStack.pop();
                 String oldName = oldChangeNodeNameCommand.getOldName();
+                if (Objects.equals(oldName, newName)) {
+                    command = new ChangeNodeNameCommand(node, oldName, newName, graphModel);
+                    executeCommand(command);
+                    return;
+                }
                 command = new ChangeNodeNameCommand(node, oldName, newName, graphModel);
             } else {
                 command = new ChangeNodeNameCommand(node, node.getName(), newName, graphModel);

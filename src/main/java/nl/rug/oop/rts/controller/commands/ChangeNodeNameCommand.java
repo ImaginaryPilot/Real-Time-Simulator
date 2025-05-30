@@ -2,6 +2,7 @@ package nl.rug.oop.rts.controller.commands;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
 
@@ -9,6 +10,7 @@ import nl.rug.oop.rts.model.panel.Node;
  * Command for changing the name of a node.
  */
 @Getter
+@ToString
 public class ChangeNodeNameCommand implements Command {
     /**
      * The graph of the game.

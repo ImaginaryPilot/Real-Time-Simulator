@@ -1,5 +1,6 @@
 package nl.rug.oop.rts.view.optionMenu;
 
+import lombok.Getter;
 import nl.rug.oop.rts.controller.SideMenuController;
 
 import javax.swing.*;
@@ -9,7 +10,12 @@ import java.awt.*;
 /**
  * The text field for the name of a node or edge.
  */
+@Getter
 public class NameTextField extends JTextField {
+    /**
+     * Some boolean to prevent fake commands for the undo stack.
+     */
+    private boolean isFakeChange = false;
     /**
      * The controller for the side menu.
      */
@@ -25,7 +31,7 @@ public class NameTextField extends JTextField {
         this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
         ((AbstractDocument) this.getDocument()).setDocumentFilter(new NameFilter());
 
-        this.getDocument().addDocumentListener(new MyDocumentListener(sideMenuController));
+        this.getDocument().addDocumentListener(new MyDocumentListener(sideMenuController, this));
     }
 
     /**
@@ -34,6 +40,11 @@ public class NameTextField extends JTextField {
      * @param name The name to set.
      */
     public void setValidName(String name) {
-        setText(name);
+        isFakeChange = true;
+        try {
+            setText(name);
+        } finally {
+            isFakeChange = false;
+        }
     }
 }

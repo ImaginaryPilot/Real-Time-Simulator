@@ -43,6 +43,6 @@ class NodePanel extends JPanel {
      */
     public void setNode(Node node) {
         nodeNameField.setValidName(node.getName());
-        System.out.println("new node with name: " + node.getName());
+        //System.out.println("new node with name: " + node.getName());
     }
 }

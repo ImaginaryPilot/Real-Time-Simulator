@@ -157,7 +157,11 @@ public class MouseController extends MouseAdapter {
             return;
 
         }
-        viewModel.setSelectedNode(clickedNode(x, y));
+        Node thisNode = clickedNode(x, y);
+        if (thisNode == viewModel.getSelectedNode()) {
+            return;
+        }
+        viewModel.setSelectedNode(thisNode);
         if (viewModel.getSelectedNode() == null) {
             viewModel.setSelectedEdge(clickedEdge(x, y));
         }

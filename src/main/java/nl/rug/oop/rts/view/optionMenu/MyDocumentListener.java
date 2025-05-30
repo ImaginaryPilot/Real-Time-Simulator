@@ -16,6 +16,10 @@ public class MyDocumentListener implements DocumentListener {
      * The controller for the side menu.
      */
     private final SideMenuController sideMenuController;
+    /**
+     * The nameTextField, used to check for fakeCommands.
+     */
+    private final NameTextField nameTextField;
 
     /**
      * Called when the text in the text field changes.
@@ -50,6 +54,9 @@ public class MyDocumentListener implements DocumentListener {
      * @param e The document event that occurred.
      */
     private void handleChange(DocumentEvent e) {
+        if (nameTextField.isFakeChange()) {
+            return;
+        }
         try {
             String text = e.getDocument().getText(0, e.getDocument().getLength());
             sideMenuController.rename(text);
