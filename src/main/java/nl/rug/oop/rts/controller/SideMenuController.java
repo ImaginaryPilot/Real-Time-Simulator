@@ -60,8 +60,7 @@ public class SideMenuController {
     public void renameSelectedEdge(String newName) {
         Edge edge = viewModel.getSelectedEdge();
         if (edge != null) {
-            System.out.println("rename edge");
-            graphModel.setEdgeName(edge, newName);
+            mainController.addRenameEdgeCommand(edge, newName);
         }
     }
 }
