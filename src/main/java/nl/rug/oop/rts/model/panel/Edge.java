@@ -48,10 +48,20 @@ public class Edge {
         this.name = "Edge " + id;
     }
 
+    /**
+     * add army to the armyList.
+     *
+     * @param army the army
+     * */
     public void addArmy(Army army){
         armyList.add(army);
     }
 
+    /**
+     * remove army from the armyList using army object.
+     *
+     * @param army the army
+     * */
     public void removeArmy(Army army){
         armyList.remove(army);
     }

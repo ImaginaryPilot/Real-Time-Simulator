@@ -1,14 +1,31 @@
 package nl.rug.oop.rts.model.simulation;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.Node;
 
+/**
+ * The class that stores each armies move to another edge/node.
+ * */
+@Data
 @AllArgsConstructor
 public class Move {
-    Army army;
-    Node from;
-    Node to;
-    Edge edge;
+    /**
+     * Army in question about to move.
+     * */
+    private Army army;
+    /**
+     * Source node that army is moving FROM.
+     * */
+    private Node from;
+    /**
+     * Destination node that army is moving TO.
+     * */
+    private Node to;
+    /**
+     * The edge the army is using to travel.
+     * */
+    private Edge edge;
 }

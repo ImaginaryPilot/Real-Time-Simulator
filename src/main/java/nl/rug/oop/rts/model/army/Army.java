@@ -56,25 +56,54 @@ public class Army {
         }
     }
 
+    /**
+     * get the faction name to render the texture of army.
+     *
+     * @return the string to load texture
+     * */
     public String getTextureName() {
         return "faction" + faction.name();
     }
 
+    /**
+     * increment the number of wins the army has.
+     * */
     public void incrementWin(){
         battlesWon++;
     }
 
+    /**
+     * The total amount of health of the army.
+     *
+     * @return total amount of health
+     * */
     public int getTotalHealth() {
-        return units.stream().mapToInt(Unit::getHealth).sum();
+        int totalHealth = 0;
+        for (Unit unit : units){
+            totalHealth += unit.getHealth();
+        }
+        return totalHealth;
     }
 
+    /**
+     * The total damage amount of the army.
+     *
+     * @return total amount of damage
+     * */
     public int getTotalDamage() {
-        return units.stream().mapToInt(Unit::getDamage).sum();
+        int totalDamage = 0;
+        for (Unit unit : units){
+            totalDamage += unit.getDamage();
+        }
+        return totalDamage;
     }
 
+    /**
+     * function to reduce the army after a conflict has taken place.
+     * */
     public void takeDamage(){
         for (int i = 0; i < units.size(); i++) {
-            int damageReduction = 1 + random.nextInt(3); // 1 - 3
+            int damageReduction = random.nextInt(3); // 0 - 2
             int healthReduction = 10 + random.nextInt(11); // 10 - 20
             units.get(i).reduceDamage(damageReduction);
             units.get(i).reduceHealth(healthReduction);
@@ -83,5 +112,4 @@ public class Army {
             }
         }
     }
-
 }

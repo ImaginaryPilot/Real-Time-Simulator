@@ -9,31 +9,62 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class responsible for resolving the conflicts.
+ * */
 public class ResolveBattle {
+    /**
+     * Empty constructor since we have nothing to pass.
+     * */
     public ResolveBattle(){
 
     }
 
+    /**
+     * Resolve the conflicts on the nodes.
+     *
+     * @param node contains the location we wish to resolve the conflict on
+     * */
     public void resolveBattleOnNode(Node node){
         List<Army> toRemove = resolveBattle(node.getArmyList(), node.getName());
-        if(toRemove == null) return;
+        if(toRemove == null) {
+            return;
+        }
         // kill armies lost
         for (Army army : toRemove){
             node.removeArmy(army);
         }
     }
 
+    /**
+     * Resolve the conflicts on the edges.
+     *
+     * @param edge contains the location we wish to resolve the conflict on
+     * @param from source node the armies move from.
+     * @param to destination nodes the armies move to.
+     * */
     public void resolveBattleOnEdge(Edge edge, Node from, Node to){
         List<Army> toRemove = resolveBattle(edge.getArmyList(), edge.getName());
-        if(toRemove == null) return;
+        if(toRemove == null) {
+            return;
+        }
         // kill armies lost
         for (Army army : toRemove){
             edge.removeArmy(army);
         }
     }
 
+    /**
+     * resolve the battle using battleIndex.
+     *
+     * @param armies list of armies on the location
+     * @param locationName the location name to pop up a message
+     * @return returns the armies to be removed
+     * */
     private List<Army> resolveBattle(List<Army> armies, String locationName){
-        if (armies.size() <= 1) return null;
+        if (armies.size() <= 1) {
+            return null;
+        }
 
         List<Army> teamBlue = new ArrayList<>();
         List<Army> teamYellow = new ArrayList<>();
@@ -45,34 +76,20 @@ public class ResolveBattle {
             }
         }
 
-        if(teamBlue.isEmpty() || teamYellow.isEmpty()) return null;
-
-        int teamBlueBattleIndex = 0;
-        int teamYellowBattleIndex = 0;
-
-        for(Army army : teamBlue) {
-            teamBlueBattleIndex += army.getTotalDamage() * army.getTotalHealth();
-        }
-        for(Army army: teamYellow) {
-            teamYellowBattleIndex += army.getTotalDamage() * army.getTotalHealth();
+        if(teamBlue.isEmpty() || teamYellow.isEmpty()) {
+            return null;
         }
 
-        Faction.Team winner = teamBlueBattleIndex >= teamYellowBattleIndex ? Faction.Team.BLUE : Faction.Team.YELLOW;
+        Faction.Team winner = strengthCalculator(teamBlue, teamYellow);
 
         List<Army> toRemove = new ArrayList<>();
-        List<Army> winners = new ArrayList<>();
         for(Army army : armies){
-            if(army.getFaction().getTeam() != winner){
+            if(army.getFaction().getTeam() != winner) {
                 toRemove.add(army);
+            } else {
+                army.incrementWin();
+                army.takeDamage();
             }
-            else {
-                winners.add(army);
-            }
-        }
-
-        for(Army army : winners){
-            army.incrementWin();
-            army.takeDamage();
         }
 
         JOptionPane.showMessageDialog(
@@ -82,7 +99,26 @@ public class ResolveBattle {
                 JOptionPane.INFORMATION_MESSAGE,
                 null
         );
-
         return toRemove;
+    }
+
+    /**
+     * calculates the strengths of the factions.
+     *
+     * @param teamBlue first faction.
+     * @param teamYellow second faction.
+     * @return winning faction.
+     * */
+    public Faction.Team strengthCalculator(List<Army> teamBlue, List<Army> teamYellow){
+        int teamBlueBattleIndex = 0;
+        int teamYellowBattleIndex = 0;
+
+        for(Army army : teamBlue) {
+            teamBlueBattleIndex += army.getTotalDamage() * army.getTotalHealth();
+        }
+        for(Army army: teamYellow) {
+            teamYellowBattleIndex += army.getTotalDamage() * army.getTotalHealth();
+        }
+        return (teamBlueBattleIndex >= teamYellowBattleIndex ? Faction.Team.BLUE : Faction.Team.YELLOW);
     }
 }

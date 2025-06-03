@@ -168,6 +168,12 @@ public class GraphModel implements Observable {
         return edgeIdCounter;
     }
 
+    /**
+     * get all edges connected to the node.
+     *
+     * @param node the node we want to find all edges connected to
+     * @return all edges connected to the node
+     * */
     public List<Edge> getConnectedEdges(Node node){
         List<Edge> connectedEdges = new ArrayList<>();
         for(Edge edge : edges){
@@ -178,14 +184,19 @@ public class GraphModel implements Observable {
         return connectedEdges;
     }
 
+    /**
+     * get the other node on the same edge.
+     *
+     * @param node the source node
+     * @param edge the edge that connected both nodes
+     * @return the edge connected on the other end
+     * */
     public Node getOtherNode(Edge edge, Node node){
         if(edge.getNodeA().equals(node)){
             return edge.getNodeB();
-        }
-        else if(edge.getNodeB().equals(node)){
+        } else if(edge.getNodeB().equals(node)){
             return edge.getNodeA();
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Node is not part of edge");
         }
     }

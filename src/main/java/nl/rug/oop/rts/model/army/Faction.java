@@ -9,10 +9,18 @@ import java.util.List;
 public enum Faction {
     Men, Elves, Dwarves, Mordor, Isengard;
 
+    /**
+     * The teams of each faction.
+     * */
     public enum Team {
         BLUE, YELLOW
     }
 
+    /**
+     * Getting the team of the army.
+     *
+     * @return army team
+     * */
     public Team getTeam(){
         return switch (this){
             case Men, Elves, Dwarves -> Team.BLUE;
@@ -32,13 +40,6 @@ public enum Faction {
             case Dwarves -> List.of("Guardian", "Phalanx", "Axe Thrower");
             case Mordor -> List.of("Orc Warrior", "Orc Pikeman", "Haradrim Archer");
             case Isengard -> List.of("Uruk-hai", "Uruk Crossbowman", "Warg Rider");
-        };
-    }
-
-    public Color getFactionColour(){
-        return switch (this){
-            case Men, Elves, Dwarves -> Color.YELLOW;
-            case Mordor, Isengard -> Color.BLUE;
         };
     }
 }

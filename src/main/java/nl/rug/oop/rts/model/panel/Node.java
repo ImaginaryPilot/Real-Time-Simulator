@@ -3,7 +3,6 @@ package nl.rug.oop.rts.model.panel;
 import lombok.Getter;
 import lombok.Setter;
 import nl.rug.oop.rts.model.army.Army;
-import nl.rug.oop.rts.model.army.Faction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,14 +50,29 @@ public class Node {
         this.name = name;
     }
 
+    /**
+     * add army to the armyList.
+     *
+     * @param army the army
+     * */
     public void addArmy(Army army){
         armyList.add(army);
     }
 
+    /**
+     * remove army from the armyList using index.
+     *
+     * @param index where army lies
+     * */
     public void removeArmy(int index){
         armyList.remove(index);
     }
 
+    /**
+     * remove army from the armyList using army object.
+     *
+     * @param army the army
+     * */
     public void removeArmy(Army army){
         armyList.remove(army);
     }

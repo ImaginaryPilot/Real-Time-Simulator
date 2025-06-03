@@ -1,10 +1,7 @@
 package nl.rug.oop.rts.view.optionMenu;
 
 import nl.rug.oop.rts.controller.SideMenuController;
-import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.panel.Node;
-
-import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;

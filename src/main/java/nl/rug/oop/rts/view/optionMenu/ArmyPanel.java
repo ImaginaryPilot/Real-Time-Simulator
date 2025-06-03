@@ -21,10 +21,24 @@ public class ArmyPanel extends JPanel{
      * Current node.
      * */
     private Node currentNode;
+    /**
+     * The list of the armies listed in a JList.
+     * */
     private final DefaultListModel<String> armyListModel;
+    /**
+     * The visual component that shows all the armies stored.
+     * */
     private final JList<String> armyList;
+    /**
+     * stores list of armies to check their stats.
+     * */
     private List<Army> armyObjects;
 
+    /**
+     * Constructor to show the panel containing everything related to armies.
+     *
+     * @param sideMenuController sideMenuController the Army Panel is a part of
+     * */
     public ArmyPanel(SideMenuController sideMenuController){
         this.sideMenuController = sideMenuController;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -37,10 +51,12 @@ public class ArmyPanel extends JPanel{
         JScrollPane armyScrollPane = new JScrollPane(armyList);
         armyScrollPane.setPreferredSize(new Dimension(180, 100));
 
+        // Title of the panel
         JLabel titleLabel = new JLabel("Armies");
         titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         add(titleLabel);
 
+        // The button panel for the 2 buttons to add and remove armies
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         JButton addArmyButton = new JButton("+");
@@ -55,6 +71,15 @@ public class ArmyPanel extends JPanel{
         armyScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
         add(armyScrollPane);
 
+        selectItem();
+        addArmyButton(addArmyButton);
+        removeArmyButton(removeArmyButton);
+    }
+
+    /**
+     * select item from JList and show stats.
+     * */
+    private void selectItem(){
         armyList.addListSelectionListener(e -> {
             if(!e.getValueIsAdjusting() && currentNode != null){
                 int selectedIndex = armyList.getSelectedIndex();
@@ -63,18 +88,36 @@ public class ArmyPanel extends JPanel{
                 }
             }
         });
+    }
 
+    /**
+     * button responsible for adding army.
+     *
+     * @param addArmyButton button to add army
+     * */
+    private void addArmyButton(JButton addArmyButton){
         addArmyButton.addActionListener(e ->{
             if(currentNode != null){
                 sideMenuController.addArmy(currentNode);
             }
         });
+    }
 
+    /**
+     * button responsible for removing army.
+     *
+     * @param removeArmyButton button to remove army
+     * */
+    private void removeArmyButton(JButton removeArmyButton){
         removeArmyButton.addActionListener(e ->{
             if(currentNode != null){
                 int selectedIndex = armyList.getSelectedIndex();
                 if(selectedIndex == -1){
-                    JOptionPane.showMessageDialog(this,"Please select an army to remove", "No Selection", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Please select an army to remove",
+                            "No Selection",
+                            JOptionPane.WARNING_MESSAGE);
                 } else{
                     sideMenuController.removeArmy(currentNode, selectedIndex);
                 }
@@ -82,6 +125,9 @@ public class ArmyPanel extends JPanel{
         });
     }
 
+    /**
+     * refreshing the JList everytime an army was added or removed.
+     * */
     private void refreshArmyList() {
         armyListModel.clear();
         if (currentNode != null) {
@@ -93,11 +139,21 @@ public class ArmyPanel extends JPanel{
         }
     }
 
+    /**
+     * getting and setting the current node.
+     *
+     * @param node where the army panel will personalised to
+     * */
     public void setNode(Node node){
         this.currentNode = node;
         refreshArmyList();
     }
 
+    /**
+     * Show the army stats.
+     *
+     * @param army the army we want the stats in question
+     * */
     private void showArmyInfo(Army army) {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         panel.add(new JLabel("Faction: " + army.getFaction().name()));
