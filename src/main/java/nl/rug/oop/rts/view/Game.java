@@ -3,6 +3,7 @@ package nl.rug.oop.rts.view;
 import lombok.Getter;
 import nl.rug.oop.rts.controller.*;
 import nl.rug.oop.rts.controller.MainController;
+import nl.rug.oop.rts.model.simulation.Simulation;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.ViewModel;
 import nl.rug.oop.rts.view.optionMenu.SideMenuPanel;

@@ -2,6 +2,11 @@ package nl.rug.oop.rts.model.panel;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.rug.oop.rts.model.army.Army;
+import nl.rug.oop.rts.model.army.Faction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -26,6 +31,10 @@ public class Node {
      * Name of the node.
      */
     private String name;
+    /**
+     * The number of armies on the node.
+     * */
+    private List<Army> armyList = new ArrayList<>();
 
     /**
      * Constructor for the Node class.
@@ -40,5 +49,17 @@ public class Node {
         this.y = y;
         this.id = id;
         this.name = name;
+    }
+
+    public void addArmy(Army army){
+        armyList.add(army);
+    }
+
+    public void removeArmy(int index){
+        armyList.remove(index);
+    }
+
+    public void removeArmy(Army army){
+        armyList.remove(army);
     }
 }

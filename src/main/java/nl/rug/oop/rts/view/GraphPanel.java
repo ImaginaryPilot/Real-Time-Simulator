@@ -1,5 +1,6 @@
 package nl.rug.oop.rts.view;
 
+import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
@@ -89,6 +90,16 @@ public class GraphPanel extends JPanel implements Observer {
             g.fillRect(node.getX() - nodeWidth / 2, node.getY() - nodeHeight / 2, nodeWidth, nodeHeight);
             g.setColor(Color.WHITE);
             g.drawString(node.getName(), node.getX(), node.getY());
+
+            int iconStartX = node.getX() - nodeWidth / 2;
+            int iconY = node.getY() + nodeHeight / 2 + 5;
+            for(int i = 0; i < node.getArmyList().size(); i++){
+                Army army = node.getArmyList().get(i);
+                String textureName = army.getTextureName();
+
+                Image icon = TextureLoader.getInstance().getTexture(textureName, 20, 20);
+                g.drawImage(icon, iconStartX + i * 25, iconY, null);
+            }
         }
 
         g.translate(-model.getViewX(), -model.getViewY());

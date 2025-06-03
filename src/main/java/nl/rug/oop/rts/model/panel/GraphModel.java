@@ -167,4 +167,26 @@ public class GraphModel implements Observable {
         edgeIdCounter++;
         return edgeIdCounter;
     }
+
+    public List<Edge> getConnectedEdges(Node node){
+        List<Edge> connectedEdges = new ArrayList<>();
+        for(Edge edge : edges){
+            if(edge.getNodeA().equals(node) || edge.getNodeB().equals(node)){
+                connectedEdges.add(edge);
+            }
+        }
+        return connectedEdges;
+    }
+
+    public Node getOtherNode(Edge edge, Node node){
+        if(edge.getNodeA().equals(node)){
+            return edge.getNodeB();
+        }
+        else if(edge.getNodeB().equals(node)){
+            return edge.getNodeA();
+        }
+        else {
+            throw new IllegalArgumentException("Node is not part of edge");
+        }
+    }
 }

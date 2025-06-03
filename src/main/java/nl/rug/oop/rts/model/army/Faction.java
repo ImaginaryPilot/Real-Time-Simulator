@@ -1,12 +1,24 @@
 package nl.rug.oop.rts.model.army;
 
+import java.awt.*;
 import java.util.List;
 
 /**
  * Faction enum.
  */
 public enum Faction {
-    MEN, ELVES, DWARVES, MORDOR, ISENGARD;
+    Men, Elves, Dwarves, Mordor, Isengard;
+
+    public enum Team {
+        BLUE, YELLOW
+    }
+
+    public Team getTeam(){
+        return switch (this){
+            case Men, Elves, Dwarves -> Team.BLUE;
+            case Mordor, Isengard -> Team.YELLOW;
+        };
+    }
 
     /**
      * Gets the unit names of the faction.
@@ -15,24 +27,18 @@ public enum Faction {
      */
     public List<String> getUnitNames() {
         return switch (this) {
-            case MEN -> List.of("Gondor Soldier", "Tower Guard", "Ithilien Ranger");
-            case ELVES -> List.of("Lorien Warrior", "Mirkwood Archer", "Rivendell Lancer");
-            case DWARVES -> List.of("Guardian", "Phalanx", "Axe Thrower");
-            case MORDOR -> List.of("Orc Warrior", "Orc Pikeman", "Haradrim Archer");
-            case ISENGARD -> List.of("Uruk-hai", "Uruk Crossbowman", "Warg Rider");
+            case Men -> List.of("Gondor Soldier", "Tower Guard", "Ithilien Ranger");
+            case Elves -> List.of("Lorien Warrior", "Mirkwood Archer", "Rivendell Lancer");
+            case Dwarves -> List.of("Guardian", "Phalanx", "Axe Thrower");
+            case Mordor -> List.of("Orc Warrior", "Orc Pikeman", "Haradrim Archer");
+            case Isengard -> List.of("Uruk-hai", "Uruk Crossbowman", "Warg Rider");
         };
     }
 
-    /**
-     * Checks if the factions are teamed.
-     *
-     * @param other The other faction.
-     * @return True if the factions are teamed, false otherwise.
-     */
-    public boolean isTeamedWith(Faction other) {
-        return (this == MEN || this == ELVES || this == DWARVES) &&
-                (other == MEN || other == ELVES || other == DWARVES)
-                || (this == MORDOR || this == ISENGARD) &&
-                (other == MORDOR || other == ISENGARD);
+    public Color getFactionColour(){
+        return switch (this){
+            case Men, Elves, Dwarves -> Color.YELLOW;
+            case Mordor, Isengard -> Color.BLUE;
+        };
     }
 }

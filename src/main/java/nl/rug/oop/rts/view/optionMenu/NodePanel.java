@@ -1,7 +1,10 @@
 package nl.rug.oop.rts.view.optionMenu;
 
 import nl.rug.oop.rts.controller.SideMenuController;
+import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.panel.Node;
+
+import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +18,17 @@ class NodePanel extends JPanel {
      */
     private final NameTextField nodeNameField;
     /**
+     * The army panel for the node.
+     * */
+    private final ArmyPanel armyPanel;
+    /**
      * The controller for the side menu.
      */
     private final SideMenuController sideMenuController;
+    /**
+     * Current Node.
+     * */
+    private Node currentNode;
 
     /**
      * Constructor for the NodePanel class.
@@ -26,14 +37,21 @@ class NodePanel extends JPanel {
      */
     NodePanel(SideMenuController sideMenuController) {
         this.sideMenuController = sideMenuController;
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.DARK_GRAY);
         nodeNameField = new NameTextField(sideMenuController);
+        armyPanel = new ArmyPanel(sideMenuController);
+
+        nodeNameField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        armyPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         add(Box.createVerticalStrut(10));
         add(nodeNameField);
         add(Box.createVerticalStrut(5));
         add(new JSeparator(SwingConstants.HORIZONTAL));
+
+        add(armyPanel);
     }
 
     /**
@@ -42,7 +60,9 @@ class NodePanel extends JPanel {
      * @param node The node to set.
      */
     public void setNode(Node node) {
+        this.currentNode = node;
         nodeNameField.setValidName(node.getName());
+        armyPanel.setNode(node);
         //System.out.println("new node with name: " + node.getName());
     }
 }

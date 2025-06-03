@@ -3,10 +3,13 @@ package nl.rug.oop.rts.controller;
 import lombok.Getter;
 import nl.rug.oop.rts.controller.commands.Command;
 import nl.rug.oop.rts.controller.commands.ChangeNodeNameCommand;
+import nl.rug.oop.rts.controller.commands.SimulationCommand;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;
+import nl.rug.oop.rts.model.simulation.Simulation;
 
+import java.util.AbstractMap;
 import java.util.EmptyStackException;
 import java.util.Objects;
 
@@ -23,6 +26,10 @@ public class MainController {
      * The view of the game.
      */
     private final ViewModel viewModel;
+    /**
+     * The simulation.
+     * */
+    private final Simulation simulation;
 
     /**
      * The stack of commands that have been executed.
@@ -43,6 +50,7 @@ public class MainController {
     public MainController(GraphModel graphModel, ViewModel viewModel) {
         this.graphModel = graphModel;
         this.viewModel = viewModel;
+        simulation = new Simulation(graphModel);
         this.undoStack = new SizedStack<>(10);
         this.redoStack = new SizedStack<>(10);
 
@@ -122,5 +130,16 @@ public class MainController {
             undoStack.push(command);
             command.execute();
         }
+    }
+
+    /**
+     * Simulate.
+     *
+     * Allows you to simulate the current state.
+     * */
+    public void simulationStep(){
+        Command command = new SimulationCommand(simulation);
+        this.addCommand(command);
+        this.executeCommand(command);
     }
 }

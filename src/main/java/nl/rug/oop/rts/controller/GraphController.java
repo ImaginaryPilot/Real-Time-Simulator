@@ -6,6 +6,7 @@ import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;
+import nl.rug.oop.rts.model.simulation.Simulation;
 
 import java.util.List;
 

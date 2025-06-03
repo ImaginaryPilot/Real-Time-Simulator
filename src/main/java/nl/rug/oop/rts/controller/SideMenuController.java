@@ -1,10 +1,14 @@
 package nl.rug.oop.rts.controller;
 
 import lombok.AllArgsConstructor;
+import nl.rug.oop.rts.model.army.Army;
+import nl.rug.oop.rts.model.army.Faction;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;
+
+import javax.swing.*;
 
 /**
  * The side menu controller class that holds all the logic of the side buttons in the game.
@@ -63,5 +67,34 @@ public class SideMenuController {
             System.out.println("rename edge");
             graphModel.setEdgeName(edge, newName);
         }
+    }
+
+    public void addArmy(Node node){
+        Faction[] factions = Faction.values();
+
+        Faction selectedFaction = (Faction) JOptionPane.showInputDialog(
+                null,
+                "Select a faction to add an army:",
+                "Add Army",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                factions,
+                factions[0]
+        );
+
+        if(selectedFaction != null){
+            Army newArmy = new Army(selectedFaction);
+            node.addArmy(newArmy);
+            viewModel.updateAllObservers();
+        }
+    }
+
+    public void removeArmy(Node node, int armyIndex){
+        if(armyIndex < 0 || armyIndex >= node.getArmyList().size()){
+            JOptionPane.showMessageDialog(null, "No army selected or invalid index.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        node.removeArmy(armyIndex);
+        viewModel.updateAllObservers();
     }
 }

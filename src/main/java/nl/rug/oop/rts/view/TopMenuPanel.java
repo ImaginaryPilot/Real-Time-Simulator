@@ -119,6 +119,9 @@ public class TopMenuPanel extends JPanel implements Observer {
         add(new JButton("Redo") {{
                 addActionListener(e -> mainController.redo());
             }});
+        add(new JButton("Simulate") {{
+            addActionListener(e -> mainController.simulationStep());
+        }});
         update();
     }
 
