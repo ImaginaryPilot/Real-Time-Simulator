@@ -3,37 +3,47 @@ package nl.rug.oop.rts.controller.commands;
 import lombok.AllArgsConstructor;
 import nl.rug.oop.rts.model.panel.ViewModel;
 
+/**
+ * Command for moving the map.
+ */
 @AllArgsConstructor
 public class MoveMapCommand implements Command {
-    private final int oldX;
-    private final int oldY;
-
-    private final int newX;
-    private final int newY;
-
+    /**
+     * The delta x that the map will be moved.
+     */
+    private final int deltaX;
+    /**
+     * The delta y that the map will be moved.
+     */
+    private final int deltaY;
+    /**
+     * The view model of the game.
+     */
     private final ViewModel viewModel;
 
     @Override
     public void execute() {
-        int x = newX + oldX;
-        int y = newY + oldY;
-        int newX = viewModel.getViewX() - x;
-        int newY = viewModel.getViewY() - y;
-
-        int finalX = Math.max(-(viewModel.getMapWidth() - viewModel.getPanelWidth()), Math.min(0, newX));
-        int finalY = Math.max(-(viewModel.getMapHeight() - viewModel.getPanelHeight()), Math.min(0, newY));
-        viewModel.setViewPosition(finalX, finalY);
+        int newX = viewModel.getViewX() + deltaX;
+        int newY = viewModel.getViewY() + deltaY;
+        setViewPosition(newX, newY);
     }
 
     @Override
     public void undo() {
-        int x = newX - oldX;
-        int y = newY - oldY;
-        int newX = viewModel.getViewX() - x;
-        int newY = viewModel.getViewY() - y;
+        int newX = viewModel.getViewX() - deltaX;
+        int newY = viewModel.getViewY() - deltaY;
+        setViewPosition(newX, newY);
+    }
 
-        int finalX = Math.max(-(viewModel.getMapWidth() - viewModel.getPanelWidth()), Math.min(0, newX));
-        int finalY = Math.max(-(viewModel.getMapHeight() - viewModel.getPanelHeight()), Math.min(0, newY));
+    /**
+     * Sets the view position to the given x and y coordinates.
+     *
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     */
+    private void setViewPosition(int x, int y) {
+        int finalX = Math.max(viewModel.getPanelWidth() - viewModel.getMapWidth(), Math.min(0, x));
+        int finalY = Math.max(viewModel.getPanelHeight() - viewModel.getMapHeight(), Math.min(0, y));
         viewModel.setViewPosition(finalX, finalY);
     }
 }

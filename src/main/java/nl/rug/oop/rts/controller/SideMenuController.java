@@ -68,7 +68,12 @@ public class SideMenuController {
         }
     }
 
-    public void addArmy(Node node){
+    /**
+     * Add army.
+     *
+     * @param node the node
+     */
+    public void addArmy(Node node) {
         Faction[] factions = Faction.values();
 
         Faction selectedFaction = (Faction) JOptionPane.showInputDialog(
@@ -81,16 +86,23 @@ public class SideMenuController {
                 factions[0]
         );
 
-        if(selectedFaction != null){
+        if (selectedFaction != null) {
             Army newArmy = new Army(selectedFaction);
             node.addArmy(newArmy);
             viewModel.updateAllObservers();
         }
     }
 
-    public void removeArmy(Node node, int armyIndex){
-        if(armyIndex < 0 || armyIndex >= node.getArmyList().size()){
-            JOptionPane.showMessageDialog(null, "No army selected or invalid index.", "Error", JOptionPane.ERROR_MESSAGE);
+    /**
+     * Remove army.
+     *
+     * @param node      the node
+     * @param armyIndex the army index
+     */
+    public void removeArmy(Node node, int armyIndex) {
+        if (armyIndex < 0 || armyIndex >= node.getArmyList().size()) {
+            JOptionPane.showMessageDialog(null,
+                    "No army selected or invalid index.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         node.removeArmy(armyIndex);

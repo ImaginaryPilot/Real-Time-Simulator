@@ -5,9 +5,12 @@ import nl.rug.oop.rts.model.simulation.Simulation;
 
 /**
  * Command for simulating command.
- * */
+ */
 @AllArgsConstructor
-public class SimulationCommand implements Command{
+public class SimulationCommand implements Command {
+    /**
+     * The simulation to simulate.
+     */
     private final Simulation simulation;
 
     @Override

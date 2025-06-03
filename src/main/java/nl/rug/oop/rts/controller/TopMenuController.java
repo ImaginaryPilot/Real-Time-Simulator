@@ -1,7 +1,6 @@
 package nl.rug.oop.rts.controller;
 
 import lombok.AllArgsConstructor;
-import nl.rug.oop.rts.model.simulation.Simulation;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
@@ -24,6 +23,7 @@ public class TopMenuController {
      * The graph model of the game.
      */
     private final GraphModel graphModel;
+
     /**
      * Handles the click on the "add node" button.
      * Toggles the "create node" mode on and off.

@@ -120,8 +120,8 @@ public class TopMenuPanel extends JPanel implements Observer {
                 addActionListener(e -> mainController.redo());
             }});
         add(new JButton("Simulate") {{
-            addActionListener(e -> mainController.simulationStep());
-        }});
+                addActionListener(e -> mainController.simulationStep());
+            }});
         update();
     }
 

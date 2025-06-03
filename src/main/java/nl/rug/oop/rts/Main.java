@@ -15,7 +15,6 @@ public class Main {
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
-        //JFrame.setDefaultLookAndFeelDecorated(true);
         FlatDarculaLaf.setup(); // Dark mode
         Game game = new Game();
         game.start();

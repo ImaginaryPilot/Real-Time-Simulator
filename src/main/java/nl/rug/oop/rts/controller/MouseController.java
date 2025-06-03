@@ -40,35 +40,52 @@ public class MouseController extends MouseAdapter {
      * The node that is currently being clicked.
      */
     private Node clickedNode = null;
-
+    /**
+     * Whether the mouse is currently moving a node.
+     */
     private boolean movingNode = false;
+    /**
+     * Whether the mouse is currently moving the map.
+     */
     private boolean movingMap = false;
 
     /**
      * The last x coordinate of the mouse.
+     * Used to move the map.
      * View coordinates.
      */
     private int lastX;
     /**
      * The last y coordinate of the mouse.
+     * Used to move the map.
      * View coordinates.
      */
     private int lastY;
 
     /**
      * The start x coordinate of the mouse.
-     * Used to create an undo/redo command.
+     * Used to create the move node undo/redo command.
      * Real coordinates.
      */
-    private int startX;
+    private int startRealX;
     /**
      * The start y coordinate of the mouse.
-     * Used to create an undo/redo command.
+     * Used to create the move node undo/redo command.
      * Real coordinates.
      */
-    private int startY;
+    private int startRealY;
 
+    /**
+     * The start x coordinate of the mouse.
+     * Used to create the move map undo/redo command.
+     * View coordinates.
+     */
     private int startViewX;
+    /**
+     * The start y coordinate of the mouse.
+     * Used to create the move map undo/redo command.
+     * View coordinates.
+     */
     private int startViewY;
 
     /**
@@ -77,9 +94,11 @@ public class MouseController extends MouseAdapter {
      * @param viewModel       The view of the game.
      * @param graphModel      The graph of the game.
      * @param graphController The graph controller.
+     * @param mainController  The main controller.
      */
     public MouseController(
-            ViewModel viewModel, GraphModel graphModel, GraphController graphController, MainController mainController) {
+            ViewModel viewModel, GraphModel graphModel,
+            GraphController graphController, MainController mainController) {
         this.viewModel = viewModel;
         this.graphModel = graphModel;
         this.graphController = graphController;
@@ -156,49 +175,46 @@ public class MouseController extends MouseAdapter {
         lastY = e.getY();
         int realX = e.getX() - viewModel.getViewX();
         int realY = e.getY() - viewModel.getViewY();
-        startX = realX;
-        startY = realY;
-        startViewX = e.getX();
-        startViewY = e.getY();
+        startRealX = realX;
+        startRealY = realY;
+        startViewX = viewModel.getViewX();
+        startViewY = viewModel.getViewY();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         dragging = false;
-        int x = e.getX();
-        int y = e.getY();
-        int realX = e.getX() - viewModel.getViewX();
-        int realY = e.getY() - viewModel.getViewY();
-        if (x != startViewX || y != startViewY) {
+        int currentViewX = viewModel.getViewX();
+        int currentViewY = viewModel.getViewY();
+        if (currentViewX != startViewX || currentViewY != startViewY) {
             if (movingNode) {
-                Command moveNodeCommand = new MoveNodeCommand(clickedNode, startX, startY, realX, realY, graphModel);
-                mainController.addCommand(moveNodeCommand);
+                int realX = e.getX() - currentViewX;
+                int realY = e.getY() - currentViewY;
+                Command command = new MoveNodeCommand(clickedNode, startRealX, startRealY, realX, realY, graphModel);
+                mainController.addCommand(command);
             } else if (movingMap) {
-                Command command = new MoveMapCommand(startX, startY, x, y, viewModel);
-//                mainController.addCommand(command);
+                int deltaX = currentViewX - startViewX;
+                int deltaY = currentViewY - startViewY;
+                Command command = new MoveMapCommand(deltaX, deltaY, viewModel);
+                mainController.addCommand(command);
             }
-        } else {
-            System.out.println("not movign?");
-            System.out.println("coordS:" + realX + " " + startX + "  Y: " + realY + "  " + startY);
-            System.out.println("CODDDDOOORDS: " + e.getX() + " " + e.getY());
         }
         clickedNode = null;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("COOOORDS: " + e.getX() + " " + e.getY());
         int x = e.getX();
         int y = e.getY();
         int realX = e.getX() - viewModel.getViewX();
         int realY = e.getY() - viewModel.getViewY();
-        if (viewModel.isCreateNodeMode()) {
+        if (viewModel.isCreateNodeMode()) { // create a new node
             Node node = graphController.addNode(realX, realY);
             viewModel.setCreateNodeMode(false);
             viewModel.setSelectedNode(node);
             return;
         }
-        if (viewModel.isCreateEdgeMode()) {
+        if (viewModel.isCreateEdgeMode()) { // create a new edge
             Node node = clickedNode(x, y);
             if (node != null) {
                 if (node != viewModel.getSelectedNode()) {
@@ -221,7 +237,6 @@ public class MouseController extends MouseAdapter {
         }
         viewModel.setSelectedNode(thisNode);
         if (viewModel.getSelectedNode() == null) {
-            Edge edge = clickedEdge(x, y);
             viewModel.setSelectedEdge(clickedEdge(x, y));
         }
         dragging = false;
@@ -244,8 +259,8 @@ public class MouseController extends MouseAdapter {
             int newX = viewModel.getViewX() + x;
             int newY = viewModel.getViewY() + y;
 
-            int finalX = Math.max(-(viewModel.getMapWidth() - viewModel.getPanelWidth()), Math.min(0, newX));
-            int finalY = Math.max(-(viewModel.getMapHeight() - viewModel.getPanelHeight()), Math.min(0, newY));
+            int finalX = Math.max(viewModel.getPanelWidth() - viewModel.getMapWidth(), Math.min(0, newX));
+            int finalY = Math.max(viewModel.getPanelHeight() - viewModel.getMapHeight(), Math.min(0, newY));
             viewModel.setViewPosition(finalX, finalY);
 
             lastX = e.getX();
