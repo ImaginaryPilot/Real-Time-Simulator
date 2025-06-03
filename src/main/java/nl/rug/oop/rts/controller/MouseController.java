@@ -1,5 +1,8 @@
 package nl.rug.oop.rts.controller;
 
+import nl.rug.oop.rts.controller.commands.Command;
+import nl.rug.oop.rts.controller.commands.MoveMapCommand;
+import nl.rug.oop.rts.controller.commands.MoveNodeCommand;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
@@ -13,6 +16,10 @@ import java.awt.geom.Line2D;
  * Mouse controller class.
  */
 public class MouseController extends MouseAdapter {
+    /**
+     * The main controller of the game.
+     */
+    private final MainController mainController;
     /**
      * The graph controller of the game.
      */
@@ -34,14 +41,35 @@ public class MouseController extends MouseAdapter {
      */
     private Node clickedNode = null;
 
+    private boolean movingNode = false;
+    private boolean movingMap = false;
+
     /**
      * The last x coordinate of the mouse.
+     * View coordinates.
      */
     private int lastX;
     /**
      * The last y coordinate of the mouse.
+     * View coordinates.
      */
     private int lastY;
+
+    /**
+     * The start x coordinate of the mouse.
+     * Used to create an undo/redo command.
+     * Real coordinates.
+     */
+    private int startX;
+    /**
+     * The start y coordinate of the mouse.
+     * Used to create an undo/redo command.
+     * Real coordinates.
+     */
+    private int startY;
+
+    private int startViewX;
+    private int startViewY;
 
     /**
      * Constructor for the MouseController class.
@@ -51,10 +79,11 @@ public class MouseController extends MouseAdapter {
      * @param graphController The graph controller.
      */
     public MouseController(
-            ViewModel viewModel, GraphModel graphModel, GraphController graphController) {
+            ViewModel viewModel, GraphModel graphModel, GraphController graphController, MainController mainController) {
         this.viewModel = viewModel;
         this.graphModel = graphModel;
         this.graphController = graphController;
+        this.mainController = mainController;
     }
 
     /**
@@ -115,21 +144,50 @@ public class MouseController extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
         dragging = true;
         clickedNode = clickedNode(e.getX(), e.getY());
+        if (clickedNode != null) {
+            movingNode = true;
+            movingMap = false; // Just to be sure
+        } else {
+            movingMap = true;
+            movingNode = false; // Just to be sure
+        }
+
         lastX = e.getX();
         lastY = e.getY();
+        int realX = e.getX() - viewModel.getViewX();
+        int realY = e.getY() - viewModel.getViewY();
+        startX = realX;
+        startY = realY;
+        startViewX = e.getX();
+        startViewY = e.getY();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         dragging = false;
+        int x = e.getX();
+        int y = e.getY();
+        int realX = e.getX() - viewModel.getViewX();
+        int realY = e.getY() - viewModel.getViewY();
+        if (x != startViewX || y != startViewY) {
+            if (movingNode) {
+                Command moveNodeCommand = new MoveNodeCommand(clickedNode, startX, startY, realX, realY, graphModel);
+                mainController.addCommand(moveNodeCommand);
+            } else if (movingMap) {
+                Command command = new MoveMapCommand(startX, startY, x, y, viewModel);
+//                mainController.addCommand(command);
+            }
+        } else {
+            System.out.println("not movign?");
+            System.out.println("coordS:" + realX + " " + startX + "  Y: " + realY + "  " + startY);
+            System.out.println("CODDDDOOORDS: " + e.getX() + " " + e.getY());
+        }
         clickedNode = null;
-        /*
-        send the full command to the mainController
-         */
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        System.out.println("COOOORDS: " + e.getX() + " " + e.getY());
         int x = e.getX();
         int y = e.getY();
         int realX = e.getX() - viewModel.getViewX();
@@ -158,13 +216,15 @@ public class MouseController extends MouseAdapter {
 
         }
         Node thisNode = clickedNode(x, y);
-        if (thisNode == viewModel.getSelectedNode()) {
+        if (thisNode == viewModel.getSelectedNode() && thisNode != null) {
             return;
         }
         viewModel.setSelectedNode(thisNode);
         if (viewModel.getSelectedNode() == null) {
+            Edge edge = clickedEdge(x, y);
             viewModel.setSelectedEdge(clickedEdge(x, y));
         }
+        dragging = false;
     }
 
     @Override

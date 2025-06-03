@@ -1,15 +1,16 @@
 package nl.rug.oop.rts.controller;
 
 import lombok.Getter;
-import nl.rug.oop.rts.controller.commands.Command;
+import nl.rug.oop.rts.controller.commands.ChangeEdgeNameCommand;
 import nl.rug.oop.rts.controller.commands.ChangeNodeNameCommand;
+import nl.rug.oop.rts.controller.commands.Command;
 import nl.rug.oop.rts.controller.commands.SimulationCommand;
+import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;
 import nl.rug.oop.rts.model.simulation.Simulation;
 
-import java.util.AbstractMap;
 import java.util.EmptyStackException;
 import java.util.Objects;
 
@@ -92,16 +93,45 @@ public class MainController {
                 ChangeNodeNameCommand oldChangeNodeNameCommand = (ChangeNodeNameCommand) undoStack.pop();
                 String oldName = oldChangeNodeNameCommand.getOldName();
                 if (Objects.equals(oldName, newName)) {
-                    command = new ChangeNodeNameCommand(node, oldName, newName, graphModel);
+                    command = new ChangeNodeNameCommand(node, oldName, newName, graphModel, viewModel);
                     executeCommand(command);
                     return;
                 }
-                command = new ChangeNodeNameCommand(node, oldName, newName, graphModel);
+                command = new ChangeNodeNameCommand(node, oldName, newName, graphModel, viewModel);
             } else {
-                command = new ChangeNodeNameCommand(node, node.getName(), newName, graphModel);
+                command = new ChangeNodeNameCommand(node, node.getName(), newName, graphModel, viewModel);
             }
         } catch (EmptyStackException e) {
-            command = new ChangeNodeNameCommand(node, node.getName(), newName, graphModel);
+            command = new ChangeNodeNameCommand(node, node.getName(), newName, graphModel, viewModel);
+        }
+        addCommand(command);
+        executeCommand(command);
+    }
+
+    /**
+     * Renames a edge.
+     *
+     * @param edge    The edge to rename.
+     * @param newName The new name of the edge.
+     */
+    public void addRenameEdgeCommand(Edge edge, String newName) {
+        Command command;
+        try {
+            if (undoStack.peek().getClass() == ChangeEdgeNameCommand.class &&
+                    ((ChangeEdgeNameCommand) undoStack.peek()).getEdge().equals(edge)) { // renaming the same edge
+                ChangeEdgeNameCommand oldChangeEdgeNameCommand = (ChangeEdgeNameCommand) undoStack.pop();
+                String oldName = oldChangeEdgeNameCommand.getOldName();
+                if (Objects.equals(oldName, newName)) {
+                    command = new ChangeEdgeNameCommand(edge, oldName, newName, graphModel, viewModel);
+                    executeCommand(command);
+                    return;
+                }
+                command = new ChangeEdgeNameCommand(edge, oldName, newName, graphModel, viewModel);
+            } else {
+                command = new ChangeEdgeNameCommand(edge, edge.getName(), newName, graphModel, viewModel);
+            }
+        } catch (EmptyStackException e) {
+            command = new ChangeEdgeNameCommand(edge, edge.getName(), newName, graphModel, viewModel);
         }
         addCommand(command);
         executeCommand(command);

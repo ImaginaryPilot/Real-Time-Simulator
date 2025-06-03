@@ -2,17 +2,15 @@ package nl.rug.oop.rts.controller.commands;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
-import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;
 
 /**
- * Command for changing the name of a node.
+ * Command for changing the name of an edge.
  */
 @Getter
-@ToString
-public class ChangeNodeNameCommand implements Command {
+public class ChangeEdgeNameCommand implements Command {
     /**
      * The view model.
      */
@@ -22,31 +20,31 @@ public class ChangeNodeNameCommand implements Command {
      */
     private final GraphModel graphModel;
     /**
-     * The node to change the name of.
+     * The edge to change the name of.
      */
-    private final Node node;
+    private final Edge edge;
     /**
-     * The new name of the node.
+     * The new name of the edge.
      */
     private final String newName;
     /**
-     * The old name of the node.
+     * The old name of the edge.
      */
     @Setter
     private String oldName;
 
     /**
-     * Constructor for the changeNodeNameCommand class.
+     * Constructor for the changeEdgeNameCommand class.
      *
-     * @param node       The node to change the name of.
-     * @param oldName    The old name of the node.
-     * @param newName    The new name of the node.
+     * @param edge       The edge to change the name of.
+     * @param oldName    The old name of the edge.
+     * @param newName    The new name of the edge.
      * @param graphModel The graph of the game.
      * @param viewModel  the view model
      */
-    public ChangeNodeNameCommand(
-            Node node, String oldName, String newName, GraphModel graphModel, ViewModel viewModel) {
-        this.node = node;
+    public ChangeEdgeNameCommand(
+            Edge edge, String oldName, String newName, GraphModel graphModel, ViewModel viewModel) {
+        this.edge = edge;
         this.oldName = oldName;
         this.newName = newName;
         this.graphModel = graphModel;
@@ -55,13 +53,13 @@ public class ChangeNodeNameCommand implements Command {
 
     @Override
     public void execute() {
-        graphModel.setNodeName(node, newName);
-        viewModel.setSelectedNode(node);
+        graphModel.setEdgeName(edge, newName);
+        viewModel.setSelectedEdge(edge);
     }
 
     @Override
     public void undo() {
-        graphModel.setNodeName(node, oldName);
-        viewModel.setSelectedNode(node);
+        graphModel.setEdgeName(edge, oldName);
+        viewModel.setSelectedEdge(edge);
     }
 }

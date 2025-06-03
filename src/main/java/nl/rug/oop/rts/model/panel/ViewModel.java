@@ -106,6 +106,9 @@ public class ViewModel implements Observable {
      * @param node The node to set as selected.
      */
     public void setSelectedNode(Node node) {
+        if (node == getSelectedNode()) {
+            return;
+        }
         this.selectedNode = node;
         this.selectedEdge = null;
         updateAllObservers();
@@ -117,6 +120,9 @@ public class ViewModel implements Observable {
      * @param edge The edge that is selected.
      */
     public void setSelectedEdge(Edge edge) {
+        if (edge == getSelectedEdge()) {
+            return;
+        }
         this.selectedEdge = edge;
         this.selectedNode = null;
         updateAllObservers();
