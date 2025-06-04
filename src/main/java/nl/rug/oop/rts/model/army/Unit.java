@@ -49,6 +49,11 @@ public class Unit {
         return (health > 0);
     }
 
+    /**
+     * returning the copy of the unit.
+     *
+     * @return new Unit as a copy.
+     * */
     public Unit copy(){
         return new Unit(this.name, this.health, this.damage);
     }

@@ -77,6 +77,10 @@ public class Node {
         armyList.remove(army);
     }
 
+    /**
+     * Make a copy of the armies stored in the node.
+     * @return armyCopy, the copy of the army
+     * */
     public List<Army> copyArmies(){
         List<Army> armyCopy = new ArrayList<>();
 
@@ -87,6 +91,10 @@ public class Node {
         return armyCopy;
     }
 
+    /**
+     * clear the current army and set it to the new one.
+     * @param newArmy the army to replace with
+     * */
     public void setArmies(List<Army> newArmy){
         armyList.clear();
         armyList.addAll(newArmy);

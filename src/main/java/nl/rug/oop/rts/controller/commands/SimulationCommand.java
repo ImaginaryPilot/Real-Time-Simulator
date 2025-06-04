@@ -18,8 +18,16 @@ public class SimulationCommand implements Command {
      */
     private final Simulation simulation;
 
+    /**
+     * The snapshot of the armies before the simulation begins.
+     * */
     private SimulationSnapshot previousState;
 
+    /**
+     * Constructor for the command to simulate.
+     * @param graphModel graph model
+     * @param simulation simulation
+     * */
     public SimulationCommand(GraphModel graphModel, Simulation simulation){
         this.graphModel = graphModel;
         this.simulation = simulation;

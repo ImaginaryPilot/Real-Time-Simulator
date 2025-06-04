@@ -41,6 +41,12 @@ public class Army {
         generateUnits();
     }
 
+    /**
+     * Constructor without generating units.
+     *
+     * @param faction the faction
+     * @param battlesWon the battles won
+     * */
     public Army(Faction faction, int battlesWon){
         this.faction = faction;
         this.battlesWon = battlesWon;
@@ -119,6 +125,11 @@ public class Army {
         }
     }
 
+    /**
+     * The copy of the entire army.
+     *
+     * @return the copy of the army
+     * */
     public Army copy(){
         Army armyCopy = new Army(this.faction, this.battlesWon);
 

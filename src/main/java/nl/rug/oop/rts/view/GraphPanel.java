@@ -102,7 +102,6 @@ public class GraphPanel extends JPanel implements Observer {
                 g.drawImage(icon, iconStartX + i * 25, iconY, null);
             }
         }
-
         g.translate(-model.getViewX(), -model.getViewY());
     }
 
