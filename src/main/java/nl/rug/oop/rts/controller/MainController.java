@@ -164,11 +164,10 @@ public class MainController {
 
     /**
      * Simulate.
-     *
      * Allows you to simulate the current state.
      * */
     public void simulationStep(){
-        Command command = new SimulationCommand(simulation);
+        Command command = new SimulationCommand(graphModel, simulation);
         this.addCommand(command);
         this.executeCommand(command);
     }

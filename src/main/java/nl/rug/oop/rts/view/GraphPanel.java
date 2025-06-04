@@ -82,12 +82,13 @@ public class GraphPanel extends JPanel implements Observer {
             g.drawLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
         }
         for (Node node : graphModel.getNodes()) {
+            Image nodeIcon;
             if (node == model.getSelectedNode()) {
-                g.setColor(Color.RED);
+                nodeIcon= TextureLoader.getInstance().getTexture("node3", nodeWidth, nodeHeight);
             } else {
-                g.setColor(Color.BLACK);
+                nodeIcon= TextureLoader.getInstance().getTexture("node4", nodeWidth, nodeHeight);
             }
-            g.fillRect(node.getX() - nodeWidth / 2, node.getY() - nodeHeight / 2, nodeWidth, nodeHeight);
+            g.drawImage(nodeIcon, node.getX() - nodeWidth / 2, node.getY() - nodeHeight / 2, null);
             g.setColor(Color.WHITE);
             g.drawString(node.getName(), node.getX(), node.getY());
 

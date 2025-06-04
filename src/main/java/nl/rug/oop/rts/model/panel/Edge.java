@@ -65,4 +65,19 @@ public class Edge {
     public void removeArmy(Army army){
         armyList.remove(army);
     }
+
+    public List<Army> copyArmies(){
+        List<Army> armyCopy = new ArrayList<>();
+
+        for(Army army : armyList){
+            armyCopy.add(army.copy());
+        }
+
+        return armyCopy;
+    }
+
+    public void setArmies(List<Army> newArmy){
+        armyList.clear();
+        armyList.addAll(newArmy);
+    }
 }

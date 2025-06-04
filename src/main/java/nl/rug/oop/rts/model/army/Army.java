@@ -41,6 +41,12 @@ public class Army {
         generateUnits();
     }
 
+    public Army(Faction faction, int battlesWon){
+        this.faction = faction;
+        this.battlesWon = battlesWon;
+        this.units = new ArrayList<>();
+    }
+
     /**
      * Generates the units of the army.
      */
@@ -111,5 +117,15 @@ public class Army {
                 units.remove(units.get(i));
             }
         }
+    }
+
+    public Army copy(){
+        Army armyCopy = new Army(this.faction, this.battlesWon);
+
+        for(Unit unit : units){
+            armyCopy.units.add(unit.copy());
+        }
+
+        return armyCopy;
     }
 }

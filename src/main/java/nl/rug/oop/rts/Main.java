@@ -3,8 +3,6 @@ package nl.rug.oop.rts;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import nl.rug.oop.rts.view.Game;
 
-import javax.swing.*;
-
 /**
  * The main class that starts the game.
  */

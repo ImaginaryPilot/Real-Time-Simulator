@@ -48,4 +48,8 @@ public class Unit {
     public boolean isAlive(){
         return (health > 0);
     }
+
+    public Unit copy(){
+        return new Unit(this.name, this.health, this.damage);
+    }
 }
