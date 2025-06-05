@@ -2,6 +2,7 @@ package nl.rug.oop.rts.model.simulation;
 
 import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.army.Faction;
+import nl.rug.oop.rts.model.army.Team;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.Node;
 
@@ -67,20 +68,20 @@ public class ResolveBattle {
         }
 
         List<Army> teamBlue = new ArrayList<>();
-        List<Army> teamYellow = new ArrayList<>();
+        List<Army> teamRed = new ArrayList<>();
 
         for(Army army : armies){
             switch (army.getFaction().getTeam()){
                 case BLUE -> teamBlue.add(army);
-                case YELLOW -> teamYellow.add(army);
+                case RED -> teamRed.add(army);
             }
         }
 
-        if(teamBlue.isEmpty() || teamYellow.isEmpty()) {
+        if(teamBlue.isEmpty() || teamRed.isEmpty()) {
             return null;
         }
 
-        Faction.Team winner = strengthCalculator(teamBlue, teamYellow);
+        Team winner = strengthCalculator(teamBlue, teamRed);
 
         List<Army> toRemove = new ArrayList<>();
         for(Army army : armies){
@@ -106,19 +107,19 @@ public class ResolveBattle {
      * calculates the strengths of the factions.
      *
      * @param teamBlue first faction.
-     * @param teamYellow second faction.
+     * @param teamRed second faction.
      * @return winning faction.
      * */
-    public Faction.Team strengthCalculator(List<Army> teamBlue, List<Army> teamYellow){
+    public Team strengthCalculator(List<Army> teamBlue, List<Army> teamRed){
         int teamBlueBattleIndex = 0;
-        int teamYellowBattleIndex = 0;
+        int teamRedBattleIndex = 0;
 
         for(Army army : teamBlue) {
             teamBlueBattleIndex += army.getTotalDamage() * army.getTotalHealth();
         }
-        for(Army army: teamYellow) {
-            teamYellowBattleIndex += army.getTotalDamage() * army.getTotalHealth();
+        for(Army army: teamRed) {
+            teamRedBattleIndex += army.getTotalDamage() * army.getTotalHealth();
         }
-        return (teamBlueBattleIndex >= teamYellowBattleIndex ? Faction.Team.BLUE : Faction.Team.YELLOW);
+        return (teamBlueBattleIndex >= teamRedBattleIndex ? Team.BLUE : Team.RED);
     }
 }

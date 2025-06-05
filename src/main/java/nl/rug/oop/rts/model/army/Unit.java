@@ -46,7 +46,7 @@ public class Unit {
      * @return if the unit is alive
      * */
     public boolean isAlive(){
-        return (health > 0);
+        return health > 0;
     }
 
     /**
