@@ -10,6 +10,7 @@ import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;
 import nl.rug.oop.rts.model.simulation.Simulation;
+import nl.rug.oop.rts.view.MainView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,6 +104,9 @@ public class TopMenuController {
 
         Simulation simulation = new Simulation(graphModel);
         simulation.simulationStep();
+
+        viewModel.setBattleLog(simulation.getBattleLog());
+        viewModel.setEventLog(simulation.getEventLog());
 
         List<List<Army>> nodeArmiesNew = new ArrayList<>();
         for (Node node : graphModel.getNodes()) {

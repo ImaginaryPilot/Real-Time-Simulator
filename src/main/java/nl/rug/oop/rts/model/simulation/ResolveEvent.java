@@ -7,11 +7,18 @@ import nl.rug.oop.rts.model.events.Reinforcements;
 import nl.rug.oop.rts.model.events.Weaponry;
 
 import javax.swing.*;
+import java.util.List;
 
 /**
  * Class for displaying information about a triggered event.
  */
 public class ResolveEvent extends JPanel {
+    private List<String> eventLog;
+
+    public ResolveEvent(List<String> eventLog){
+        this.eventLog = eventLog;
+    }
+
     /**
      * Displays a dialog showing information about a triggered event.
      *
@@ -24,20 +31,17 @@ public class ResolveEvent extends JPanel {
         String specificDetails = "";
 
         if (event instanceof Disaster) {
-            specificDetails = "Units Removed: " + ((Disaster) event).getUnitsRemoved();
+            specificDetails = "units removed: " + ((Disaster) event).getUnitsRemoved();
         } else if (event instanceof Reinforcements) {
-            specificDetails = "Units Added: " + ((Reinforcements) event).getUnitsAdded();
+            specificDetails = "units added: " + ((Reinforcements) event).getUnitsAdded();
         } else if (event instanceof Weaponry) {
-            specificDetails = "Damage Increased By: " + ((Weaponry) event).getDamageIncrease();
+            specificDetails = "damage increased by: " + ((Weaponry) event).getDamageIncrease();
         }
 
-        JOptionPane.showMessageDialog(null,
-                "Event: " + event.getName() + "\n" +
-                        "Description: " + event.getDescription() + "\n" +
-                        "Faction: " + army.getFaction() + "\n" +
-                        "Location: " + locationName+ "\n" +
-                        specificDetails,
-                "Event Triggered",
-                JOptionPane.INFORMATION_MESSAGE);
+        eventLog.add("A " + event.getName() + " has occurred at " +
+                locationName + "! " +
+                army.getFaction() + " has its' " +
+                specificDetails
+        );
     }
 }

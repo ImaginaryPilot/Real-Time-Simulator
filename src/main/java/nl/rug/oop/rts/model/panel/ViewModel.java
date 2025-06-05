@@ -1,6 +1,7 @@
 package nl.rug.oop.rts.model.panel;
 
 import lombok.Getter;
+import lombok.Setter;
 import nl.rug.oop.rts.observer.Observable;
 import nl.rug.oop.rts.observer.Observer;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * Later, zoom level etc.
  */
 @Getter
+@Setter
 public class ViewModel implements Observable {
     /**
      * The width of the map.
@@ -69,6 +71,14 @@ public class ViewModel implements Observable {
      * True if the user is in create edge mode, false if not.
      */
     private boolean createEdgeMode;
+    /**
+     * The battle log of the current view.
+     * */
+    private List<String> battleLog = new ArrayList<>();
+    /**
+     * The event log of the current view.
+     * */
+    private List<String> eventLog = new ArrayList<>();
 
     /**
      * List of all the observers of the view.
@@ -164,4 +174,13 @@ public class ViewModel implements Observable {
         updateAllObservers();
     }
 
+    public void setBattleLog(List<String> newLog) {
+        this.battleLog = newLog;
+        updateAllObservers();
+    }
+
+    public void setEventLog(List<String> newLog){
+        this.eventLog = newLog;
+        updateAllObservers();
+    }
 }

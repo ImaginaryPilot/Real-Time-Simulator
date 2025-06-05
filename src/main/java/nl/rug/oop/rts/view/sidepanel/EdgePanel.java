@@ -3,6 +3,7 @@ package nl.rug.oop.rts.view.sidepanel;
 import nl.rug.oop.rts.controller.SideMenuController;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.ViewModel;
+import nl.rug.oop.rts.view.utilities.NameTextField;
 
 import javax.swing.*;
 import java.awt.*;

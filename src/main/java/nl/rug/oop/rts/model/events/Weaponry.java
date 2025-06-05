@@ -26,7 +26,7 @@ public class Weaponry extends Event {
      * Constructor for the Weaponry class.
      */
     public Weaponry() {
-        super("Hidden Weaponry", "The army found a stash of magic weapons.");
+        super("damage buff", "The army found a stash of magic weapons.");
     }
 
     /**

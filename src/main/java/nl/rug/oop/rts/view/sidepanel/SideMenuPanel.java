@@ -8,6 +8,8 @@ import nl.rug.oop.rts.observer.Observer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The side menu panel.
@@ -37,6 +39,10 @@ public class SideMenuPanel extends JPanel implements Observer {
      * The panel for the edge properties.
      */
     private final EdgePanel edgePanel;
+    /**
+     * The panel for the logs of the simulation.
+     * */
+    private final LogPanel logPanel;
 
     /**
      * Constructor for the SideMenuPanel class.
@@ -54,9 +60,19 @@ public class SideMenuPanel extends JPanel implements Observer {
         emptyPanel = new EmptyPanel();
         nodePanel = new NodePanel(sideMenuController);
         edgePanel = new EdgePanel(sideMenuController, viewModel);
+        logPanel = new LogPanel();
+        logPanel.setMaximumSize(new Dimension(Short.MAX_VALUE, 150)); // max height 150px, width unlimited
+
+        // Align left
+        emptyPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        nodePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        edgePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        logPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         currentViewPanel = emptyPanel;
-        add(currentViewPanel, BorderLayout.CENTER);
+        add(currentViewPanel, 0);
+        add(Box.createVerticalStrut(10));  // spacing
+        add(logPanel);
         update();
     }
 
@@ -75,7 +91,18 @@ public class SideMenuPanel extends JPanel implements Observer {
         } else {
             currentViewPanel = emptyPanel;
         }
-        add(currentViewPanel, BorderLayout.CENTER);
+        add(currentViewPanel, 0);
+
+        List<String> combinedLog = new ArrayList<>();
+        if (viewModel.getBattleLog() != null) {
+            combinedLog.addAll(viewModel.getBattleLog());
+        }
+        if (viewModel.getEventLog() != null) {
+            combinedLog.addAll(viewModel.getEventLog());
+        }
+
+        logPanel.showLog(combinedLog);
+
         revalidate();
         repaint();
     }

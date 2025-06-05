@@ -1,4 +1,4 @@
-package nl.rug.oop.rts.view.sidepanel;
+package nl.rug.oop.rts.view.utilities;
 
 import lombok.Getter;
 import nl.rug.oop.rts.controller.SideMenuController;

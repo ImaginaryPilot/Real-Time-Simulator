@@ -40,5 +40,9 @@ public class Disaster extends Event{
         for(int i = 0; i < unitsRemoved && !army.getUnits().isEmpty(); i++){
             army.getUnits().remove(random.nextInt(army.getUnits().size()));
         }
+
+        if(army.getUnits().size() <= 0){
+
+        }
     }
 }

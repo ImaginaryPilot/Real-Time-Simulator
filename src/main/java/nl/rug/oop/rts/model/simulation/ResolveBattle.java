@@ -14,11 +14,13 @@ import java.util.List;
  * Class responsible for resolving the conflicts.
  * */
 public class ResolveBattle {
+    private List<String> battleLog;
+
     /**
      * Empty constructor since we have nothing to pass.
      * */
-    public ResolveBattle(){
-
+    public ResolveBattle(List<String> battleLog){
+        this.battleLog = battleLog;
     }
 
     /**
@@ -41,10 +43,8 @@ public class ResolveBattle {
      * Resolve the conflicts on the edges.
      *
      * @param edge contains the location we wish to resolve the conflict on
-     * @param from source node the armies move from.
-     * @param to destination nodes the armies move to.
      * */
-    public void resolveBattleOnEdge(Edge edge, Node from, Node to){
+    public void resolveBattleOnEdge(Edge edge){
         List<Army> toRemove = resolveBattle(edge.getArmyList(), edge.getName());
         if(toRemove == null) {
             return;
@@ -93,13 +93,7 @@ public class ResolveBattle {
             }
         }
 
-        JOptionPane.showMessageDialog(
-                null,
-                "Faction " + winner.name() + " won the battle at " + locationName + "!",
-                "Winner Announcement",
-                JOptionPane.INFORMATION_MESSAGE,
-                null
-        );
+        battleLog.add("Faction " + winner.name() + " won the battle at " + locationName + "!");
         return toRemove;
     }
 

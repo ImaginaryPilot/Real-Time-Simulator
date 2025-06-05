@@ -137,6 +137,15 @@ public class GraphPanel extends JPanel implements Observer {
                 Image icon = TextureLoader.getInstance().getTexture(
                         textureName, armyImageWidth, armyImageHeight);
                 g.drawImage(icon, iconStartX + i * armyImageWidth, iconY, null);
+
+                String armySizeText = String.valueOf(army.getUnits().size());
+                int armyTextWidth = frontMetrics.stringWidth(armySizeText);
+
+                int textX = iconStartX + i * armyImageWidth + (armyImageWidth - armyTextWidth)/2;
+                int textY = iconY + armyImageHeight + frontMetrics.getAscent();
+
+                g.setColor(Color.BLACK);
+                g.drawString(armySizeText, textX, textY);
             }
         }
     }

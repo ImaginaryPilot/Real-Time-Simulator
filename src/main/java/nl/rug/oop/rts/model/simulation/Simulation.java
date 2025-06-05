@@ -1,5 +1,6 @@
 package nl.rug.oop.rts.model.simulation;
 
+import lombok.Getter;
 import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.events.Event;
 import nl.rug.oop.rts.model.panel.Edge;
@@ -13,6 +14,7 @@ import java.util.Random;
 /**
  * The class responsible for the simulation.
  * */
+@Getter
 public class Simulation {
     /**
      * The random variable.
@@ -34,6 +36,14 @@ public class Simulation {
      * List of all moves the armies would make.
      * */
     private List<Move> moves;
+    /**
+     * Battle log of all battles.
+     * */
+    private final List<String> battleLog = new ArrayList<>();
+    /**
+     * Event lof of all the events.
+     * */
+    private final List<String> eventLog = new ArrayList<>();
 
     /**
      * Constructor responsible for instantiating resolveBattle as well.
@@ -42,14 +52,16 @@ public class Simulation {
      * */
     public Simulation(GraphModel graphModel){
         this.graphModel = graphModel;
-        resolveBattle = new ResolveBattle();
-        resolveEvent = new ResolveEvent();
+        resolveBattle = new ResolveBattle(battleLog);
+        resolveEvent = new ResolveEvent(eventLog);
     }
 
     /**
      * A singular simulation step.
      * */
     public void simulationStep(){
+        battleLog.clear();
+        eventLog.clear();
         moves = new ArrayList<>();
 
         // phase 1: resolve conflicts before moving
@@ -112,7 +124,7 @@ public class Simulation {
      * */
     private void resolveConflictAtEdge(){
         for(Move move : moves){
-            resolveBattle.resolveBattleOnEdge(move.getEdge(), move.getFrom(), move.getTo());
+            resolveBattle.resolveBattleOnEdge(move.getEdge());
         }
     }
 
@@ -127,6 +139,9 @@ public class Simulation {
             if (triggeredEvent != null) {
                 // Use the EventPanel to display an event notification popup
                 resolveEvent.displayEventDialog(triggeredEvent, army, edge.getName());
+            }
+            if (army.getUnits().isEmpty()) {
+                edge.removeArmy(army);  // kill the army
             }
         }
     }
@@ -160,15 +175,19 @@ public class Simulation {
      */
     private void processNodeEvents() {
         for (Node node : graphModel.getNodes()) {
+            List<Army> toRemove = new ArrayList<>();
             for (Army army : node.getArmyList()) {
                 Event triggeredEvent = node.triggerRandomEvent(army, random);
                 if (triggeredEvent != null) {
                     // Use the EventPanel to display an event notification popup
                     resolveEvent.displayEventDialog(triggeredEvent, army, node.getName());
                 }
+                if (army.getUnits().isEmpty()) {
+                    toRemove.add(army);  // kill the army
+                }
             }
+
+            node.getArmyList().removeAll(toRemove);
         }
     }
-
-
 }

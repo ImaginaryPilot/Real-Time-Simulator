@@ -71,15 +71,15 @@ public class TopMenuPanel extends JPanel implements Observer {
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         setBackground(Color.DARK_GRAY);
         setPreferredSize(new Dimension(1200, 40));
-        setupTestButtons();
+        setButtons();
 
         setVisible(true);
     }
 
     /**
-     * Set up some buttons to test at the top menu panel.
+     * Set up the buttons at the top menu
      */
-    private void setupTestButtons() {
+    private void setButtons() {
         this.addNode = new JButton("Add Location");
         addNode.addActionListener(e -> {
             topMenuController.addNodeButton();

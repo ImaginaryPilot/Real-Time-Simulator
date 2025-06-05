@@ -26,7 +26,7 @@ public class Reinforcements extends Event {
      * Constructor for the Reinforcements class.
      */
     public Reinforcements() {
-        super("Reinforcements", "A godsent, units have been added to the army.");
+        super("Restructuring", "A godsent, units have been added to the army.");
     }
 
     /**
