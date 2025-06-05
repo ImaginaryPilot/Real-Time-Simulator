@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.events.Event;
+import nl.rug.oop.rts.model.interfaces.Renamable;
+import nl.rug.oop.rts.observer.Observable;
+import nl.rug.oop.rts.observer.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,7 @@ import java.util.Random;
  */
 @Getter
 @Setter
-public class Node {
+public class Node implements Renamable {
     /**
      * The x coordinate of the node.
      */
@@ -33,8 +36,8 @@ public class Node {
      */
     private String name;
     /**
-     * The number of armies on the node.
-     * */
+     * The armies on the node.
+     */
     private List<Army> armyList = new ArrayList<>();
     /**
      * List of events on the node.
@@ -60,8 +63,8 @@ public class Node {
      * add army to the armyList.
      *
      * @param army the army
-     * */
-    public void addArmy(Army army){
+     */
+    public void addArmy(Army army) {
         armyList.add(army);
     }
 
@@ -69,8 +72,8 @@ public class Node {
      * remove army from the armyList using index.
      *
      * @param index where army lies
-     * */
-    public void removeArmy(int index){
+     */
+    public void removeArmy(int index) {
         armyList.remove(index);
     }
 
@@ -78,19 +81,20 @@ public class Node {
      * remove army from the armyList using army object.
      *
      * @param army the army
-     * */
-    public void removeArmy(Army army){
+     */
+    public void removeArmy(Army army) {
         armyList.remove(army);
     }
 
     /**
      * Make a copy of the armies stored in the node.
+     *
      * @return armyCopy, the copy of the army
-     * */
-    public List<Army> copyArmies(){
+     */
+    public List<Army> copyArmies() {
         List<Army> armyCopy = new ArrayList<>();
 
-        for(Army army : armyList){
+        for (Army army : armyList) {
             armyCopy.add(army.copy());
         }
 
@@ -101,8 +105,8 @@ public class Node {
      * Clear the current army and set it to the new one.
      *
      * @param newArmy the army to replace with
-     * */
-    public void setArmies(List<Army> newArmy){
+     */
+    public void setArmies(List<Army> newArmy) {
         armyList.clear();
         armyList.addAll(newArmy);
     }
@@ -118,6 +122,7 @@ public class Node {
 
     /**
      * Remove an event from the node.
+     *
      * @param event event removed.
      */
     public void removeEvent(Event event) {
@@ -127,7 +132,7 @@ public class Node {
     /**
      * Method that triggers random event.
      *
-     * @param army army affected.
+     * @param army   army affected.
      * @param random event number.
      * @return the event.
      */

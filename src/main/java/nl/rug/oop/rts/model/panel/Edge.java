@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.events.Event;
+import nl.rug.oop.rts.model.interfaces.Renamable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Random;
  */
 @Getter
 @Setter
-public class Edge {
+public class Edge implements Renamable {
     /**
      * Unique identifier of the edge.
      */
@@ -33,7 +34,7 @@ public class Edge {
     private String name;
     /**
      * The number of armies on the edge.
-     * */
+     */
     private List<Army> armyList = new ArrayList<>();
     /**
      * The list of events possible
@@ -58,8 +59,8 @@ public class Edge {
      * add army to the armyList.
      *
      * @param army the army
-     * */
-    public void addArmy(Army army){
+     */
+    public void addArmy(Army army) {
         armyList.add(army);
     }
 
@@ -67,19 +68,20 @@ public class Edge {
      * remove army from the armyList using army object.
      *
      * @param army the army
-     * */
-    public void removeArmy(Army army){
+     */
+    public void removeArmy(Army army) {
         armyList.remove(army);
     }
 
     /**
      * Make a copy of the armies stored in the edge.
+     *
      * @return armyCopy, the copy of the army
-     * */
-    public List<Army> copyArmies(){
+     */
+    public List<Army> copyArmies() {
         List<Army> armyCopy = new ArrayList<>();
 
-        for(Army army : armyList){
+        for (Army army : armyList) {
             armyCopy.add(army.copy());
         }
 
@@ -88,15 +90,17 @@ public class Edge {
 
     /**
      * clear the current army and set it to the new one.
+     *
      * @param newArmy the army to replace with
-     * */
-    public void setArmies(List<Army> newArmy){
+     */
+    public void setArmies(List<Army> newArmy) {
         armyList.clear();
         armyList.addAll(newArmy);
     }
 
     /**
      * Method to add an event to the edge.
+     *
      * @param event event added.
      */
     public void addEvent(Event event) {
@@ -105,6 +109,7 @@ public class Edge {
 
     /**
      * Method to remove an event from the edge.
+     *
      * @param event removed evennt.
      */
     public void removeEvent(Event event) {
@@ -113,7 +118,8 @@ public class Edge {
 
     /**
      * The function that triggers a random event on the edge.
-     * @param army army affected.
+     *
+     * @param army   army affected.
      * @param random which event is choosen.
      * @return event.
      */

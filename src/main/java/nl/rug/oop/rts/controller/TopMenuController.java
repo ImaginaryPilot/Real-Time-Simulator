@@ -10,9 +10,9 @@ import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;
 import nl.rug.oop.rts.model.simulation.Simulation;
-import nl.rug.oop.rts.view.MainView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -97,9 +97,9 @@ public class TopMenuController {
         if (graphModel.getEdges().isEmpty() && graphModel.getNodes().isEmpty()) {
             return;
         }
-        List<List<Army>> nodeArmies = new ArrayList<>();
+        HashMap<Integer, List<Army>> armiesMap = new HashMap<>();
         for (Node node : graphModel.getNodes()) {
-            nodeArmies.add(node.copyArmies());
+            armiesMap.put(node.getId(), node.copyArmies());
         }
 
         Simulation simulation = new Simulation(graphModel);
@@ -109,11 +109,12 @@ public class TopMenuController {
         viewModel.setEventLog(simulation.getEventLog());
 
         List<List<Army>> nodeArmiesNew = new ArrayList<>();
+        HashMap<Integer, List<Army>> armiesMapNew = new HashMap<>();
         for (Node node : graphModel.getNodes()) {
-            nodeArmiesNew.add(node.copyArmies());
+            armiesMapNew.put(node.getId(), node.copyArmies());
         }
 
-        Command command = new SimulationCommand(graphModel, nodeArmies, nodeArmiesNew);
+        Command command = new SimulationCommand(graphModel, armiesMap, armiesMapNew);
         mainController.addCommand(command);
     }
 }

@@ -56,6 +56,8 @@ public class MouseController extends MouseAdapter {
      * The y coordinate of the node when we start moving it.
      */
     private int oldNodeY;
+    private int startNodeViewX;
+    private int startNodeViewY;
 
     /**
      * The last x coordinate of the mouse.
@@ -167,6 +169,8 @@ public class MouseController extends MouseAdapter {
         lastY = e.getY();
         startViewX = viewModel.getViewX();
         startViewY = viewModel.getViewY();
+        startNodeViewX = e.getX();
+        startNodeViewY = e.getY();
     }
 
     /**
@@ -181,7 +185,7 @@ public class MouseController extends MouseAdapter {
         int currentViewX = viewModel.getViewX();
         int currentViewY = viewModel.getViewY();
         if (movingNode) {
-            if (currentViewX != clickedNode.getX() || currentViewY != clickedNode.getY()) {
+            if (e.getX() != startNodeViewX || e.getY() != startNodeViewY) {
                 int newNodeX = clickedNode.getX();
                 int newNodeY = clickedNode.getY();
                 Command command = new MoveNodeCommand(clickedNode, oldNodeX, oldNodeY, newNodeX, newNodeY, graphModel);

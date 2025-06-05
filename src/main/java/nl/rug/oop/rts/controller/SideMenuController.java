@@ -5,6 +5,7 @@ import nl.rug.oop.rts.controller.commands.AddArmyCommand;
 import nl.rug.oop.rts.controller.commands.Command;
 import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.army.Faction;
+import nl.rug.oop.rts.model.interfaces.Renamable;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
@@ -37,37 +38,16 @@ public class SideMenuController {
      * @param newName The new name of the node or edge.
      */
     public void rename(String newName) {
+        Renamable element;
         if (viewModel.getSelectedNode() != null) {
-            renameSelectedNode(newName);
+            element = viewModel.getSelectedNode();
         } else if (viewModel.getSelectedEdge() != null) {
-            renameSelectedEdge(newName);
+            element = viewModel.getSelectedEdge();
         } else {
-            System.err.println("No node or edge selected");
+            System.err.println("No node or edge selected"); // Should never happen
+            return;
         }
-    }
-
-    /**
-     * Renames the selected node.
-     *
-     * @param newName The new name of the node.
-     */
-    public void renameSelectedNode(String newName) {
-        Node node = viewModel.getSelectedNode();
-        if (node != null) {
-            mainController.addRenameNodeCommand(node, newName);
-        }
-    }
-
-    /**
-     * Renames the selected edge.
-     *
-     * @param newName The new name of the edge.
-     */
-    public void renameSelectedEdge(String newName) {
-        Edge edge = viewModel.getSelectedEdge();
-        if (edge != null) {
-            mainController.addRenameEdgeCommand(edge, newName);
-        }
+        mainController.addRenameCommand(element, newName);
     }
 
     /**
