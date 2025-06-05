@@ -3,9 +3,11 @@ package nl.rug.oop.rts.model.panel;
 import lombok.Getter;
 import lombok.Setter;
 import nl.rug.oop.rts.model.army.Army;
+import nl.rug.oop.rts.model.events.Event;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Edge class that holds all the information of an edge in the graph.
@@ -33,6 +35,10 @@ public class Edge {
      * The number of armies on the edge.
      * */
     private List<Army> armyList = new ArrayList<>();
+    /**
+     * The list of events possible
+     */
+    private List<Event> events = new ArrayList<>();
 
     /**
      * Constructor for the Edge class.
@@ -88,4 +94,43 @@ public class Edge {
         armyList.clear();
         armyList.addAll(newArmy);
     }
+
+    /**
+     * Method to add an event to the edge.
+     * @param event event added.
+     */
+    public void addEvent(Event event) {
+        events.add(event);
+    }
+
+    /**
+     * Method to remove an event from the edge.
+     * @param event removed evennt.
+     */
+    public void removeEvent(Event event) {
+        events.remove(event);
+    }
+
+    /**
+     * The function that triggers a random event on the edge.
+     * @param army army affected.
+     * @param random which event is choosen.
+     * @return event.
+     */
+    public Event triggerRandomEvent(Army army, Random random) {
+        if (events.isEmpty()) {
+            System.out.println("No events available at Edge: " + name);
+            return null;
+        }
+        int chance = random.nextInt(100);
+        if (chance >= 40) {
+            System.out.println("No event triggered on Edge: " + name);
+            return null;
+        }
+        Event event = events.get(random.nextInt(events.size()));
+        event.apply(army);
+        System.out.println("Triggered Event: " + event.getName() + " on Edge: " + name);
+        return event;
+    }
+
 }

@@ -3,9 +3,11 @@ package nl.rug.oop.rts.model.panel;
 import lombok.Getter;
 import lombok.Setter;
 import nl.rug.oop.rts.model.army.Army;
+import nl.rug.oop.rts.model.events.Event;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -34,6 +36,10 @@ public class Node {
      * The number of armies on the node.
      * */
     private List<Army> armyList = new ArrayList<>();
+    /**
+     * List of events on the node.
+     */
+    private List<Event> events = new ArrayList<>();
 
     /**
      * Constructor for the Node class.
@@ -92,11 +98,54 @@ public class Node {
     }
 
     /**
-     * clear the current army and set it to the new one.
+     * Clear the current army and set it to the new one.
+     *
      * @param newArmy the army to replace with
      * */
     public void setArmies(List<Army> newArmy){
         armyList.clear();
         armyList.addAll(newArmy);
     }
+
+    /**
+     * Add an event on the node
+     *
+     * @param event event added.
+     */
+    public void addEvent(Event event) {
+        events.add(event);
+    }
+
+    /**
+     * Remove an event from the node.
+     * @param event event removed.
+     */
+    public void removeEvent(Event event) {
+        events.remove(event);
+    }
+
+    /**
+     * Method that triggers random event.
+     *
+     * @param army army affected.
+     * @param random event number.
+     * @return the event.
+     */
+    public Event triggerRandomEvent(Army army, Random random) {
+        if (events.isEmpty()) {
+            System.out.println("No events available at Node: " + name);
+            return null;
+        }
+        int chance = random.nextInt(100);
+        if (chance >= 40) {
+            System.out.println("No event triggered at Node: " + name);
+            return null;
+        }
+        Event event = events.get(random.nextInt(events.size()));
+        event.apply(army);
+        System.out.println("Triggered Event: " + event.getName() + " at Node: " + name);
+        return event;
+
+    }
+
 }
