@@ -3,7 +3,9 @@ package nl.rug.oop.rts.controller.commands;
 import lombok.AllArgsConstructor;
 import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.panel.GraphModel;
+import nl.rug.oop.rts.model.panel.Node;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -11,23 +13,24 @@ import java.util.List;
 public class SimulationCommand implements Command {
     private final GraphModel graphModel;
 
-    private List<List<Army>> nodeArmies;
+    HashMap<Integer, List<Army>> armiesMap;
 
-    private List<List<Army>> nodeArmiesNew;
+    HashMap<Integer, List<Army>> armiesMapNew;
 
     @Override
     public void execute() {
-        for (int i = 0; i < graphModel.getNodes().size(); i++) {
-            graphModel.getNodes().get(i).setArmies(nodeArmiesNew.get(i));
+        for (Node node : graphModel.getNodes()) {
+            List<Army> copiedArmies = armiesMapNew.get(node.getId());
+            node.setArmies(copiedArmies);  // Safe because we already made copies
         }
         graphModel.updateAllObservers();
-
     }
 
     @Override
     public void undo() {
-        for (int i = 0; i < graphModel.getNodes().size(); i++) {
-            graphModel.getNodes().get(i).setArmies(nodeArmies.get(i));
+        for (Node node : graphModel.getNodes()) {
+            List<Army> copiedArmies = armiesMap.get(node.getId());
+            node.setArmies(copiedArmies);  // Safe because we already made copies
         }
         graphModel.updateAllObservers();
     }
