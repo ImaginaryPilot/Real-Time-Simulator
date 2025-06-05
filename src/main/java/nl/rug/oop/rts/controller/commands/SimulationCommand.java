@@ -8,20 +8,32 @@ import nl.rug.oop.rts.model.panel.Node;
 import java.util.HashMap;
 import java.util.List;
 
-
+/**
+ * Command for simulating the game.
+ */
 @AllArgsConstructor
 public class SimulationCommand implements Command {
+    /**
+     * The graph of the game.
+     */
     private final GraphModel graphModel;
 
+    /**
+     * The armies of the game before the simulation.
+     * Stored in a map with the node id as the key and the armies as value.
+     */
     HashMap<Integer, List<Army>> armiesMap;
-
+    /**
+     * The armies of the game after the simulation.
+     * Stored in a map with the node id as the key and the armies as value.
+     */
     HashMap<Integer, List<Army>> armiesMapNew;
 
     @Override
     public void execute() {
         for (Node node : graphModel.getNodes()) {
             List<Army> copiedArmies = armiesMapNew.get(node.getId());
-            node.setArmies(copiedArmies);  // Safe because we already made copies
+            node.setArmies(copiedArmies);
         }
         graphModel.updateAllObservers();
     }
@@ -30,7 +42,7 @@ public class SimulationCommand implements Command {
     public void undo() {
         for (Node node : graphModel.getNodes()) {
             List<Army> copiedArmies = armiesMap.get(node.getId());
-            node.setArmies(copiedArmies);  // Safe because we already made copies
+            node.setArmies(copiedArmies);
         }
         graphModel.updateAllObservers();
     }
