@@ -73,35 +73,8 @@ public class GraphPanel extends JPanel implements Observer {
             g.drawImage(backgroundImage, 0, 0, null);
         }
 
-        for (Edge edge : graphModel.getEdges()) {
-            if (edge == model.getSelectedEdge()) {
-                g.setColor(Color.RED);
-            } else {
-                g.setColor(Color.BLUE);
-            }
-            g.drawLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
-        }
-        for (Node node : graphModel.getNodes()) {
-            Image nodeIcon;
-            if (node == model.getSelectedNode()) {
-                nodeIcon= TextureLoader.getInstance().getTexture("node3", nodeWidth, nodeHeight);
-            } else {
-                nodeIcon= TextureLoader.getInstance().getTexture("node4", nodeWidth, nodeHeight);
-            }
-            g.drawImage(nodeIcon, node.getX() - nodeWidth / 2, node.getY() - nodeHeight / 2, null);
-            g.setColor(Color.WHITE);
-            g.drawString(node.getName(), node.getX(), node.getY());
-
-            int iconStartX = node.getX() - nodeWidth / 2;
-            int iconY = node.getY() + nodeHeight / 2 + 5;
-            for(int i = 0; i < node.getArmyList().size(); i++){
-                Army army = node.getArmyList().get(i);
-                String textureName = army.getTextureName();
-
-                Image icon = TextureLoader.getInstance().getTexture(textureName, 20, 20);
-                g.drawImage(icon, iconStartX + i * 25, iconY, null);
-            }
-        }
+        drawEdges(g);
+        drawNodes(g);
         g.translate(-model.getViewX(), -model.getViewY());
     }
 
@@ -110,4 +83,61 @@ public class GraphPanel extends JPanel implements Observer {
         repaint();
     }
 
+    /**
+     * Draw the edges in the graph.
+     *
+     * @param g the <code>Graphics</code> object to protect
+     */
+    public void drawEdges(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        float[] dash = {10};
+        Stroke dashed = new BasicStroke(2.5F, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 4, dash, 0);
+        g2d.setStroke(dashed);
+        for (Edge edge : graphModel.getEdges()) {
+            if (edge == model.getSelectedEdge()) {
+                g.setColor(Color.YELLOW);
+            } else {
+                g.setColor(Color.ORANGE);
+            }
+            g2d.drawLine(
+                    edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
+        }
+    }
+
+    /**
+     * Draw the nodes in the graph.
+     *
+     * @param g the <code>Graphics</code> object to protect
+     */
+    private void drawNodes(Graphics g) {
+        for (Node node : graphModel.getNodes()) {
+            Image nodeIcon;
+            if (node == model.getSelectedNode()) {
+                nodeIcon = TextureLoader.getInstance().getTexture("node3", nodeWidth, nodeHeight);
+            } else {
+                nodeIcon = TextureLoader.getInstance().getTexture("node4", nodeWidth, nodeHeight);
+            }
+            g.drawImage(nodeIcon, node.getX() - nodeWidth / 2, node.getY() - nodeHeight / 2, null);
+
+            g.setColor(Color.ORANGE);
+            String name = node.getName();
+            FontMetrics frontMetrics = g.getFontMetrics();
+            int textWidth = frontMetrics.stringWidth(name);
+            int x = node.getX() - textWidth / 2;
+            g.drawString(name, x, node.getY());
+
+            int iconStartX = node.getX() - nodeWidth / 2;
+            int iconY = node.getY() + nodeHeight / 2 - nodeHeight / 5;
+            int armyImageWidth = (int) (model.getNodeWidth() / 2.5);
+            int armyImageHeight = (int) (model.getNodeHeight() / 2.5);
+            for (int i = 0; i < node.getArmyList().size(); i++) {
+                Army army = node.getArmyList().get(i);
+                String textureName = army.getTextureName();
+
+                Image icon = TextureLoader.getInstance().getTexture(
+                        textureName, armyImageWidth, armyImageHeight);
+                g.drawImage(icon, iconStartX + i * armyImageWidth, iconY, null);
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package nl.rug.oop.rts.view.optionMenu;
+package nl.rug.oop.rts.view.sidepanel;
 
 import lombok.AllArgsConstructor;
 import nl.rug.oop.rts.controller.SideMenuController;

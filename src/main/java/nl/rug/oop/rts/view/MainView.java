@@ -2,7 +2,7 @@ package nl.rug.oop.rts.view;
 
 import lombok.Getter;
 import nl.rug.oop.rts.observer.Observer;
-import nl.rug.oop.rts.view.optionMenu.SideMenuPanel;
+import nl.rug.oop.rts.view.sidepanel.SideMenuPanel;
 
 import javax.swing.*;
 import java.awt.*;

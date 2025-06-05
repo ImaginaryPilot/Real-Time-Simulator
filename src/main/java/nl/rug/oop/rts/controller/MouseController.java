@@ -43,11 +43,19 @@ public class MouseController extends MouseAdapter {
     /**
      * Whether the mouse is currently moving a node.
      */
-    private boolean movingNode = false;
+    private boolean movingNode;
     /**
      * Whether the mouse is currently moving the map.
      */
-    private boolean movingMap = false;
+    private boolean movingMap;
+    /**
+     * The x coordinate of the node when we start moving it.
+     */
+    private int oldNodeX;
+    /**
+     * The y coordinate of the node when we start moving it.
+     */
+    private int oldNodeY;
 
     /**
      * The last x coordinate of the mouse.
@@ -61,19 +69,6 @@ public class MouseController extends MouseAdapter {
      * View coordinates.
      */
     private int lastY;
-
-    /**
-     * The start x coordinate of the mouse.
-     * Used to create the move node undo/redo command.
-     * Real coordinates.
-     */
-    private int startRealX;
-    /**
-     * The start y coordinate of the mouse.
-     * Used to create the move node undo/redo command.
-     * Real coordinates.
-     */
-    private int startRealY;
 
     /**
      * The start x coordinate of the mouse.
@@ -126,6 +121,8 @@ public class MouseController extends MouseAdapter {
             int bottom = node.getY() + nodeHeight / 2;
 
             if (realX >= left && realX <= right && realY >= top && realY <= bottom) {
+                oldNodeX = node.getX();
+                oldNodeY = node.getY();
                 return node;
             }
         }
@@ -163,36 +160,35 @@ public class MouseController extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
         dragging = true;
         clickedNode = clickedNode(e.getX(), e.getY());
-        if (clickedNode != null) {
-            movingNode = true;
-            movingMap = false; // Just to be sure
-        } else {
-            movingMap = true;
-            movingNode = false; // Just to be sure
-        }
+        movingNode = (clickedNode != null);
+        movingMap = !movingNode;
 
         lastX = e.getX();
         lastY = e.getY();
-        int realX = e.getX() - viewModel.getViewX();
-        int realY = e.getY() - viewModel.getViewY();
-        startRealX = realX;
-        startRealY = realY;
         startViewX = viewModel.getViewX();
         startViewY = viewModel.getViewY();
     }
 
+    /**
+     * Used to create the corresponding commands if we have been dragging something.
+     * Commands for undo/redo.
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         dragging = false;
         int currentViewX = viewModel.getViewX();
         int currentViewY = viewModel.getViewY();
-        if (currentViewX != startViewX || currentViewY != startViewY) {
-            if (movingNode) {
-                int realX = e.getX() - currentViewX;
-                int realY = e.getY() - currentViewY;
-                Command command = new MoveNodeCommand(clickedNode, startRealX, startRealY, realX, realY, graphModel);
+        if (movingNode) {
+            if (currentViewX != clickedNode.getX() || currentViewY != clickedNode.getY()) {
+                int newNodeX = clickedNode.getX();
+                int newNodeY = clickedNode.getY();
+                Command command = new MoveNodeCommand(clickedNode, oldNodeX, oldNodeY, newNodeX, newNodeY, graphModel);
                 mainController.addCommand(command);
-            } else if (movingMap) {
+            }
+        } else if (movingMap) {
+            if (currentViewX != startViewX || currentViewY != startViewY) {
                 int deltaX = currentViewX - startViewX;
                 int deltaY = currentViewY - startViewY;
                 Command command = new MoveMapCommand(deltaX, deltaY, viewModel);
@@ -242,30 +238,54 @@ public class MouseController extends MouseAdapter {
         dragging = false;
     }
 
+    /**
+     * Either drag a node, or the map.
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (dragging && clickedNode != null) { // move the node
-            int realX = e.getX() - viewModel.getViewX();
-            int realY = e.getY() - viewModel.getViewY();
-
-            realX = Math.max(0, Math.min(realX, viewModel.getMapWidth()));
-            realY = Math.max(0, Math.min(realY, viewModel.getMapHeight()));
-
-            graphModel.setNodePosition(clickedNode, realX, realY);
-
-        } else { // move the map
-            int x = e.getX() - lastX;
-            int y = e.getY() - lastY;
-            int newX = viewModel.getViewX() + x;
-            int newY = viewModel.getViewY() + y;
-
-            int finalX = Math.max(viewModel.getPanelWidth() - viewModel.getMapWidth(), Math.min(0, newX));
-            int finalY = Math.max(viewModel.getPanelHeight() - viewModel.getMapHeight(), Math.min(0, newY));
-            viewModel.setViewPosition(finalX, finalY);
-
-            lastX = e.getX();
-            lastY = e.getY();
+        if (dragging && clickedNode != null) {
+            moveNode(e.getX(), e.getY());
+        } else {
+            moveMap(e.getX(), e.getY());
         }
     }
 
+    /**
+     * Move the node.
+     *
+     * @param x the x coordinate
+     * @param y the y coordinate
+     */
+    private void moveNode(int x, int y) {
+        int realX = x - viewModel.getViewX();
+        int realY = y - viewModel.getViewY();
+        int halfNodeWidth = viewModel.getNodeWidth() / 2;
+        int halfNodeHeight = viewModel.getNodeHeight() / 2;
+
+        graphModel.setNodePosition(
+                clickedNode,
+                Math.max(halfNodeWidth, Math.min(realX, viewModel.getMapWidth() - halfNodeWidth)),
+                Math.max(halfNodeHeight, Math.min(realY, viewModel.getMapHeight() - halfNodeHeight))
+        );
+    }
+
+    /**
+     * Move the map.
+     *
+     * @param latestX the x coordinate
+     * @param latestY the y coordinate
+     */
+    private void moveMap(int latestX, int latestY) {
+        int dx = latestX - lastX;
+        int dy = latestY - lastY;
+
+        viewModel.setViewPosition(
+                Math.max(viewModel.getPanelWidth() - viewModel.getMapWidth(), Math.min(0, viewModel.getViewX() + dx)),
+                Math.max(viewModel.getPanelHeight() - viewModel.getMapHeight(), Math.min(0, viewModel.getViewY() + dy))
+        );
+        lastX = latestX;
+        lastY = latestY;
+    }
 }

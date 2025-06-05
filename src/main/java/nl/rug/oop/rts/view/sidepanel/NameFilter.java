@@ -1,4 +1,4 @@
-package nl.rug.oop.rts.view.optionMenu;
+package nl.rug.oop.rts.view.sidepanel;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

@@ -1,6 +1,7 @@
 package nl.rug.oop.rts.model.simulation;
 
 import nl.rug.oop.rts.model.army.Army;
+import nl.rug.oop.rts.model.events.Event;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
@@ -26,6 +27,10 @@ public class Simulation {
      * */
     private final ResolveBattle resolveBattle;
     /**
+     * Class responsible for resolving the events(more printing the results).
+     */
+    private final ResolveEvent resolveEvent;
+    /**
      * List of all moves the armies would make.
      * */
     private List<Move> moves;
@@ -38,6 +43,7 @@ public class Simulation {
     public Simulation(GraphModel graphModel){
         this.graphModel = graphModel;
         resolveBattle = new ResolveBattle();
+        resolveEvent = new ResolveEvent();
     }
 
     /**
@@ -59,6 +65,7 @@ public class Simulation {
         resolveConflictAtEdge();
 
         // phase 5: encounter events at edge
+        processEdgeEvents();
 
         // phase 6: move armies to destination nodes
         moveArmyToNode();
@@ -67,6 +74,7 @@ public class Simulation {
         resolveConflictAtNode();
 
         // phase 8: encounter events at node
+        processNodeEvents();
 
         graphModel.updateAllObservers();
     }
@@ -109,6 +117,23 @@ public class Simulation {
     }
 
     /**
+     * Function that processes the events at the edges.
+     */
+    private void processEdgeEvents() {
+        for (Move move : moves) {
+            Edge edge = move.getEdge();
+            Army army = move.getArmy();
+            Event triggeredEvent = edge.triggerRandomEvent(army, random);
+            if (triggeredEvent != null) {
+                // Use the EventPanel to display an event notification popup
+                resolveEvent.displayEventDialog(triggeredEvent, army, edge.getName());
+            }
+        }
+    }
+
+
+
+    /**
      * move armies to the edges.
      * */
     private void moveArmyToEdge(){
@@ -129,4 +154,21 @@ public class Simulation {
             }
         }
     }
+
+    /**
+     * Function that processes the events at the nodes.
+     */
+    private void processNodeEvents() {
+        for (Node node : graphModel.getNodes()) {
+            for (Army army : node.getArmyList()) {
+                Event triggeredEvent = node.triggerRandomEvent(army, random);
+                if (triggeredEvent != null) {
+                    // Use the EventPanel to display an event notification popup
+                    resolveEvent.displayEventDialog(triggeredEvent, army, node.getName());
+                }
+            }
+        }
+    }
+
+
 }
