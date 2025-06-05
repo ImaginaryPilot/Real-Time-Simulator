@@ -1,53 +1,34 @@
 package nl.rug.oop.rts.controller.commands;
 
+import lombok.AllArgsConstructor;
+import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.panel.GraphModel;
-import nl.rug.oop.rts.model.simulation.Simulation;
-import nl.rug.oop.rts.model.simulation.SimulationSnapshot;
 
-/**
- * Command for simulating command.
- */
+import java.util.List;
+
+
+@AllArgsConstructor
 public class SimulationCommand implements Command {
-    /**
-     * The graph model.
-     * */
     private final GraphModel graphModel;
 
-    /**
-     * The simulation to simulate.
-     */
-    private final Simulation simulation;
+    private List<List<Army>> nodeArmies;
 
-    /**
-     * The snapshot of the armies before the simulation begins.
-     * */
-    private SimulationSnapshot previousState;
-
-    /**
-     * Constructor for the command to simulate.
-     * @param graphModel graph model
-     * @param simulation simulation
-     * */
-    public SimulationCommand(GraphModel graphModel, Simulation simulation){
-        this.graphModel = graphModel;
-        this.simulation = simulation;
-    }
+    private List<List<Army>> nodeArmiesNew;
 
     @Override
     public void execute() {
-        previousState = new SimulationSnapshot(graphModel);
-        previousState.storeEdgeArmies();
-        previousState.storeNodeArmies();
+        for (int i = 0; i < graphModel.getNodes().size(); i++) {
+            graphModel.getNodes().get(i).setArmies(nodeArmiesNew.get(i));
+        }
+        graphModel.updateAllObservers();
 
-        simulation.simulationStep();
     }
 
     @Override
     public void undo() {
-        if(previousState != null){
-            previousState.restoreEdgeArmies();
-            previousState.restoreNodeArmies();
-            graphModel.updateAllObservers();
+        for (int i = 0; i < graphModel.getNodes().size(); i++) {
+            graphModel.getNodes().get(i).setArmies(nodeArmies.get(i));
         }
+        graphModel.updateAllObservers();
     }
 }

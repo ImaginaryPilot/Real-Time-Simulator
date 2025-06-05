@@ -4,7 +4,6 @@ import lombok.Getter;
 import nl.rug.oop.rts.controller.commands.ChangeEdgeNameCommand;
 import nl.rug.oop.rts.controller.commands.ChangeNodeNameCommand;
 import nl.rug.oop.rts.controller.commands.Command;
-import nl.rug.oop.rts.controller.commands.SimulationCommand;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
@@ -68,7 +67,6 @@ public class MainController {
     public void addCommand(Command command) {
         undoStack.push(command);
         redoStack.clear();
-        System.out.println("Added command to stack: " + command);
     }
 
     /**
@@ -147,7 +145,6 @@ public class MainController {
             Command command = undoStack.pop();
             redoStack.push(command);
             command.undo();
-            System.out.println(command);
         }
     }
 
@@ -161,15 +158,5 @@ public class MainController {
             undoStack.push(command);
             command.execute();
         }
-    }
-
-    /**
-     * Simulate.
-     * Allows you to simulate the current state.
-     */
-    public void simulationStep() {
-        Command command = new SimulationCommand(graphModel, simulation);
-        this.addCommand(command);
-        this.executeCommand(command);
     }
 }
