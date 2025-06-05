@@ -84,9 +84,9 @@ public class GraphPanel extends JPanel implements Observer {
         for (Node node : graphModel.getNodes()) {
             Image nodeIcon;
             if (node == model.getSelectedNode()) {
-                nodeIcon= TextureLoader.getInstance().getTexture("node3", nodeWidth, nodeHeight);
+                nodeIcon = TextureLoader.getInstance().getTexture("node3", nodeWidth, nodeHeight);
             } else {
-                nodeIcon= TextureLoader.getInstance().getTexture("node4", nodeWidth, nodeHeight);
+                nodeIcon = TextureLoader.getInstance().getTexture("node4", nodeWidth, nodeHeight);
             }
             g.drawImage(nodeIcon, node.getX() - nodeWidth / 2, node.getY() - nodeHeight / 2, null);
             g.setColor(Color.WHITE);
@@ -94,7 +94,7 @@ public class GraphPanel extends JPanel implements Observer {
 
             int iconStartX = node.getX() - nodeWidth / 2;
             int iconY = node.getY() + nodeHeight / 2 + 5;
-            for(int i = 0; i < node.getArmyList().size(); i++){
+            for (int i = 0; i < node.getArmyList().size(); i++) {
                 Army army = node.getArmyList().get(i);
                 String textureName = army.getTextureName();
 

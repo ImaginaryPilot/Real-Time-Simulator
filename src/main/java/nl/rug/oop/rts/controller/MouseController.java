@@ -43,11 +43,11 @@ public class MouseController extends MouseAdapter {
     /**
      * Whether the mouse is currently moving a node.
      */
-    private boolean movingNode = false;
+    private boolean movingNode;
     /**
      * Whether the mouse is currently moving the map.
      */
-    private boolean movingMap = false;
+    private boolean movingMap;
 
     /**
      * The last x coordinate of the mouse.
@@ -186,13 +186,15 @@ public class MouseController extends MouseAdapter {
         dragging = false;
         int currentViewX = viewModel.getViewX();
         int currentViewY = viewModel.getViewY();
-        if (currentViewX != startViewX || currentViewY != startViewY) {
-            if (movingNode) {
+        if (movingNode) {
+            if (currentViewX != clickedNode.getX() || currentViewY != clickedNode.getY()) {
                 int realX = e.getX() - currentViewX;
                 int realY = e.getY() - currentViewY;
                 Command command = new MoveNodeCommand(clickedNode, startRealX, startRealY, realX, realY, graphModel);
                 mainController.addCommand(command);
-            } else if (movingMap) {
+            }
+        } else if (movingMap) {
+            if (currentViewX != startViewX || currentViewY != startViewY) {
                 int deltaX = currentViewX - startViewX;
                 int deltaY = currentViewY - startViewY;
                 Command command = new MoveMapCommand(deltaX, deltaY, viewModel);
@@ -248,8 +250,8 @@ public class MouseController extends MouseAdapter {
             int realX = e.getX() - viewModel.getViewX();
             int realY = e.getY() - viewModel.getViewY();
 
-            realX = Math.max(0, Math.min(realX, viewModel.getMapWidth()));
-            realY = Math.max(0, Math.min(realY, viewModel.getMapHeight()));
+            realX = Math.max(viewModel.getNodeWidth() / 2, Math.min(realX, viewModel.getMapWidth() - viewModel.getNodeWidth() / 2));
+            realY = Math.max(viewModel.getNodeHeight() / 2, Math.min(realY, viewModel.getMapHeight() - viewModel.getNodeHeight() / 2));
 
             graphModel.setNodePosition(clickedNode, realX, realY);
 
