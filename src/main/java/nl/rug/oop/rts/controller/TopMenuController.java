@@ -108,7 +108,6 @@ public class TopMenuController {
         viewModel.setBattleLog(simulation.getBattleLog());
         viewModel.setEventLog(simulation.getEventLog());
 
-        List<List<Army>> nodeArmiesNew = new ArrayList<>();
         HashMap<Integer, List<Army>> armiesMapNew = new HashMap<>();
         for (Node node : graphModel.getNodes()) {
             armiesMapNew.put(node.getId(), node.copyArmies());
