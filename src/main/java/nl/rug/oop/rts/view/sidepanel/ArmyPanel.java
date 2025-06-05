@@ -1,4 +1,4 @@
-package nl.rug.oop.rts.view.optionMenu;
+package nl.rug.oop.rts.view.sidepanel;
 
 import nl.rug.oop.rts.controller.SideMenuController;
 import nl.rug.oop.rts.model.army.Army;

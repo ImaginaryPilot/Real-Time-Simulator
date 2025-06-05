@@ -4,7 +4,7 @@ import lombok.Getter;
 import nl.rug.oop.rts.controller.*;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.ViewModel;
-import nl.rug.oop.rts.view.optionMenu.SideMenuPanel;
+import nl.rug.oop.rts.view.sidepanel.SideMenuPanel;
 
 /**
  * The main class that starts the game.

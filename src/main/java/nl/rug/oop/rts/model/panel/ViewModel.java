@@ -34,11 +34,11 @@ public class ViewModel implements Observable {
     /**
      * The width of a node.
      */
-    private final int nodeWidth = 60;
+    private final int nodeWidth = 100;
     /**
      * The height of a node.
      */
-    private final int nodeHeight = 60;
+    private final int nodeHeight = 100;
     /**
      * The width of an edge.
      */
