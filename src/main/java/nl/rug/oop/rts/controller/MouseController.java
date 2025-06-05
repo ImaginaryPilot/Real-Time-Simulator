@@ -48,6 +48,14 @@ public class MouseController extends MouseAdapter {
      * Whether the mouse is currently moving the map.
      */
     private boolean movingMap;
+    /**
+     * The x coordinate of the node when we start moving it.
+     */
+    private int oldNodeX;
+    /**
+     * The y coordinate of the node when we start moving it.
+     */
+    private int oldNodeY;
 
     /**
      * The last x coordinate of the mouse.
@@ -61,19 +69,6 @@ public class MouseController extends MouseAdapter {
      * View coordinates.
      */
     private int lastY;
-
-    /**
-     * The start x coordinate of the mouse.
-     * Used to create the move node undo/redo command.
-     * Real coordinates.
-     */
-    private int startRealX;
-    /**
-     * The start y coordinate of the mouse.
-     * Used to create the move node undo/redo command.
-     * Real coordinates.
-     */
-    private int startRealY;
 
     /**
      * The start x coordinate of the mouse.
@@ -126,6 +121,8 @@ public class MouseController extends MouseAdapter {
             int bottom = node.getY() + nodeHeight / 2;
 
             if (realX >= left && realX <= right && realY >= top && realY <= bottom) {
+                oldNodeX = node.getX();
+                oldNodeY = node.getY();
                 return node;
             }
         }
@@ -168,10 +165,6 @@ public class MouseController extends MouseAdapter {
 
         lastX = e.getX();
         lastY = e.getY();
-        int realX = e.getX() - viewModel.getViewX();
-        int realY = e.getY() - viewModel.getViewY();
-        startRealX = realX;
-        startRealY = realY;
         startViewX = viewModel.getViewX();
         startViewY = viewModel.getViewY();
     }
@@ -189,9 +182,9 @@ public class MouseController extends MouseAdapter {
         int currentViewY = viewModel.getViewY();
         if (movingNode) {
             if (currentViewX != clickedNode.getX() || currentViewY != clickedNode.getY()) {
-                int realX = e.getX() - currentViewX;
-                int realY = e.getY() - currentViewY;
-                Command command = new MoveNodeCommand(clickedNode, startRealX, startRealY, realX, realY, graphModel);
+                int newNodeX = clickedNode.getX();
+                int newNodeY = clickedNode.getY();
+                Command command = new MoveNodeCommand(clickedNode, oldNodeX, oldNodeY, newNodeX, newNodeY, graphModel);
                 mainController.addCommand(command);
             }
         } else if (movingMap) {

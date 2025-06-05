@@ -13,6 +13,7 @@ import nl.rug.oop.rts.model.simulation.Simulation;
 
 import java.util.EmptyStackException;
 import java.util.Objects;
+import java.util.Stack;
 
 /**
  * The main controller class that holds all the logic of the game.
@@ -29,18 +30,18 @@ public class MainController {
     private final ViewModel viewModel;
     /**
      * The simulation.
-     * */
+     */
     private final Simulation simulation;
 
     /**
      * The stack of commands that have been executed.
      */
-    private final SizedStack<Command> undoStack;
+    private final Stack<Command> undoStack;
 
     /**
      * The stack of commands that have been undone.
      */
-    private final SizedStack<Command> redoStack;
+    private final Stack<Command> redoStack;
 
     /**
      * Constructor for the MainController class.
@@ -52,8 +53,8 @@ public class MainController {
         this.graphModel = graphModel;
         this.viewModel = viewModel;
         simulation = new Simulation(graphModel);
-        this.undoStack = new SizedStack<>(10);
-        this.redoStack = new SizedStack<>(10);
+        this.undoStack = new Stack<>();
+        this.redoStack = new Stack<>();
 
     }
 
@@ -165,8 +166,8 @@ public class MainController {
     /**
      * Simulate.
      * Allows you to simulate the current state.
-     * */
-    public void simulationStep(){
+     */
+    public void simulationStep() {
         Command command = new SimulationCommand(graphModel, simulation);
         this.addCommand(command);
         this.executeCommand(command);

@@ -102,8 +102,8 @@ public class GraphModel implements Observable {
      * @param y    The y coordinate of the node.
      */
     public void setNodePosition(Node node, int x, int y) {
-        node.setX(x);
-        node.setY(y);
+        node.setX(Math.max(0, Math.min(x, 2400))); //For security if something bugs out
+        node.setY(Math.max(0, Math.min(y, 1400))); //And prevent nodes outside the map
         updateAllObservers();
     }
 
@@ -173,11 +173,11 @@ public class GraphModel implements Observable {
      *
      * @param node the node we want to find all edges connected to
      * @return all edges connected to the node
-     * */
-    public List<Edge> getConnectedEdges(Node node){
+     */
+    public List<Edge> getConnectedEdges(Node node) {
         List<Edge> connectedEdges = new ArrayList<>();
-        for(Edge edge : edges){
-            if(edge.getNodeA().equals(node) || edge.getNodeB().equals(node)){
+        for (Edge edge : edges) {
+            if (edge.getNodeA().equals(node) || edge.getNodeB().equals(node)) {
                 connectedEdges.add(edge);
             }
         }
@@ -190,11 +190,11 @@ public class GraphModel implements Observable {
      * @param node the source node
      * @param edge the edge that connected both nodes
      * @return the edge connected on the other end
-     * */
-    public Node getOtherNode(Edge edge, Node node){
-        if(edge.getNodeA().equals(node)){
+     */
+    public Node getOtherNode(Edge edge, Node node) {
+        if (edge.getNodeA().equals(node)) {
             return edge.getNodeB();
-        } else if(edge.getNodeB().equals(node)){
+        } else if (edge.getNodeB().equals(node)) {
             return edge.getNodeA();
         } else {
             throw new IllegalArgumentException("Node is not part of edge");
