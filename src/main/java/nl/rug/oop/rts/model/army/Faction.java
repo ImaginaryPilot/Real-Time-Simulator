@@ -1,45 +1,73 @@
 package nl.rug.oop.rts.model.army;
 
-import java.awt.*;
 import java.util.List;
 
 /**
- * Faction enum.
+ * Race Enum.
  */
 public enum Faction {
-    Men, Elves, Dwarves, Mordor, Isengard;
+    Men{
+        @Override
+        public List<String> getUnitNames() {
+            return List.of("Gondor Soldier", "Tower Guard", "Ithilien Ranger");
+        }
 
-    /**
-     * The teams of each faction.
-     * */
-    public enum Team {
-        BLUE, YELLOW
-    }
+        @Override
+        public Team getTeam() {
+            return Team.BLUE;
+        }
+    },
+    Elves{
+        @Override
+        public List<String> getUnitNames() {
+            return List.of("Lorien Warrior", "Mirkwood Archer", "Rivendell Lancer");
+        }
 
-    /**
-     * Getting the team of the army.
-     *
-     * @return army team
-     * */
-    public Team getTeam(){
-        return switch (this){
-            case Men, Elves, Dwarves -> Team.BLUE;
-            case Mordor, Isengard -> Team.YELLOW;
-        };
-    }
+        @Override
+        public Team getTeam() {
+            return Team.BLUE;
+        }
+    },
+    Dwarves{
+        @Override
+        public List<String> getUnitNames() {
+            return List.of("Guardian", "Phalanx", "Axe Thrower");
+        }
+
+        @Override
+        public Team getTeam() {
+            return Team.BLUE;
+        }
+    },
+    Mordor{
+        @Override
+        public List<String> getUnitNames() {
+            return List.of("Orc Warrior", "Orc Pikeman", "Haradrim Archer");
+        }
+
+        @Override
+        public Team getTeam() {
+            return Team.RED;
+        }
+    },
+    Isengard{
+        @Override
+        public List<String> getUnitNames() {
+            return List.of("Uruk-hai", "Uruk Crossbowman", "Warg Rider");
+        }
+
+        @Override
+        public Team getTeam() {
+            return Team.RED;
+        }
+    };
 
     /**
      * Gets the unit names of the faction.
      *
      * @return The unit names of the faction.
      */
-    public List<String> getUnitNames() {
-        return switch (this) {
-            case Men -> List.of("Gondor Soldier", "Tower Guard", "Ithilien Ranger");
-            case Elves -> List.of("Lorien Warrior", "Mirkwood Archer", "Rivendell Lancer");
-            case Dwarves -> List.of("Guardian", "Phalanx", "Axe Thrower");
-            case Mordor -> List.of("Orc Warrior", "Orc Pikeman", "Haradrim Archer");
-            case Isengard -> List.of("Uruk-hai", "Uruk Crossbowman", "Warg Rider");
-        };
-    }
+    public abstract List<String> getUnitNames();
+
+    public abstract Team getTeam();
 }

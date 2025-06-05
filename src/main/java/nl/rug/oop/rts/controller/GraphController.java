@@ -2,6 +2,7 @@ package nl.rug.oop.rts.controller;
 
 import lombok.RequiredArgsConstructor;
 import nl.rug.oop.rts.controller.commands.*;
+import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;

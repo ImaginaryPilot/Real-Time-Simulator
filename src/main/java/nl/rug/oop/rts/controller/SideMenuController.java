@@ -1,6 +1,8 @@
 package nl.rug.oop.rts.controller;
 
 import lombok.AllArgsConstructor;
+import nl.rug.oop.rts.controller.commands.AddArmyCommand;
+import nl.rug.oop.rts.controller.commands.Command;
 import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.army.Faction;
 import nl.rug.oop.rts.model.panel.Edge;
@@ -87,8 +89,9 @@ public class SideMenuController {
         );
 
         if (selectedFaction != null) {
-            Army newArmy = new Army(selectedFaction);
-            node.addArmy(newArmy);
+            Command command = new AddArmyCommand(graphModel, new Army(selectedFaction), node);
+            mainController.addCommand(command);
+            mainController.executeCommand(command);
             viewModel.updateAllObservers();
         }
     }

@@ -1,6 +1,7 @@
 package nl.rug.oop.rts.model.panel;
 
 import lombok.Getter;
+import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.observer.Observable;
 import nl.rug.oop.rts.observer.Observer;
 
@@ -196,8 +197,17 @@ public class GraphModel implements Observable {
             return edge.getNodeB();
         } else if(edge.getNodeB().equals(node)){
             return edge.getNodeA();
-        } else {
-            throw new IllegalArgumentException("Node is not part of edge");
         }
+        return null;
+    }
+
+    public void addArmy(Node node, Army army){
+        node.addArmy(army);
+        updateAllObservers();
+    }
+
+    public void removeArmy(Node node, Army army){
+        node.removeArmy(army);
+        updateAllObservers();
     }
 }
