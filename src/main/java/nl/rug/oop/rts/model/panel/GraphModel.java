@@ -2,6 +2,7 @@ package nl.rug.oop.rts.model.panel;
 
 import lombok.Getter;
 import nl.rug.oop.rts.model.army.Army;
+import nl.rug.oop.rts.model.events.Event;
 import nl.rug.oop.rts.observer.Observable;
 import nl.rug.oop.rts.observer.Observer;
 
@@ -220,6 +221,46 @@ public class GraphModel implements Observable {
      */
     public void removeArmy(Node node, Army army) {
         node.removeArmy(army);
+        updateAllObservers();
+    }
+
+    /**
+     *
+     * @param node
+     * @param event
+     */
+    public void addNodeEvent(Node node, Event event){
+        node.addEvent(event);
+        updateAllObservers();
+    }
+
+    /**
+     *
+     * @param node
+     * @param event
+     */
+    public void removeNodeEvent(Node node, Event event){
+        node.removeEvent(event);
+        updateAllObservers();
+    }
+
+    /**
+     *
+     * @param edge
+     * @param event
+     */
+    public void addEdgeEvent(Edge edge, Event event){
+        edge.addEvent(event);
+        updateAllObservers();
+    }
+
+    /**
+     *
+     * @param edge
+     * @param event
+     */
+    public void removeEdgeEvent(Edge edge, Event event){
+        edge.removeEvent(event);
         updateAllObservers();
     }
 

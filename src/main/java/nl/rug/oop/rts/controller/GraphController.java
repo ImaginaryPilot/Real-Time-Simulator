@@ -43,11 +43,6 @@ public class GraphController {
         String name = "Node " + id;
         Node node = new Node(id, name, x, y);
         Command command = new AddNodeCommand(graphModel, viewModel, node);
-
-        node.addEvent(new Disaster());
-        node.addEvent(new Reinforcements());
-        node.addEvent(new Weaponry());
-
         mainController.addCommand(command);
         mainController.executeCommand(command);
         return node;
@@ -75,11 +70,6 @@ public class GraphController {
         int id = graphModel.createEdgeId();
         Edge edge = new Edge(id, nodeA, nodeB);
         Command command = new AddEdgeCommand(graphModel, viewModel, edge);
-
-        edge.addEvent(new Disaster());
-        edge.addEvent(new Reinforcements());
-        edge.addEvent(new Weaponry());
-
         mainController.addCommand(command);
         mainController.executeCommand(command);
         return edge;

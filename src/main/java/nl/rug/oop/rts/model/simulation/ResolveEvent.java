@@ -76,7 +76,7 @@ public class ResolveEvent{
             return null;
         }
         int chance = random.nextInt(100);
-        if (chance >= 40) {
+        if (chance >= 50) {
             System.out.println("No event triggered at Node: " + node.getName());
             return null;
         }
@@ -101,7 +101,7 @@ public class ResolveEvent{
             return null;
         }
         int chance = random.nextInt(100);
-        if (chance >= 40) {
+        if (chance >= 50) {
             System.out.println("No event triggered on Edge: " + edge.getName());
             return null;
         }

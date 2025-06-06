@@ -62,7 +62,14 @@ class NodePanel extends JPanel {
         add(Box.createVerticalStrut(5));
         add(new JSeparator(SwingConstants.HORIZONTAL));
 
+        eventPanel();
         armyPanel();
+    }
+
+    /**
+     *
+     */
+    private void eventPanel() {
     }
 
     /**
