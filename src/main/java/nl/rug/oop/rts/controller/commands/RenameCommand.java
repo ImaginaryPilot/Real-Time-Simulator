@@ -2,17 +2,21 @@ package nl.rug.oop.rts.controller.commands;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import nl.rug.oop.rts.model.interfaces.Renamable;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;
 
+import javax.swing.*;
+
 /**
  * Command for renaming an element.
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RenameCommand implements Command {
     /**
      * The graph of the game.
@@ -34,6 +38,9 @@ public class RenameCommand implements Command {
      * The new name of the element.
      */
     private final String newName;
+
+    @Setter
+    private boolean shouldUpdate = false;
 
     @Override
     public void execute() {
@@ -60,7 +67,10 @@ public class RenameCommand implements Command {
             graphModel.setEdgeName((Edge) element, name);
             viewModel.setSelectedEdge((Edge) element);
         }
-
+        if (shouldUpdate) {
+            Runnable doHighlight = viewModel::updateAllObservers;
+            SwingUtilities.invokeLater(doHighlight);
+        }
     }
 
 }

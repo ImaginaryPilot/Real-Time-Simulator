@@ -84,10 +84,9 @@ public class MainController {
      * @param newName The new name of the element.
      */
     public void addRenameCommand(Renamable element, String newName) {
-        Command command;
+        RenameCommand command;
         try {
-            if (undoStack.peek() instanceof RenameCommand) {
-                RenameCommand lastCmd = (RenameCommand) undoStack.peek();
+            if (undoStack.peek() instanceof RenameCommand lastCmd) {
                 if (lastCmd.getElement() == element) {  // Renaming same element
                     undoStack.pop();
                     String originalName = lastCmd.getOldName();
@@ -106,8 +105,9 @@ public class MainController {
         } catch (EmptyStackException e) {
             command = new RenameCommand(graphModel, viewModel, element, element.getName(), newName);
         }
-        addCommand(command);
         executeCommand(command);
+        command.setShouldUpdate(true);
+        addCommand(command);
     }
 
     /**

@@ -84,7 +84,7 @@ public class TopMenuController {
         }
         List<Edge> copiedEdges = new ArrayList<>(graphModel.getEdges());
         List<Node> copiedNodes = new ArrayList<>(graphModel.getNodes());
-        Command command = new ClearCommand(graphModel, copiedEdges, copiedNodes);
+        Command command = new ClearCommand(graphModel, viewModel, copiedEdges, copiedNodes);
         mainController.addCommand(command);
         mainController.executeCommand(command);
     }
