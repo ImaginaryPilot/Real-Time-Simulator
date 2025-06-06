@@ -187,7 +187,6 @@ class EdgePanel extends JPanel {
      * refreshing the JList everytime an event was added or removed.
      */
     private void refreshEventEdgeList() {
-        System.out.println("refreshing the JList everytime an event was added or removed.");
         eventListModel.clear();
         if (currentEdge != null) {
             List<Event> events = currentEdge.getEvents();

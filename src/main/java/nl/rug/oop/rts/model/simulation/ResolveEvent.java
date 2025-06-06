@@ -69,17 +69,14 @@ public class ResolveEvent {
      */
     public Event triggerRandomEventNode(Army army, Random random, Node node) {
         if (node.getEvents().isEmpty()) {
-            System.out.println("No events available at Node: " + node.getName());
             return null;
         }
         int chance = random.nextInt(100);
         if (chance >= 50) {
-            System.out.println("No event triggered at Node: " + node.getName());
             return null;
         }
         Event event = node.getEvents().get(random.nextInt(node.getEvents().size()));
         event.apply(army);
-        System.out.println("Triggered Event: " + event.getName() + " at Node: " + node.getName());
         return event;
 
     }
@@ -94,17 +91,14 @@ public class ResolveEvent {
      */
     public Event triggerRandomEventEdge(Army army, Random random, Edge edge) {
         if (edge.getEvents().isEmpty()) {
-            System.out.println("No events available at Edge: " + edge.getName());
             return null;
         }
         int chance = random.nextInt(100);
         if (chance >= 50) {
-            System.out.println("No event triggered on Edge: " + edge.getName());
             return null;
         }
         Event event = edge.getEvents().get(random.nextInt(edge.getEvents().size()));
         event.apply(army);
-        System.out.println("Triggered Event: " + event.getName() + " on Edge: " + edge.getName());
         return event;
     }
 }
