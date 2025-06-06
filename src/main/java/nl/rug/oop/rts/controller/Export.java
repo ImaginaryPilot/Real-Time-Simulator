@@ -43,6 +43,10 @@ public class Export {
      */
     private final String str1 = "\",\n";
     /**
+     * String for "],".
+     */
+    private final String str2 = "],";
+    /**
      * String for ",".
      */
     private final String dot = ",";
@@ -70,10 +74,10 @@ public class Export {
         jsonBuilder.append(spaces).append("\"Nodes\": [");
         addNode();
         if (graphModel.getNodes().isEmpty()) {
-            jsonBuilder.append("],");
+            jsonBuilder.append(str2);
         } else {
-            jsonBuilder.append(newL).append(spaces).append("],");
-        }
+            jsonBuilder.append(newL).append(spaces).append(str2);
+        } // ],
         jsonBuilder.append(newL);
         jsonBuilder.append(spaces).append("\"Edges\": [");
         addEdge();
@@ -92,7 +96,7 @@ public class Export {
     }
 
     /**
-     * Do the identation for the edges.
+     * Do the indentation for the edges.
      */
     private void addEdge() {
         List<Edge> edges = graphModel.getEdges();
@@ -108,7 +112,6 @@ public class Export {
             jsonBuilder.append(spaces).append("\"Node2\": \"").append(edge.getNodeB().getName()).append(str1);
             jsonBuilder.append(spaces).append("\"Events\": ["); // Open Events;
             spaces = template.repeat(4);
-
             for (int l = 0; l < edge.getEvents().size(); l++) {
                 // Events
                 jsonBuilder.append(newL);
@@ -121,10 +124,10 @@ public class Export {
             }
             spaces = template.repeat(3);
             if (edge.getEvents().isEmpty()) {
-                jsonBuilder.append("],");
+                jsonBuilder.append(str2);
             } else {
                 jsonBuilder.append(newL);
-                jsonBuilder.append(spaces).append("],"); // Close Events
+                jsonBuilder.append(spaces).append(str2); // Close Events
             }
             jsonBuilder.append(newL);
             jsonBuilder.append(spaces).append("\"Army\": []\n"); // Open Events;
@@ -153,9 +156,9 @@ public class Export {
             addArmies(armies);
             spaces = template.repeat(3);
             if (armies.isEmpty()) {
-                jsonBuilder.append("],");
+                jsonBuilder.append(str2);
             } else {
-                jsonBuilder.append(newL).append(spaces).append("],");
+                jsonBuilder.append(newL).append(spaces).append(str2);
             }
             jsonBuilder.append(newL).append(spaces).append("\"Events\": ["); // Open Events
             addNodeEvents(node);

@@ -88,9 +88,9 @@ public class MainController {
      */
     public void addRenameCommand(Renamable element, String newName) {
         String oldName = element.getName();
-        try {
-            // Renaming the same element
+        if (!undoStack.isEmpty()) {
             if (undoStack.peek() instanceof RenameCommand lastCmd && lastCmd.getElement() == element) {
+                // Renaming the same element
                 undoStack.pop();
                 oldName = lastCmd.getOldName();
                 if (Objects.equals(oldName, newName)) {
@@ -99,7 +99,6 @@ public class MainController {
                     return;
                 }
             }
-        } catch (EmptyStackException ignored) {
         }
         RenameCommand command = new RenameCommand(graphModel, viewModel, element, oldName, newName);
         executeCommand(command);
