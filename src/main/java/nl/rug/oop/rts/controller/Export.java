@@ -43,6 +43,10 @@ public class Export {
      */
     private final String str1 = "\",\n";
     /**
+     * String for "]".
+     */
+    private final String end = "]";
+    /**
      * String for "],".
      */
     private final String str2 = "],";
@@ -82,11 +86,12 @@ public class Export {
         jsonBuilder.append(spaces).append("\"Edges\": [");
         addEdge();
         if (graphModel.getEdges().isEmpty()) {
-            jsonBuilder.append("]");
+            jsonBuilder.append(end);
         } else {
             jsonBuilder.append(newL);
-            jsonBuilder.append(spaces).append("]\n");
+            jsonBuilder.append(spaces).append(end);
         }
+        jsonBuilder.append(newL);
         jsonBuilder.append("}");
         try (FileWriter writer = new FileWriter(outputFile)) {
             writer.write(jsonBuilder.toString());
@@ -162,10 +167,10 @@ public class Export {
             addNodeEvents(node);
             spaces = template.repeat(3);
             if (node.getEvents().isEmpty()) {
-                jsonBuilder.append("]");
+                jsonBuilder.append(end);
             } else {
                 jsonBuilder.append(newL);
-                jsonBuilder.append(spaces).append("]"); // Close Events
+                jsonBuilder.append(spaces).append(end); // Close Events
             }
             spaces = template.repeat(2);
             jsonBuilder.append(newL);
@@ -237,10 +242,10 @@ public class Export {
             addUnits(army);
             spaces = template.repeat(5);
             if (army.getUnits().isEmpty()) {
-                jsonBuilder.append("]"); // should never be empty tbh
+                jsonBuilder.append(end); // should never be empty tbh
             } else {
                 jsonBuilder.append(newL);
-                jsonBuilder.append(spaces).append("]"); // Close Units
+                jsonBuilder.append(spaces).append(end); // Close Units
             }
             spaces = template.repeat(4);
 
