@@ -8,7 +8,6 @@ import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.ViewModel;
 import nl.rug.oop.rts.model.simulation.Simulation;
 
-import java.util.EmptyStackException;
 import java.util.Objects;
 import java.util.Stack;
 
