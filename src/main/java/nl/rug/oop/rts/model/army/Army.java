@@ -64,7 +64,7 @@ public class Army {
             String name = unitNames.get(random.nextInt(unitNames.size()));
             int damage = 10 + random.nextInt(11); // 10 - 20
             int health = 50 + random.nextInt(51); // 50 - 100
-            units.add(new Unit(name, damage, health));
+            units.add(new Unit(name, health, damage));
         }
     }
 
@@ -138,5 +138,20 @@ public class Army {
         }
 
         return armyCopy;
+    }
+
+    /**
+     * Get stats string.
+     *
+     * @return the string
+     */
+    public String getStats() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Race: ").append(faction.name()).append("\n");
+        sb.append("Faciton: ").append(faction.getTeam()).append("\n");
+        sb.append("Battles won: ").append(battlesWon).append("\n");
+        sb.append("Total Units: ").append(units.size()).append("\n");
+
+        return sb.toString();
     }
 }
