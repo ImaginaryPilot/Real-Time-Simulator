@@ -1,24 +1,41 @@
 package nl.rug.oop.rts.model.simulation;
 
-import lombok.AllArgsConstructor;
+
+import lombok.Getter;
+import lombok.Setter;
 import nl.rug.oop.rts.model.events.Disaster;
 import nl.rug.oop.rts.model.events.Event;
 import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.events.Reinforcements;
 import nl.rug.oop.rts.model.events.Weaponry;
+import nl.rug.oop.rts.model.panel.Edge;
+import nl.rug.oop.rts.model.panel.Node;
 
-import javax.swing.*;
+
 import java.util.List;
+import java.util.Random;
 
 /**
  * Class for displaying information about a triggered event.
  */
-@AllArgsConstructor
-public class ResolveEvent extends JPanel {
+@Getter
+@Setter
+public class ResolveEvent{
     /**
      * The list of events that have occurred.
      */
     private List<String> eventLog;
+
+
+    /**
+     * Constructor for eventLog.
+     *
+     * @param eventLog list of events to log
+     */
+    public ResolveEvent(List<String> eventLog) {
+        this.eventLog = eventLog;
+    }
+
 
     /**
      * Displays a dialog showing information about a triggered event.
@@ -44,5 +61,53 @@ public class ResolveEvent extends JPanel {
                 army.getFaction() + " has its' " +
                 specificDetails
         );
+    }
+
+    /**
+     * Method that triggers random event.
+     *
+     * @param army   army affected.
+     * @param random event number.
+     * @return the event.
+     */
+    public Event triggerRandomEventNode(Army army, Random random, Node node) {
+        if (node.getEvents().isEmpty()) {
+            System.out.println("No events available at Node: " + node.getName());
+            return null;
+        }
+        int chance = random.nextInt(100);
+        if (chance >= 40) {
+            System.out.println("No event triggered at Node: " + node.getName());
+            return null;
+        }
+        Event event = node.getEvents().get(random.nextInt(node.getEvents().size()));
+        event.apply(army);
+        System.out.println("Triggered Event: " + event.getName() + " at Node: " + node.getName());
+        return event;
+
+    }
+
+
+    /**
+     * The function that triggers a random event on the edge.
+     *
+     * @param army   army affected.
+     * @param random which event is chosen?
+     * @return event.
+     */
+    public Event triggerRandomEventEdge(Army army, Random random, Edge edge) {
+        if (edge.getEvents().isEmpty()) {
+            System.out.println("No events available at Edge: " + edge.getName());
+            return null;
+        }
+        int chance = random.nextInt(100);
+        if (chance >= 40) {
+            System.out.println("No event triggered on Edge: " + edge.getName());
+            return null;
+        }
+        Event event = edge.getEvents().get(random.nextInt(edge.getEvents().size()));
+        event.apply(army);
+        System.out.println("Triggered Event: " + event.getName() + " on Edge: " + edge.getName());
+        return event;
     }
 }

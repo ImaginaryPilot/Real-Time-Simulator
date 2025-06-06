@@ -57,4 +57,9 @@ public class Unit {
     public Unit copy() {
         return new Unit(this.name, this.health, this.damage);
     }
+
+    @Override
+    public String toString(){
+        return name + " (HP: " + health + ", DMG: " + damage + ")";
+    }
 }

@@ -2,6 +2,7 @@ package nl.rug.oop.rts.view.sidepanel;
 
 import nl.rug.oop.rts.controller.SideMenuController;
 import nl.rug.oop.rts.model.army.Army;
+import nl.rug.oop.rts.model.army.Unit;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.view.utilities.NameTextField;
 
@@ -35,9 +36,9 @@ class NodePanel extends JPanel {
      */
     private final JList<String> armyList;
     /**
-     * stores list of armies to check their stats.
-     */
-    private java.util.List<Army> armyObjects;
+     * Selected index from JList for removal or stats.
+     * */
+    private int selectedIndex;
 
     /**
      * Constructor for the NodePanel class.
@@ -70,8 +71,6 @@ class NodePanel extends JPanel {
      */
     private void armyPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        armyObjects = new ArrayList<>();
         armyList.setVisibleRowCount(5);
         JScrollPane armyScrollPane = new JScrollPane(armyList);
         armyScrollPane.setPreferredSize(new Dimension(180, 100));
@@ -86,9 +85,13 @@ class NodePanel extends JPanel {
         buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         JButton addArmyButton = new JButton("+");
         JButton removeArmyButton = new JButton("-");
+        JButton statsButton = new JButton("Stats");
+        statsButton.setEnabled(false);
+        removeArmyButton.setEnabled(false);
 
         buttonPanel.add(addArmyButton);
         buttonPanel.add(removeArmyButton);
+        buttonPanel.add(statsButton);
         buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         buttonPanel.setMaximumSize(buttonPanel.getPreferredSize());
         add(buttonPanel);
@@ -96,8 +99,16 @@ class NodePanel extends JPanel {
         armyScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
         add(armyScrollPane);
 
+        armyList.addListSelectionListener(e -> {
+            boolean selected = armyList.getSelectedIndex() != -1;
+            selectedIndex = armyList.getSelectedIndex();
+            removeArmyButton.setEnabled(selected);
+            statsButton.setEnabled(selected);
+        });
+
         addArmyButton(addArmyButton);
-        removeArmyButton(removeArmyButton);
+        removeArmyButton(removeArmyButton, selectedIndex);
+        showArmyStats(statsButton, selectedIndex);
     }
 
     /**
@@ -118,19 +129,43 @@ class NodePanel extends JPanel {
      *
      * @param removeArmyButton button to remove army
      */
-    private void removeArmyButton(JButton removeArmyButton) {
+    private void removeArmyButton(JButton removeArmyButton, int selectedIndex) {
         removeArmyButton.addActionListener(e -> {
             if (currentNode != null) {
-                int selectedIndex = armyList.getSelectedIndex();
-                if (selectedIndex == -1) {
-                    JOptionPane.showMessageDialog(
-                            this,
-                            "Please select an army to remove\n",
-                            "No Selection",
-                            JOptionPane.WARNING_MESSAGE);
-                } else {
-                    sideMenuController.removeArmy(currentNode, selectedIndex);
-                }
+                sideMenuController.removeArmy(currentNode, selectedIndex);
+            }
+        });
+    }
+
+    private void showArmyStats(JButton statsButton, int selectedIndex){
+        statsButton.addActionListener(e-> {
+            if(currentNode != null){
+                Army selectedArmy = currentNode.getArmyList().get(selectedIndex);
+                JPanel statsPanel = new JPanel();
+                statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
+                statsPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+                JTextArea textArea = new JTextArea(selectedArmy.getStats());
+                textArea.setEditable(false);
+                textArea.setBackground(null);
+                textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+                JList<Unit> unitJlist = new JList<>(selectedArmy.getUnits().toArray(new Unit[0]));
+                unitJlist.setVisibleRowCount(8);
+                JScrollPane scrollPane = new JScrollPane(unitJlist);
+                scrollPane.setPreferredSize(new Dimension(250, 150));
+                scrollPane.setBorder(BorderFactory.createTitledBorder("Units"));
+
+                statsPanel.add(textArea);
+                statsPanel.add(Box.createVerticalStrut(10));
+                statsPanel.add(scrollPane);
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        statsPanel,
+                        "Army Stats",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
             }
         });
     }
@@ -142,9 +177,8 @@ class NodePanel extends JPanel {
         armyListModel.clear();
         if (currentNode != null) {
             List<Army> armies = currentNode.getArmyList();
-            armyObjects = armies;
             for (Army army : armies) {
-                armyListModel.addElement(army.getFaction().name() + " (Wins: " + army.getBattlesWon() + ")");
+                armyListModel.addElement(army.getFaction().name());
             }
         }
     }

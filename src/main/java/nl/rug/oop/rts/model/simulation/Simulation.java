@@ -135,7 +135,7 @@ public class Simulation {
         for (Move move : moves) {
             Edge edge = move.getEdge();
             Army army = move.getArmy();
-            Event triggeredEvent = edge.triggerRandomEvent(army, random);
+            Event triggeredEvent = resolveEvent.triggerRandomEventEdge(army, random, edge);
             if (triggeredEvent != null) {
                 // Use the EventPanel to display an event notification popup
                 resolveEvent.displayEventDialog(triggeredEvent, army, edge.getName());
@@ -175,16 +175,14 @@ public class Simulation {
         for (Node node : graphModel.getNodes()) {
             List<Army> toRemove = new ArrayList<>();
             for (Army army : node.getArmyList()) {
-                Event triggeredEvent = node.triggerRandomEvent(army, random);
+                Event triggeredEvent = resolveEvent.triggerRandomEventNode(army, random, node);
                 if (triggeredEvent != null) {
-                    // Use the EventPanel to display an event notification popup
                     resolveEvent.displayEventDialog(triggeredEvent, army, node.getName());
                 }
                 if (army.getUnits().isEmpty()) {
-                    toRemove.add(army);  // kill the army
+                    toRemove.add(army);
                 }
             }
-
             node.getArmyList().removeAll(toRemove);
         }
     }
