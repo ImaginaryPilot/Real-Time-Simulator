@@ -71,7 +71,7 @@ public class TopMenuPanel extends JPanel implements Observer {
         setBackground(Color.DARK_GRAY);
         setPreferredSize(new Dimension(1200, 40));
         setButtons();
-
+        setupButtons2();
         setVisible(true);
     }
 
@@ -111,8 +111,20 @@ public class TopMenuPanel extends JPanel implements Observer {
         add(new JButton("Redo") {{
                 addActionListener(e -> mainController.redo());
             }});
+
+        update();
+    }
+    /**
+     * Set up the buttons at the top menu.
+     * Part 2
+     */
+
+    private void setupButtons2(){
         add(new JButton("Simulate") {{
                 addActionListener(e -> topMenuController.simulationStep());
+            }});
+        add(new JButton("Save") {{
+                addActionListener(e -> topMenuController.exportGraph());
             }});
         update();
     }

@@ -12,6 +12,9 @@ import nl.rug.oop.rts.model.panel.ViewModel;
 import nl.rug.oop.rts.model.simulation.NodeArmyState;
 import nl.rug.oop.rts.model.simulation.Simulation;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,5 +122,25 @@ public class TopMenuController {
         }
         Command command = new SimulationCommand(graphModel, nodeArmyStates, nodeArmyStatesNew);
         mainController.addCommand(command);
+    }
+
+    /**
+     * Export graph.
+     * Save all the data of the nodes and edges to the selected file.
+     */
+    public void exportGraph() {
+        if (graphModel.getEdges().isEmpty() && graphModel.getNodes().isEmpty()) {
+            return;
+        }
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter jsonFilter = new FileNameExtensionFilter("JSON Files (*.json)", "json");
+        chooser.setFileFilter(jsonFilter);
+        int returnVal = chooser.showSaveDialog(null);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+            Export export = new Export(graphModel, file);
+            export.export();
+        }
     }
 }
