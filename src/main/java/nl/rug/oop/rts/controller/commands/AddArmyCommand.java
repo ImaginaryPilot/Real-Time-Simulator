@@ -31,6 +31,7 @@ public class AddArmyCommand implements Command {
     @Override
     public void execute() {
         graphModel.addArmy(node, army);
+        viewModel.setSelectedNode(node);
         viewModel.updateAllObservers();
     }
 
@@ -39,6 +40,7 @@ public class AddArmyCommand implements Command {
         for (Army a : node.getArmyList()) {
             if (a.getId() == army.getId()) {
                 graphModel.removeArmy(node, a);
+                viewModel.setSelectedNode(node);
                 viewModel.updateAllObservers();
                 return;
             }

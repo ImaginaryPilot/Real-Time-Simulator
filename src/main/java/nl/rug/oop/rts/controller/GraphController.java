@@ -7,8 +7,6 @@ import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;
 
-import java.util.List;
-
 /**
  * Graph controller class.
  */
@@ -81,25 +79,5 @@ public class GraphController {
         Command command = new RemoveEdgeCommand(graphModel, viewModel, edge);
         mainController.addCommand(command);
         mainController.executeCommand(command);
-    }
-
-    /**
-     * Generates a test graph.
-     */
-    public void generateTest() {
-
-        addNode(100, 100);
-        addNode(200, 200);
-        addNode(300, 100);
-        addNode(200, 500);
-        addNode(500, 500);
-
-        List<Node> Nodes = graphModel.getNodes();
-        addEdge((Node) Nodes.get(0), (Node) Nodes.get(1));
-        addEdge((Node) Nodes.get(0), (Node) Nodes.get(2));
-        addEdge((Node) Nodes.get(0), (Node) Nodes.get(3));
-        addEdge((Node) Nodes.get(1), (Node) Nodes.get(2));
-        addEdge((Node) Nodes.get(1), (Node) Nodes.get(3));
-        addEdge((Node) Nodes.get(4), (Node) Nodes.get(3));
     }
 }

@@ -31,12 +31,14 @@ public class RemoveArmyCommand implements Command {
     @Override
     public void execute() {
         graphModel.removeArmy(node, army);
+        viewModel.setSelectedNode(node);
         viewModel.updateAllObservers();
     }
 
     @Override
     public void undo() {
         graphModel.addArmy(node, army);
+        viewModel.setSelectedNode(node);
         viewModel.updateAllObservers();
     }
 }
