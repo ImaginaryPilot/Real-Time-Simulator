@@ -118,8 +118,6 @@ public class Export {
                 jsonBuilder.append(spaces).append("\"").append(edge.getEvents().get(l).getName()).append("\"");
                 if (l < edge.getEvents().size() - 1) {
                     jsonBuilder.append(dot);
-                } else {
-                    jsonBuilder.append(newL);
                 }
             }
             spaces = template.repeat(3);
@@ -190,8 +188,6 @@ public class Export {
             jsonBuilder.append(spaces).append("\"").append(node.getEvents().get(l).getName()).append("\"");
             if (l < node.getEvents().size() - 1) {
                 jsonBuilder.append(dot);
-            } else {
-                jsonBuilder.append(newL);
             }
         }
     }
