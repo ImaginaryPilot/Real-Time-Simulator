@@ -125,7 +125,6 @@ class NodePanel extends JPanel {
         addArmyButton.addActionListener(e -> {
             if (currentNode != null) {
                 Faction[] factions = Faction.values();
-
                 Faction selectedFaction = (Faction) JOptionPane.showInputDialog(
                         null,
                         "Select a faction to add an army:",

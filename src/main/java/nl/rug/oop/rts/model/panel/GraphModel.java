@@ -31,6 +31,10 @@ public class GraphModel implements Observable {
      */
     private int edgeIdCounter;
     /**
+     * Counter for the unique identifier of an army.
+     */
+    private int armyIdCounter;
+    /**
      * List of all the observers of the graph.
      */
     private List<Observer> observers;
@@ -43,6 +47,7 @@ public class GraphModel implements Observable {
         this.edges = new ArrayList<>();
         this.nodeIdCounter = 0;
         this.edgeIdCounter = 0;
+        this.armyIdCounter = 0;
         this.observers = new ArrayList<>();
     }
 
@@ -171,6 +176,16 @@ public class GraphModel implements Observable {
     }
 
     /**
+     * Creates a unique identifier for an army.
+     *
+     * @return The unique identifier of the army.
+     */
+    public int createArmyId() {
+        armyIdCounter++;
+        return armyIdCounter;
+    }
+
+    /**
      * Get all edges connected to the node.
      *
      * @param node the node we want to find all edges connected to
@@ -225,41 +240,37 @@ public class GraphModel implements Observable {
     }
 
     /**
-     *
      * @param node
      * @param event
      */
-    public void addNodeEvent(Node node, Event event){
+    public void addNodeEvent(Node node, Event event) {
         node.addEvent(event);
         updateAllObservers();
     }
 
     /**
-     *
      * @param node
      * @param event
      */
-    public void removeNodeEvent(Node node, Event event){
+    public void removeNodeEvent(Node node, Event event) {
         node.removeEvent(event);
         updateAllObservers();
     }
 
     /**
-     *
      * @param edge
      * @param event
      */
-    public void addEdgeEvent(Edge edge, Event event){
+    public void addEdgeEvent(Edge edge, Event event) {
         edge.addEvent(event);
         updateAllObservers();
     }
 
     /**
-     *
      * @param edge
      * @param event
      */
-    public void removeEdgeEvent(Edge edge, Event event){
+    public void removeEdgeEvent(Edge edge, Event event) {
         edge.removeEvent(event);
         updateAllObservers();
     }

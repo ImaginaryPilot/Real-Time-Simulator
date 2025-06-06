@@ -14,6 +14,10 @@ import java.util.Random;
 @Setter
 public class Army {
     /**
+     * Unique id that identifies the army.
+     */
+    private final int id;
+    /**
      * The faction of the army.
      */
     private final Faction faction;
@@ -24,7 +28,7 @@ public class Army {
     /**
      * The number of battles won.
      **/
-    private int battlesWon = 0;
+    private int battlesWon;
     /**
      * The random variable.
      */
@@ -33,21 +37,26 @@ public class Army {
     /**
      * Constructor for the Army class.
      *
+     * @param id      The unique id.
      * @param faction The faction of the army.
      */
-    public Army(Faction faction) {
+    public Army(int id, Faction faction) {
+        this.id = id;
         this.faction = faction;
         this.units = new ArrayList<>();
+        this.battlesWon = 0;
         generateUnits();
     }
 
     /**
      * Constructor without generating units.
      *
+     * @param id         the unique id
      * @param faction    the faction
      * @param battlesWon the battles won
      */
-    public Army(Faction faction, int battlesWon) {
+    public Army(int id, Faction faction, int battlesWon) {
+        this.id = id;
         this.faction = faction;
         this.battlesWon = battlesWon;
         this.units = new ArrayList<>();
@@ -131,7 +140,7 @@ public class Army {
      * @return the copy of the army
      */
     public Army copy() {
-        Army armyCopy = new Army(this.faction, this.battlesWon);
+        Army armyCopy = new Army(this.id, this.faction, this.battlesWon);
 
         for (Unit unit : units) {
             armyCopy.units.add(unit.copy());

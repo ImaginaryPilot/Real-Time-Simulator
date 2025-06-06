@@ -30,16 +30,19 @@ public class AddArmyCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println("Army: Node: " + node + " Army: " + army + " added.");
         graphModel.addArmy(node, army);
         viewModel.updateAllObservers();
     }
 
     @Override
     public void undo() {
-        System.out.println("all armies in node: " + node + ", armies: " + node.getArmyList());
-        System.out.println("Army: Node: " + node + " Army: " + army + " removed.");
-        graphModel.removeArmy(node, army);
-        viewModel.updateAllObservers();
+        for (Army a : node.getArmyList()) {
+            if (a.getId() == army.getId()) {
+                graphModel.removeArmy(node, a);
+                viewModel.updateAllObservers();
+                return;
+            }
+        }
+        System.err.println("Army not found in node: " + node + " army: " + army); //Should in theory never happen.
     }
 }

@@ -2,9 +2,6 @@ package nl.rug.oop.rts.controller;
 
 import lombok.RequiredArgsConstructor;
 import nl.rug.oop.rts.controller.commands.*;
-import nl.rug.oop.rts.model.events.Disaster;
-import nl.rug.oop.rts.model.events.Reinforcements;
-import nl.rug.oop.rts.model.events.Weaponry;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;

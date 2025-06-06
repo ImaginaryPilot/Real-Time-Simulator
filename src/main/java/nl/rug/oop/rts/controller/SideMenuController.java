@@ -51,13 +51,17 @@ public class SideMenuController {
     }
 
     /**
-     * Add army.
+     * Add an army.
      *
-     * @param node the node
+     * @param node            the node
+     * @param selectedFaction the selected faction
+     *                        new army will be from this faction
      */
     public void addArmy(Node node, Faction selectedFaction) {
         if (selectedFaction != null) {
-            Command command = new AddArmyCommand(graphModel, viewModel, new Army(selectedFaction), node);
+            int id = graphModel.createArmyId();
+            Army army = new Army(id, selectedFaction);
+            Command command = new AddArmyCommand(graphModel, viewModel, army, node);
             mainController.addCommand(command);
             mainController.executeCommand(command);
         }

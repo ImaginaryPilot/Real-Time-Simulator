@@ -123,8 +123,10 @@ public class Export {
             if (edge.getEvents().isEmpty()) {
                 jsonBuilder.append("],");
             } else {
-                jsonBuilder.append(spaces).append("],\n"); // Close Events
+                jsonBuilder.append(newL);
+                jsonBuilder.append(spaces).append("],"); // Close Events
             }
+            jsonBuilder.append(newL);
             jsonBuilder.append(spaces).append("\"Army\": []\n"); // Open Events;
             spaces = template.repeat(2);
             jsonBuilder.append(spaces).append("}"); // Close Edge;
@@ -161,9 +163,11 @@ public class Export {
             if (node.getEvents().isEmpty()) {
                 jsonBuilder.append("]");
             } else {
-                jsonBuilder.append(spaces).append("]\n"); // Close Events
+                jsonBuilder.append(newL);
+                jsonBuilder.append(spaces).append("]"); // Close Events
             }
             spaces = template.repeat(2);
+            jsonBuilder.append(newL);
             jsonBuilder.append(spaces).append("}"); // Close Node
             if (i < nodes.size() - 1) {
                 jsonBuilder.append(dot);

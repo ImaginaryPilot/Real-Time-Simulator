@@ -30,14 +30,12 @@ public class RemoveArmyCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println("army: " + army);
         graphModel.removeArmy(node, army);
         viewModel.updateAllObservers();
     }
 
     @Override
     public void undo() {
-        System.out.println("army: " + army);
         graphModel.addArmy(node, army);
         viewModel.updateAllObservers();
     }
