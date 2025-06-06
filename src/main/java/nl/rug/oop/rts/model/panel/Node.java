@@ -5,8 +5,6 @@ import lombok.Setter;
 import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.events.Event;
 import nl.rug.oop.rts.model.interfaces.Renamable;
-import nl.rug.oop.rts.observer.Observable;
-import nl.rug.oop.rts.observer.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +58,7 @@ public class Node implements Renamable {
     }
 
     /**
-     * add army to the armyList.
+     * Add an army to the armyList.
      *
      * @param army the army
      */
@@ -69,7 +67,7 @@ public class Node implements Renamable {
     }
 
     /**
-     * remove army from the armyList using index.
+     * Remove an army from the armyList using index.
      *
      * @param index where army lies
      */
@@ -78,7 +76,7 @@ public class Node implements Renamable {
     }
 
     /**
-     * remove army from the armyList using army object.
+     * Remove an army from the armyList using an army object.
      *
      * @param army the army
      */
@@ -112,7 +110,7 @@ public class Node implements Renamable {
     }
 
     /**
-     * Add an event on the node
+     * Add an event on the node.
      *
      * @param event event added.
      */

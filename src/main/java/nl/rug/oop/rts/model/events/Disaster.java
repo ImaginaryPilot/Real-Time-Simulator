@@ -1,18 +1,17 @@
 package nl.rug.oop.rts.model.events;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import nl.rug.oop.rts.model.army.Army;
 
 import java.util.Random;
 
-@Setter
-@Getter
 /**
  * Class for natural disasters.
  */
-public class Disaster extends Event{
+@Setter
+@Getter
+public class Disaster extends Event {
     /**
      * Units removed by the event.
      */
@@ -25,7 +24,7 @@ public class Disaster extends Event{
     /**
      * Constructor for the Disaster class.
      */
-    public Disaster(){
+    public Disaster() {
         super("Tornado", "A tornado strikes the army, causing massive casualties.");
     }
 
@@ -35,14 +34,17 @@ public class Disaster extends Event{
      * @param army the army that suffers the effects.
      */
     @Override
-    public void apply(Army army){
+    public void apply(Army army) {
         unitsRemoved = 5 + random.nextInt(15);
-        for(int i = 0; i < unitsRemoved && !army.getUnits().isEmpty(); i++){
+        for (int i = 0; i < unitsRemoved && !army.getUnits().isEmpty(); i++) {
             army.getUnits().remove(random.nextInt(army.getUnits().size()));
         }
 
-        if(army.getUnits().size() <= 0){
-
+        if (army.getUnits().isEmpty()) {
+            /*
+            something
+             */
+            System.out.println("Something happened to the army, but it's empty now.");
         }
     }
 }

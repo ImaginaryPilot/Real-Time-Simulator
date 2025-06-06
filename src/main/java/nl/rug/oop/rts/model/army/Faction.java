@@ -3,10 +3,11 @@ package nl.rug.oop.rts.model.army;
 import java.util.List;
 
 /**
- * Race Enum.
+ * Faction enum.
+ * Faction can be; Men, Elves, Dwarves, Mordor, Isengard.
  */
 public enum Faction {
-    Men{
+    Men {
         @Override
         public List<String> getUnitNames() {
             return List.of("Gondor Soldier", "Tower Guard", "Ithilien Ranger");
@@ -17,7 +18,7 @@ public enum Faction {
             return Team.BLUE;
         }
     },
-    Elves{
+    Elves {
         @Override
         public List<String> getUnitNames() {
             return List.of("Lorien Warrior", "Mirkwood Archer", "Rivendell Lancer");
@@ -28,7 +29,7 @@ public enum Faction {
             return Team.BLUE;
         }
     },
-    Dwarves{
+    Dwarves {
         @Override
         public List<String> getUnitNames() {
             return List.of("Guardian", "Phalanx", "Axe Thrower");
@@ -39,7 +40,7 @@ public enum Faction {
             return Team.BLUE;
         }
     },
-    Mordor{
+    Mordor {
         @Override
         public List<String> getUnitNames() {
             return List.of("Orc Warrior", "Orc Pikeman", "Haradrim Archer");
@@ -50,7 +51,7 @@ public enum Faction {
             return Team.RED;
         }
     },
-    Isengard{
+    Isengard {
         @Override
         public List<String> getUnitNames() {
             return List.of("Uruk-hai", "Uruk Crossbowman", "Warg Rider");
@@ -69,5 +70,10 @@ public enum Faction {
      */
     public abstract List<String> getUnitNames();
 
+    /**
+     * Gets the team of the faction.
+     *
+     * @return The team of the faction.
+     */
     public abstract Team getTeam();
 }

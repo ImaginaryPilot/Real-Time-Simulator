@@ -3,7 +3,6 @@ package nl.rug.oop.rts.view;
 import nl.rug.oop.rts.controller.GraphController;
 import nl.rug.oop.rts.controller.MainController;
 import nl.rug.oop.rts.controller.TopMenuController;
-import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.ViewModel;
 import nl.rug.oop.rts.observer.Observer;
 
@@ -77,7 +76,7 @@ public class TopMenuPanel extends JPanel implements Observer {
     }
 
     /**
-     * Set up the buttons at the top menu
+     * Set up the buttons at the top menu.
      */
     private void setButtons() {
         this.addNode = new JButton("Add Location");
@@ -101,20 +100,20 @@ public class TopMenuPanel extends JPanel implements Observer {
         });
         add(removeEdge);
         add(new JButton("Generate Random Map") {{
-            addActionListener(e -> graphController.generateTest());
-        }});
+                addActionListener(e -> graphController.generateTest());
+            }});
         add(new JButton("Clear") {{
-            addActionListener(e -> topMenuController.clearButton());
-        }});
+                addActionListener(e -> topMenuController.clearButton());
+            }});
         add(new JButton("Undo") {{
-            addActionListener(e -> mainController.undo());
-        }});
+                addActionListener(e -> mainController.undo());
+            }});
         add(new JButton("Redo") {{
-            addActionListener(e -> mainController.redo());
-        }});
+                addActionListener(e -> mainController.redo());
+            }});
         add(new JButton("Simulate") {{
-            addActionListener(e -> topMenuController.simulationStep());
-        }});
+                addActionListener(e -> topMenuController.simulationStep());
+            }});
         update();
     }
 

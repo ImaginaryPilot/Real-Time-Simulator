@@ -27,7 +27,7 @@ public class Army {
     private int battlesWon = 0;
     /**
      * The random variable.
-     * */
+     */
     private final Random random = new Random();
 
     /**
@@ -44,10 +44,10 @@ public class Army {
     /**
      * Constructor without generating units.
      *
-     * @param faction the faction
+     * @param faction    the faction
      * @param battlesWon the battles won
-     * */
-    public Army(Faction faction, int battlesWon){
+     */
+    public Army(Faction faction, int battlesWon) {
         this.faction = faction;
         this.battlesWon = battlesWon;
         this.units = new ArrayList<>();
@@ -72,15 +72,15 @@ public class Army {
      * get the faction name to render the texture of army.
      *
      * @return the string to load texture
-     * */
+     */
     public String getTextureName() {
         return "faction" + faction.name();
     }
 
     /**
      * increment the number of wins the army has.
-     * */
-    public void incrementWin(){
+     */
+    public void incrementWin() {
         battlesWon++;
     }
 
@@ -88,10 +88,10 @@ public class Army {
      * The total amount of health of the army.
      *
      * @return total amount of health
-     * */
+     */
     public int getTotalHealth() {
         int totalHealth = 0;
-        for (Unit unit : units){
+        for (Unit unit : units) {
             totalHealth += unit.getHealth();
         }
         return totalHealth;
@@ -101,10 +101,10 @@ public class Army {
      * The total damage amount of the army.
      *
      * @return total amount of damage
-     * */
+     */
     public int getTotalDamage() {
         int totalDamage = 0;
-        for (Unit unit : units){
+        for (Unit unit : units) {
             totalDamage += unit.getDamage();
         }
         return totalDamage;
@@ -112,14 +112,14 @@ public class Army {
 
     /**
      * function to reduce the army after a conflict has taken place.
-     * */
-    public void takeDamage(){
+     */
+    public void takeDamage() {
         for (int i = 0; i < units.size(); i++) {
             int damageReduction = random.nextInt(3); // 0 - 2
             int healthReduction = 10 + random.nextInt(11); // 10 - 20
             units.get(i).reduceDamage(damageReduction);
             units.get(i).reduceHealth(healthReduction);
-            if(!units.get(i).isAlive()) {
+            if (!units.get(i).isAlive()) {
                 units.remove(units.get(i));
             }
         }
@@ -129,11 +129,11 @@ public class Army {
      * The copy of the entire army.
      *
      * @return the copy of the army
-     * */
-    public Army copy(){
+     */
+    public Army copy() {
         Army armyCopy = new Army(this.faction, this.battlesWon);
 
-        for(Unit unit : units){
+        for (Unit unit : units) {
             armyCopy.units.add(unit.copy());
         }
 

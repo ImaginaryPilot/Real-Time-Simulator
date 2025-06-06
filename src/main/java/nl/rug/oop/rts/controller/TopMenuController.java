@@ -20,6 +20,9 @@ import java.util.List;
  */
 @AllArgsConstructor
 public class TopMenuController {
+    /**
+     * The main controller of the game.
+     */
     private final MainController mainController;
     /**
      * The graph controller of the game.

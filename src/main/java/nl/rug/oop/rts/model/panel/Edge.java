@@ -37,7 +37,7 @@ public class Edge implements Renamable {
      */
     private List<Army> armyList = new ArrayList<>();
     /**
-     * The list of events possible
+     * The list of events possible.
      */
     private List<Event> events = new ArrayList<>();
 
@@ -56,7 +56,7 @@ public class Edge implements Renamable {
     }
 
     /**
-     * add army to the armyList.
+     * Add an army to the armyList.
      *
      * @param army the army
      */
@@ -65,7 +65,7 @@ public class Edge implements Renamable {
     }
 
     /**
-     * remove army from the armyList using army object.
+     * Remove an army from the armyList.
      *
      * @param army the army
      */
@@ -110,7 +110,7 @@ public class Edge implements Renamable {
     /**
      * Method to remove an event from the edge.
      *
-     * @param event removed evennt.
+     * @param event removed event.
      */
     public void removeEvent(Event event) {
         events.remove(event);
@@ -120,7 +120,7 @@ public class Edge implements Renamable {
      * The function that triggers a random event on the edge.
      *
      * @param army   army affected.
-     * @param random which event is choosen.
+     * @param random which event is chosen?
      * @return event.
      */
     public Event triggerRandomEvent(Army army, Random random) {

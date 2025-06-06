@@ -73,11 +73,11 @@ public class ViewModel implements Observable {
     private boolean createEdgeMode;
     /**
      * The battle log of the current view.
-     * */
+     */
     private List<String> battleLog = new ArrayList<>();
     /**
      * The event log of the current view.
-     * */
+     */
     private List<String> eventLog = new ArrayList<>();
 
     /**
@@ -174,12 +174,22 @@ public class ViewModel implements Observable {
         updateAllObservers();
     }
 
+    /**
+     * Set the battleLog.
+     *
+     * @param newLog the new battleLog
+     */
     public void setBattleLog(List<String> newLog) {
         this.battleLog = newLog;
         updateAllObservers();
     }
 
-    public void setEventLog(List<String> newLog){
+    /**
+     * Set the eventLog.
+     *
+     * @param newLog the new eventLog
+     */
+    public void setEventLog(List<String> newLog) {
         this.eventLog = newLog;
         updateAllObservers();
     }

@@ -8,10 +8,6 @@ import javax.swing.text.DocumentFilter;
  * Document filter for the name text fields.
  */
 public class NameFilter extends DocumentFilter {
-    /**
-     * The maximum number of characters for a name.
-     */
-    private final int maxCharacters = 20;
 
     @Override
     public void insertString(FilterBypass fb, int offs, String str, AttributeSet a)
@@ -43,6 +39,7 @@ public class NameFilter extends DocumentFilter {
         if (text == null) {
             return true;
         }
+        int maxCharacters = 20;
         return text.matches("[a-zA-Z0-9 ]*") && text.length() <= maxCharacters;
     }
 

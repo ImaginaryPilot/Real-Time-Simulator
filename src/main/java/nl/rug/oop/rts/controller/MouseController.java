@@ -56,7 +56,15 @@ public class MouseController extends MouseAdapter {
      * The y coordinate of the node when we start moving it.
      */
     private int oldNodeY;
+    /**
+     * The x coordinate of the node when we start dragging it.
+     * View coordinates.
+     */
     private int startNodeViewX;
+    /**
+     * The y coordinate of the node when we start dragging it.
+     * View coordinates.
+     */
     private int startNodeViewY;
 
     /**

@@ -1,6 +1,5 @@
 package nl.rug.oop.rts.controller.commands;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -39,6 +38,11 @@ public class RenameCommand implements Command {
      */
     private final String newName;
 
+    /**
+     * Whether we should update the sidePanel.
+     * System name changes should the sidePanel,
+     * user changes not.
+     */
     @Setter
     private boolean shouldUpdate = false;
 

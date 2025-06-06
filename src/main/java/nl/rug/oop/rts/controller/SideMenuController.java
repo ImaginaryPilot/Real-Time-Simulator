@@ -6,7 +6,6 @@ import nl.rug.oop.rts.controller.commands.Command;
 import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.army.Faction;
 import nl.rug.oop.rts.model.interfaces.Renamable;
-import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;

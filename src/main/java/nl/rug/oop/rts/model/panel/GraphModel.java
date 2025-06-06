@@ -2,8 +2,6 @@ package nl.rug.oop.rts.model.panel;
 
 import lombok.Getter;
 import nl.rug.oop.rts.model.army.Army;
-import nl.rug.oop.rts.model.army.Army;
-import nl.rug.oop.rts.model.army.Unit;
 import nl.rug.oop.rts.observer.Observable;
 import nl.rug.oop.rts.observer.Observer;
 
@@ -172,7 +170,7 @@ public class GraphModel implements Observable {
     }
 
     /**
-     * get all edges connected to the node.
+     * Get all edges connected to the node.
      *
      * @param node the node we want to find all edges connected to
      * @return all edges connected to the node
@@ -188,7 +186,7 @@ public class GraphModel implements Observable {
     }
 
     /**
-     * get the other node on the same edge.
+     * Get the other node on the same edge.
      *
      * @param node the source node
      * @param edge the edge that connected both nodes
@@ -203,21 +201,43 @@ public class GraphModel implements Observable {
         return null;
     }
 
-    public void addArmy(Node node, Army army){
+    /**
+     * Add an army to a node.
+     *
+     * @param node the node
+     * @param army the army
+     */
+    public void addArmy(Node node, Army army) {
         node.addArmy(army);
         updateAllObservers();
     }
 
-    public void removeArmy(Node node, Army army){
+    /**
+     * Remove an army from a node.
+     *
+     * @param node the node
+     * @param army the army
+     */
+    public void removeArmy(Node node, Army army) {
         node.removeArmy(army);
         updateAllObservers();
     }
 
+    /**
+     * Set nodes.
+     *
+     * @param newNodes the new nodes
+     */
     public void setNodes(List<Node> newNodes) {
         this.nodes = newNodes;
         updateAllObservers();
     }
 
+    /**
+     * set edges.
+     *
+     * @param newEdges the new edges
+     */
     public void setEdges(List<Edge> newEdges) {
         this.edges = newEdges;
         updateAllObservers();

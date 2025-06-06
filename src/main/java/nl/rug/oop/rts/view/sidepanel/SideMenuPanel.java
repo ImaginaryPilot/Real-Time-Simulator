@@ -41,7 +41,7 @@ public class SideMenuPanel extends JPanel implements Observer {
     private final EdgePanel edgePanel;
     /**
      * The panel for the logs of the simulation.
-     * */
+     */
     private final LogPanel logPanel;
 
     /**

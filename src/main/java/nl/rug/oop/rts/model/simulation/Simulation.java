@@ -13,20 +13,20 @@ import java.util.Random;
 
 /**
  * The class responsible for the simulation.
- * */
+ */
 @Getter
 public class Simulation {
     /**
      * The random variable.
-     * */
+     */
     private final Random random = new Random();
     /**
      * The graph model.
-     * */
+     */
     private final GraphModel graphModel;
     /**
      * The class responsible for resolving the conflicts.
-     * */
+     */
     private final ResolveBattle resolveBattle;
     /**
      * Class responsible for resolving the events(more printing the results).
@@ -34,23 +34,23 @@ public class Simulation {
     private final ResolveEvent resolveEvent;
     /**
      * List of all moves the armies would make.
-     * */
+     */
     private List<Move> moves;
     /**
      * Battle log of all battles.
-     * */
+     */
     private final List<String> battleLog = new ArrayList<>();
     /**
      * Event lof of all the events.
-     * */
+     */
     private final List<String> eventLog = new ArrayList<>();
 
     /**
      * Constructor responsible for instantiating resolveBattle as well.
      *
      * @param graphModel to store the graphModel.
-     * */
-    public Simulation(GraphModel graphModel){
+     */
+    public Simulation(GraphModel graphModel) {
         this.graphModel = graphModel;
         resolveBattle = new ResolveBattle(battleLog);
         resolveEvent = new ResolveEvent(eventLog);
@@ -58,8 +58,8 @@ public class Simulation {
 
     /**
      * A singular simulation step.
-     * */
-    public void simulationStep(){
+     */
+    public void simulationStep() {
         battleLog.clear();
         eventLog.clear();
         moves = new ArrayList<>();
@@ -93,23 +93,23 @@ public class Simulation {
 
     /**
      * Resolve the conflict at the nodes.
-     * */
-    private void resolveConflictAtNode(){
-        for(Node node: graphModel.getNodes()){
+     */
+    private void resolveConflictAtNode() {
+        for (Node node : graphModel.getNodes()) {
             resolveBattle.resolveBattleOnNode(node);
         }
     }
 
     /**
      * Preparing the moves for the armies.
-     * */
-    private void prepareMove(){
-        for(Node node: graphModel.getNodes()){
+     */
+    private void prepareMove() {
+        for (Node node : graphModel.getNodes()) {
             List<Army> armies = node.getArmyList();
-            for(Army army : armies.toArray(new Army[0])){
+            for (Army army : armies.toArray(new Army[0])) {
                 List<Edge> edges = graphModel.getConnectedEdges(node);
 
-                if(!edges.isEmpty()){
+                if (!edges.isEmpty()) {
                     Edge chosenEdge = edges.get(random.nextInt(edges.size()));
                     Node otherNode = graphModel.getOtherNode(chosenEdge, node);
 
@@ -121,9 +121,9 @@ public class Simulation {
 
     /**
      * Resolve the conflicts at the edges.
-     * */
-    private void resolveConflictAtEdge(){
-        for(Move move : moves){
+     */
+    private void resolveConflictAtEdge() {
+        for (Move move : moves) {
             resolveBattle.resolveBattleOnEdge(move.getEdge());
         }
     }
@@ -146,13 +146,11 @@ public class Simulation {
         }
     }
 
-
-
     /**
      * move armies to the edges.
-     * */
-    private void moveArmyToEdge(){
-        for(Move move : moves){
+     */
+    private void moveArmyToEdge() {
+        for (Move move : moves) {
             move.getFrom().removeArmy(move.getArmy());
             move.getEdge().addArmy(move.getArmy());
         }
@@ -160,10 +158,10 @@ public class Simulation {
 
     /**
      * move the armies to the nodes.
-     * */
-    private void moveArmyToNode(){
-        for(Move move: moves){
-            if(move.getEdge().getArmyList().contains(move.getArmy())){
+     */
+    private void moveArmyToNode() {
+        for (Move move : moves) {
+            if (move.getEdge().getArmyList().contains(move.getArmy())) {
                 move.getEdge().removeArmy(move.getArmy());
                 move.getTo().addArmy(move.getArmy());
             }

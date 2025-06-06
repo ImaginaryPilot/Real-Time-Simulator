@@ -22,12 +22,12 @@ public class SimulationCommand implements Command {
      * The armies of the game before the simulation.
      * Stored in a map with the node id as the key and the armies as value.
      */
-    HashMap<Integer, List<Army>> armiesMap;
+    private HashMap<Integer, List<Army>> armiesMap;
     /**
      * The armies of the game after the simulation.
      * Stored in a map with the node id as the key and the armies as value.
      */
-    HashMap<Integer, List<Army>> armiesMapNew;
+    private HashMap<Integer, List<Army>> armiesMapNew;
 
     @Override
     public void execute() {

@@ -2,7 +2,6 @@ package nl.rug.oop.rts.controller;
 
 import lombok.RequiredArgsConstructor;
 import nl.rug.oop.rts.controller.commands.*;
-import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.events.Disaster;
 import nl.rug.oop.rts.model.events.Reinforcements;
 import nl.rug.oop.rts.model.events.Weaponry;

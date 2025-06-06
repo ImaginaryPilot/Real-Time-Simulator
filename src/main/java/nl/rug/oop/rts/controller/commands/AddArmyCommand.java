@@ -16,11 +16,11 @@ public class AddArmyCommand implements Command {
     private final GraphModel graphModel;
     /**
      * The army to add.
-     * */
+     */
     private final Army army;
     /**
      * The node the army is being added to.
-     * */
+     */
     private final Node node;
 
     @Override

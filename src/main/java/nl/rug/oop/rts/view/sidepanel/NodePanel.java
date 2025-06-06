@@ -24,19 +24,19 @@ class NodePanel extends JPanel {
     private final SideMenuController sideMenuController;
     /**
      * current node.
-     * */
+     */
     private Node currentNode;
     /**
      * The list of the armies listed in a JList.
-     * */
+     */
     private final DefaultListModel<String> armyListModel;
     /**
      * The visual component that shows all the armies stored.
-     * */
+     */
     private final JList<String> armyList;
     /**
      * stores list of armies to check their stats.
-     * */
+     */
     private java.util.List<Army> armyObjects;
 
     /**
@@ -65,9 +65,10 @@ class NodePanel extends JPanel {
         armyPanel();
     }
 
-
-
-    private void  armyPanel(){
+    /**
+     * ArmyPanel.
+     */
+    private void armyPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         armyObjects = new ArrayList<>();
@@ -98,14 +99,15 @@ class NodePanel extends JPanel {
         addArmyButton(addArmyButton);
         removeArmyButton(removeArmyButton);
     }
+
     /**
      * button responsible for adding army.
      *
      * @param addArmyButton button to add army
-     * */
-    private void addArmyButton(JButton addArmyButton){
-        addArmyButton.addActionListener(e ->{
-            if(currentNode != null){
+     */
+    private void addArmyButton(JButton addArmyButton) {
+        addArmyButton.addActionListener(e -> {
+            if (currentNode != null) {
                 sideMenuController.addArmy(currentNode);
             }
         });
@@ -115,18 +117,18 @@ class NodePanel extends JPanel {
      * button responsible for removing army.
      *
      * @param removeArmyButton button to remove army
-     * */
-    private void removeArmyButton(JButton removeArmyButton){
-        removeArmyButton.addActionListener(e ->{
-            if(currentNode != null){
+     */
+    private void removeArmyButton(JButton removeArmyButton) {
+        removeArmyButton.addActionListener(e -> {
+            if (currentNode != null) {
                 int selectedIndex = armyList.getSelectedIndex();
-                if(selectedIndex == -1){
+                if (selectedIndex == -1) {
                     JOptionPane.showMessageDialog(
                             this,
                             "Please select an army to remove\n",
                             "No Selection",
                             JOptionPane.WARNING_MESSAGE);
-                } else{
+                } else {
                     sideMenuController.removeArmy(currentNode, selectedIndex);
                 }
             }
@@ -135,7 +137,7 @@ class NodePanel extends JPanel {
 
     /**
      * refreshing the JList everytime an army was added or removed.
-     * */
+     */
     private void refreshArmyList() {
         armyListModel.clear();
         if (currentNode != null) {

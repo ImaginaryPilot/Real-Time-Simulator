@@ -5,14 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.rug.oop.rts.model.army.Army;
 
-import java.io.Serial;
-
-@Getter
-@Setter
-@AllArgsConstructor
 /**
  * Abstract class for events.
  */
+@Getter
+@Setter
+@AllArgsConstructor
 public abstract class Event {
     /**
      * The name of the event.
@@ -25,6 +23,8 @@ public abstract class Event {
 
     /**
      * Abstract function to apply the event to an army.
+     *
+     * @param army the army
      */
     public abstract void apply(Army army);
 }
