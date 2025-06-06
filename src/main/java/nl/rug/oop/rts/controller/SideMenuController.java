@@ -56,12 +56,10 @@ public class SideMenuController {
      * @param node the node
      */
     public void addArmy(Node node, Faction selectedFaction) {
-
         if (selectedFaction != null) {
-            Command command = new AddArmyCommand(graphModel, new Army(selectedFaction), node);
+            Command command = new AddArmyCommand(graphModel, viewModel, new Army(selectedFaction), node);
             mainController.addCommand(command);
             mainController.executeCommand(command);
-            viewModel.updateAllObservers();
         }
     }
 
@@ -72,14 +70,16 @@ public class SideMenuController {
      * @param armyIndex the army index
      */
     public void removeArmy(Node node, int armyIndex) {
-        node.removeArmy(armyIndex);
-        viewModel.updateAllObservers();
+        Army army = node.getArmyList().get(armyIndex);
+        Command command = new RemoveArmyCommand(graphModel, viewModel, army, node);
+        mainController.addCommand(command);
+        mainController.executeCommand(command);
     }
 
     /**
      * Adds event to node.
      *
-     * @param node to where it's added to.
+     * @param node  to where it's added to.
      * @param event event to add.
      */
     public void addEvent(Node node, Event event) {
@@ -91,7 +91,7 @@ public class SideMenuController {
     /**
      * Removes event from node.
      *
-     * @param node from where it's removed.
+     * @param node  from where it's removed.
      * @param event event to remove.
      */
     public void removeEvent(Node node, Event event) {
@@ -103,7 +103,7 @@ public class SideMenuController {
     /**
      * Adds event to edge.
      *
-     * @param edge to where it's added to.
+     * @param edge  to where it's added to.
      * @param event the event to add.
      */
     public void addEvent(Edge edge, Event event) {
@@ -115,7 +115,7 @@ public class SideMenuController {
     /**
      * Removes event from edge.
      *
-     * @param edge from where it's removed
+     * @param edge  from where it's removed
      * @param event the event to remove
      */
     public void removeEvent(Edge edge, Event event) {
