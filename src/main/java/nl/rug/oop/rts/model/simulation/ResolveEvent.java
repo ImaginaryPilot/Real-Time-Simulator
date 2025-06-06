@@ -1,6 +1,5 @@
 package nl.rug.oop.rts.model.simulation;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import nl.rug.oop.rts.model.events.Disaster;
@@ -11,7 +10,6 @@ import nl.rug.oop.rts.model.events.Weaponry;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.Node;
 
-
 import java.util.List;
 import java.util.Random;
 
@@ -20,12 +18,11 @@ import java.util.Random;
  */
 @Getter
 @Setter
-public class ResolveEvent{
+public class ResolveEvent {
     /**
      * The list of events that have occurred.
      */
     private List<String> eventLog;
-
 
     /**
      * Constructor for eventLog.
@@ -35,7 +32,6 @@ public class ResolveEvent{
     public ResolveEvent(List<String> eventLog) {
         this.eventLog = eventLog;
     }
-
 
     /**
      * Displays a dialog showing information about a triggered event.
@@ -68,6 +64,7 @@ public class ResolveEvent{
      *
      * @param army   army affected.
      * @param random event number.
+     * @param node   the node
      * @return the event.
      */
     public Event triggerRandomEventNode(Army army, Random random, Node node) {
@@ -87,12 +84,12 @@ public class ResolveEvent{
 
     }
 
-
     /**
      * The function that triggers a random event on the edge.
      *
      * @param army   army affected.
      * @param random which event is chosen?
+     * @param edge   the edge
      * @return event.
      */
     public Event triggerRandomEventEdge(Army army, Random random, Edge edge) {

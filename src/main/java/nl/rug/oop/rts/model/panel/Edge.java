@@ -8,7 +8,6 @@ import nl.rug.oop.rts.model.interfaces.Renamable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Edge class that holds all the information of an edge in the graph.

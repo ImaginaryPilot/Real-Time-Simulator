@@ -8,8 +8,6 @@ import nl.rug.oop.rts.model.interfaces.Renamable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 
 /**
  * Node class that holds all the information of a node in the graph.

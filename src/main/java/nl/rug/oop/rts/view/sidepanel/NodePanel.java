@@ -8,7 +8,6 @@ import nl.rug.oop.rts.view.utilities.NameTextField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +36,7 @@ class NodePanel extends JPanel {
     private final JList<String> armyList;
     /**
      * Selected index from JList for removal or stats.
-     * */
+     */
     private int selectedIndex;
 
     /**
@@ -79,7 +78,6 @@ class NodePanel extends JPanel {
         JLabel titleLabel = new JLabel("Armies");
         titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         add(titleLabel);
-
         // The button panel for the 2 buttons to add and remove armies
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
@@ -105,7 +103,6 @@ class NodePanel extends JPanel {
             removeArmyButton.setEnabled(selected);
             statsButton.setEnabled(selected);
         });
-
         addArmyButton(addArmyButton);
         removeArmyButton(removeArmyButton, selectedIndex);
         showArmyStats(statsButton, selectedIndex);
@@ -128,6 +125,7 @@ class NodePanel extends JPanel {
      * button responsible for removing army.
      *
      * @param removeArmyButton button to remove army
+     * @param selectedIndex    the selected index
      */
     private void removeArmyButton(JButton removeArmyButton, int selectedIndex) {
         removeArmyButton.addActionListener(e -> {
@@ -137,36 +135,51 @@ class NodePanel extends JPanel {
         });
     }
 
-    private void showArmyStats(JButton statsButton, int selectedIndex){
-        statsButton.addActionListener(e-> {
-            if(currentNode != null){
-                Army selectedArmy = currentNode.getArmyList().get(selectedIndex);
-                JPanel statsPanel = new JPanel();
-                statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
-                statsPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+    /**
+     * Show some information about the army.
+     *
+     * @param index index of the army in the armyList.
+     */
+    private void armyInfo(int index) {
+        if (currentNode != null) {
+            Army selectedArmy = currentNode.getArmyList().get(index);
+            JPanel statsPanel = new JPanel();
+            statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
+            statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-                JTextArea textArea = new JTextArea(selectedArmy.getStats());
-                textArea.setEditable(false);
-                textArea.setBackground(null);
-                textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+            JTextArea textArea = new JTextArea(selectedArmy.getStats());
+            textArea.setEditable(false);
+            textArea.setBackground(null);
+            textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-                JList<Unit> unitJlist = new JList<>(selectedArmy.getUnits().toArray(new Unit[0]));
-                unitJlist.setVisibleRowCount(8);
-                JScrollPane scrollPane = new JScrollPane(unitJlist);
-                scrollPane.setPreferredSize(new Dimension(250, 150));
-                scrollPane.setBorder(BorderFactory.createTitledBorder("Units"));
+            JList<Unit> unitJlist = new JList<>(selectedArmy.getUnits().toArray(new Unit[0]));
+            unitJlist.setVisibleRowCount(8);
+            JScrollPane scrollPane = new JScrollPane(unitJlist);
+            scrollPane.setPreferredSize(new Dimension(250, 150));
+            scrollPane.setBorder(BorderFactory.createTitledBorder("Units"));
 
-                statsPanel.add(textArea);
-                statsPanel.add(Box.createVerticalStrut(10));
-                statsPanel.add(scrollPane);
+            statsPanel.add(textArea);
+            statsPanel.add(Box.createVerticalStrut(10));
+            statsPanel.add(scrollPane);
 
-                JOptionPane.showMessageDialog(
-                        this,
-                        statsPanel,
-                        "Army Stats",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-            }
+            JOptionPane.showMessageDialog(
+                    this,
+                    statsPanel,
+                    "Army Stats",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+    }
+
+    /**
+     * Show some army stats.
+     *
+     * @param statsButton   the clickable button
+     * @param selectedIndex the index of the selected army
+     */
+    private void showArmyStats(JButton statsButton, int selectedIndex) {
+        statsButton.addActionListener(e -> {
+            armyInfo(selectedIndex);
         });
     }
 

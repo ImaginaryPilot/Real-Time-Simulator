@@ -140,7 +140,12 @@ public class Army {
         return armyCopy;
     }
 
-    public String getStats(){
+    /**
+     * Get stats string.
+     *
+     * @return the string
+     */
+    public String getStats() {
         StringBuilder sb = new StringBuilder();
         sb.append("Race: ").append(faction.name()).append("\n");
         sb.append("Faciton: ").append(faction.getTeam()).append("\n");
