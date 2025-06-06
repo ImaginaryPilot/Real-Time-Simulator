@@ -126,29 +126,4 @@ public class Node implements Renamable {
     public void removeEvent(Event event) {
         events.remove(event);
     }
-
-    /**
-     * Method that triggers random event.
-     *
-     * @param army   army affected.
-     * @param random event number.
-     * @return the event.
-     */
-    public Event triggerRandomEvent(Army army, Random random) {
-        if (events.isEmpty()) {
-            System.out.println("No events available at Node: " + name);
-            return null;
-        }
-        int chance = random.nextInt(100);
-        if (chance >= 40) {
-            System.out.println("No event triggered at Node: " + name);
-            return null;
-        }
-        Event event = events.get(random.nextInt(events.size()));
-        event.apply(army);
-        System.out.println("Triggered Event: " + event.getName() + " at Node: " + name);
-        return event;
-
-    }
-
 }

@@ -115,28 +115,4 @@ public class Edge implements Renamable {
     public void removeEvent(Event event) {
         events.remove(event);
     }
-
-    /**
-     * The function that triggers a random event on the edge.
-     *
-     * @param army   army affected.
-     * @param random which event is chosen?
-     * @return event.
-     */
-    public Event triggerRandomEvent(Army army, Random random) {
-        if (events.isEmpty()) {
-            System.out.println("No events available at Edge: " + name);
-            return null;
-        }
-        int chance = random.nextInt(100);
-        if (chance >= 40) {
-            System.out.println("No event triggered on Edge: " + name);
-            return null;
-        }
-        Event event = events.get(random.nextInt(events.size()));
-        event.apply(army);
-        System.out.println("Triggered Event: " + event.getName() + " on Edge: " + name);
-        return event;
-    }
-
 }
