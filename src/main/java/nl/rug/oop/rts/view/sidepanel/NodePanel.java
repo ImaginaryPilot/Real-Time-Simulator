@@ -4,6 +4,10 @@ import nl.rug.oop.rts.controller.SideMenuController;
 import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.army.Faction;
 import nl.rug.oop.rts.model.army.Unit;
+import nl.rug.oop.rts.model.events.Event;
+import nl.rug.oop.rts.model.events.Disaster;
+import nl.rug.oop.rts.model.events.Reinforcements;
+import nl.rug.oop.rts.model.events.Weaponry;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.view.utilities.NameTextField;
 
@@ -35,6 +39,15 @@ class NodePanel extends JPanel {
      * The visual component that shows all the armies stored.
      */
     private final JList<String> armyList;
+    /**
+     * The list of the events listed in a JList.
+     */
+    private final DefaultListModel<String> eventListModel = new DefaultListModel<>();
+    /**
+     * The visual component that shows all the events stored.
+     */
+    private final JList<String> eventList = new JList<>(eventListModel);
+
     /**
      * Selected index from JList for removal or stats.
      */
@@ -68,9 +81,94 @@ class NodePanel extends JPanel {
     }
 
     /**
-     *
+     * Adds the panel for managing events on the node, similar to the army UI.
      */
     private void eventPanel() {
+        JLabel titleLabel = new JLabel("Events");
+        titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        add(titleLabel);
+
+        JComboBox<String> eventSelector = new JComboBox<>(new String[]{"Disaster", "Reinforcements", "Weaponry"});
+        eventSelector.setAlignmentX(Component.LEFT_ALIGNMENT);
+        add(eventSelector);
+
+        eventList.setVisibleRowCount(5);
+        JScrollPane eventScrollPane = new JScrollPane(eventList);
+        eventScrollPane.setPreferredSize(new Dimension(180, 100));
+        eventScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+        add(eventScrollPane);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        JButton addEventButton = new JButton("+");
+        JButton removeEventButton = new JButton("-");
+        removeEventButton.setEnabled(false);
+
+        buttonPanel.add(addEventButton);
+        buttonPanel.add(removeEventButton);
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        add(buttonPanel);
+
+        eventList.addListSelectionListener(e -> {
+            boolean selected = eventList.getSelectedIndex() != -1;
+            removeEventButton.setEnabled(selected);
+        });
+
+        addEventButton(addEventButton, eventSelector);
+        removeEventButton(removeEventButton);
+        add(Box.createVerticalStrut(10));
+    }
+
+    /**
+     * Button to add event to node.
+     *
+     * @param addEventButton the button.
+     * @param eventSelector the event selector.
+     */
+    private void addEventButton(JButton addEventButton, JComboBox<String> eventSelector) {
+        addEventButton.addActionListener(e -> {
+            if (currentNode != null) {
+                String selectedEventType = (String) eventSelector.getSelectedItem();
+                Event newEvent = createEventByType(selectedEventType);
+
+                if (newEvent != null) {
+                    sideMenuController.addNodeEvent(currentNode, newEvent);
+                    eventListModel.addElement(selectedEventType);
+                }
+            }
+        });
+    }
+
+    /**
+     * Create event based on type.
+     *
+     * @param type the type of event.
+     * @return the event.
+     */
+    private Event createEventByType(String type) {
+        return switch (type) {
+            case "Disaster" -> new Disaster();
+            case "Reinforcements" -> new Reinforcements();
+            case "Weaponry" -> new Weaponry();
+            default -> throw new IllegalArgumentException("Unknown event type: " + type);
+        };
+    }
+
+    /**
+     * Button to remove event from node.
+     *
+     * @param removeEventButton the button.
+     */
+    private void removeEventButton(JButton removeEventButton) {
+        removeEventButton.addActionListener(e -> {
+            if (currentNode != null && eventList.getSelectedValue() != null) {
+                int selectedEventType = eventList.getSelectedIndex();
+                Event selectedEvent = currentNode.getEvents().get(selectedEventType);
+                if (selectedEvent != null) {
+                    sideMenuController.removeNodeEvent(currentNode, selectedEvent);
+                    eventListModel.remove(eventList.getSelectedIndex());
+                }
+            }
+        });
     }
 
     /**

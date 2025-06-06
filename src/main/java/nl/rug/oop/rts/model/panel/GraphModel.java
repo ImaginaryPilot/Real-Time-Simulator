@@ -240,8 +240,10 @@ public class GraphModel implements Observable {
     }
 
     /**
-     * @param node
-     * @param event
+     * Add an event to a node.
+     *
+     * @param node the node target.
+     * @param event the event added.
      */
     public void addNodeEvent(Node node, Event event) {
         node.addEvent(event);
@@ -249,8 +251,10 @@ public class GraphModel implements Observable {
     }
 
     /**
-     * @param node
-     * @param event
+     * Remove an event from a node.
+     *
+     * @param node the node target.
+     * @param event the event removed.
      */
     public void removeNodeEvent(Node node, Event event) {
         node.removeEvent(event);
@@ -258,19 +262,23 @@ public class GraphModel implements Observable {
     }
 
     /**
-     * @param edge
-     * @param event
+     * Add event on edge.
+     *
+     * @param edge the edge target.
+     * @param event the event added.
      */
-    public void addEdgeEvent(Edge edge, Event event) {
+    public void addEdgeEvent(Edge edge, Event event){
         edge.addEvent(event);
         updateAllObservers();
     }
 
     /**
-     * @param edge
-     * @param event
+     * Remove event on edge.
+     *
+     * @param edge the edge target.
+     * @param event the event removed.
      */
-    public void removeEdgeEvent(Edge edge, Event event) {
+    public void removeEdgeEvent(Edge edge, Event event){
         edge.removeEvent(event);
         updateAllObservers();
     }

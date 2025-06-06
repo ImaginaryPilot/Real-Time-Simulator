@@ -19,7 +19,7 @@ public class RemoveNodeEventCommand implements Command{
      */
     private final Node node;
     /**
-     * The event removed
+     * The event removed.
      */
     private final Event event;
 

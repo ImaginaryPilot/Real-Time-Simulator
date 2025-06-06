@@ -64,6 +64,7 @@ public class SideMenuController {
             Command command = new AddArmyCommand(graphModel, viewModel, army, node);
             mainController.addCommand(command);
             mainController.executeCommand(command);
+            viewModel.updateAllObservers();
         }
     }
 
@@ -86,7 +87,7 @@ public class SideMenuController {
      * @param node  to where it's added to.
      * @param event event to add.
      */
-    public void addEvent(Node node, Event event) {
+    public void addNodeEvent(Node node, Event event) {
         Command command = new AddNodeEventCommand(graphModel, event, node);
         mainController.addCommand(command);
         mainController.executeCommand(command);
@@ -98,7 +99,7 @@ public class SideMenuController {
      * @param node  from where it's removed.
      * @param event event to remove.
      */
-    public void removeEvent(Node node, Event event) {
+    public void removeNodeEvent(Node node, Event event) {
         Command command = new RemoveNodeEventCommand(graphModel, node, event);
         mainController.addCommand(command);
         mainController.executeCommand(command);
@@ -110,7 +111,7 @@ public class SideMenuController {
      * @param edge  to where it's added to.
      * @param event the event to add.
      */
-    public void addEvent(Edge edge, Event event) {
+    public void addEdgeEvent(Edge edge, Event event) {
         Command command = new AddEdgeEventCommand(graphModel, event, edge);
         mainController.addCommand(command);
         mainController.executeCommand(command);
@@ -122,7 +123,7 @@ public class SideMenuController {
      * @param edge  from where it's removed
      * @param event the event to remove
      */
-    public void removeEvent(Edge edge, Event event) {
+    public void removeEdgeEvent(Edge edge, Event event) {
         Command command = new RemoveEdgeEventCommand(graphModel, edge, event);
         mainController.addCommand(command);
         mainController.executeCommand(command);
