@@ -79,32 +79,29 @@ public class MainController {
     /**
      * Renames a renamable element.
      * Is either a node or an edge.
+     * Makes sure there are no duplicate rename commands on the undo stack.
+     * If the last command was renaming the same element, replace the command.
+     * If the new name is the same as the original, the command does not get added to the stack.
      *
      * @param element The element to rename.
      * @param newName The new name of the element.
      */
     public void addRenameCommand(Renamable element, String newName) {
-        RenameCommand command;
+        String oldName = element.getName();
         try {
-            if (undoStack.peek() instanceof RenameCommand lastCmd) {
-                if (lastCmd.getElement() == element) {  // Renaming same element
-                    undoStack.pop();
-                    String originalName = lastCmd.getOldName();
-                    if (Objects.equals(originalName, newName)) {
-                        command = new RenameCommand(graphModel, viewModel, element, originalName, newName);
-                        executeCommand(command);
-                        return;
-                    }
-                    command = new RenameCommand(graphModel, viewModel, element, originalName, newName);
-                } else {
-                    command = new RenameCommand(graphModel, viewModel, element, element.getName(), newName);
+            // Renaming the same element
+            if (undoStack.peek() instanceof RenameCommand lastCmd && lastCmd.getElement() == element) {
+                undoStack.pop();
+                oldName = lastCmd.getOldName();
+                if (Objects.equals(oldName, newName)) {
+                    Command command = new RenameCommand(graphModel, viewModel, element, oldName, newName);
+                    executeCommand(command);
+                    return;
                 }
-            } else {
-                command = new RenameCommand(graphModel, viewModel, element, element.getName(), newName);
             }
-        } catch (EmptyStackException e) {
-            command = new RenameCommand(graphModel, viewModel, element, element.getName(), newName);
+        } catch (EmptyStackException ignored) {
         }
+        RenameCommand command = new RenameCommand(graphModel, viewModel, element, oldName, newName);
         executeCommand(command);
         command.setShouldUpdate(true);
         addCommand(command);
