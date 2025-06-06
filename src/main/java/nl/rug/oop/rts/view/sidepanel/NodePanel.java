@@ -2,6 +2,7 @@ package nl.rug.oop.rts.view.sidepanel;
 
 import nl.rug.oop.rts.controller.SideMenuController;
 import nl.rug.oop.rts.model.army.Army;
+import nl.rug.oop.rts.model.army.Faction;
 import nl.rug.oop.rts.model.army.Unit;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.view.utilities.NameTextField;
@@ -123,7 +124,18 @@ class NodePanel extends JPanel {
     private void addArmyButton(JButton addArmyButton) {
         addArmyButton.addActionListener(e -> {
             if (currentNode != null) {
-                sideMenuController.addArmy(currentNode);
+                Faction[] factions = Faction.values();
+
+                Faction selectedFaction = (Faction) JOptionPane.showInputDialog(
+                        null,
+                        "Select a faction to add an army:",
+                        "Add Army",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        factions,
+                        factions[0]
+                );
+                sideMenuController.addArmy(currentNode, selectedFaction);
             }
         });
     }
@@ -137,6 +149,11 @@ class NodePanel extends JPanel {
     private void removeArmyButton(JButton removeArmyButton, int selectedIndex) {
         removeArmyButton.addActionListener(e -> {
             if (currentNode != null) {
+                if (selectedIndex < 0 || selectedIndex >= currentNode.getArmyList().size()) {
+                    JOptionPane.showMessageDialog(null,
+                            "No army selected or invalid index.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 sideMenuController.removeArmy(currentNode, selectedIndex);
             }
         });

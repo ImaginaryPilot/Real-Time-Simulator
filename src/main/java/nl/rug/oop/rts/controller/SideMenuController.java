@@ -55,18 +55,7 @@ public class SideMenuController {
      *
      * @param node the node
      */
-    public void addArmy(Node node) {
-        Faction[] factions = Faction.values();
-
-        Faction selectedFaction = (Faction) JOptionPane.showInputDialog(
-                null,
-                "Select a faction to add an army:",
-                "Add Army",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                factions,
-                factions[0]
-        );
+    public void addArmy(Node node, Faction selectedFaction) {
 
         if (selectedFaction != null) {
             Command command = new AddArmyCommand(graphModel, new Army(selectedFaction), node);
@@ -83,11 +72,6 @@ public class SideMenuController {
      * @param armyIndex the army index
      */
     public void removeArmy(Node node, int armyIndex) {
-        if (armyIndex < 0 || armyIndex >= node.getArmyList().size()) {
-            JOptionPane.showMessageDialog(null,
-                    "No army selected or invalid index.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         node.removeArmy(armyIndex);
         viewModel.updateAllObservers();
     }
