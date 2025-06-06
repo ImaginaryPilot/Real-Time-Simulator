@@ -9,10 +9,10 @@ import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
 import nl.rug.oop.rts.model.panel.ViewModel;
+import nl.rug.oop.rts.model.simulation.NodeArmyState;
 import nl.rug.oop.rts.model.simulation.Simulation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -100,9 +100,10 @@ public class TopMenuController {
         if (graphModel.getEdges().isEmpty() && graphModel.getNodes().isEmpty()) {
             return;
         }
-        HashMap<Integer, List<Army>> armiesMap = new HashMap<>();
+        List<NodeArmyState> nodeArmyStates = new ArrayList<>();
         for (Node node : graphModel.getNodes()) {
-            armiesMap.put(node.getId(), node.copyArmies());
+            List<Army> copiedArmies = node.copyArmies();
+            nodeArmyStates.add(new NodeArmyState(node.getId(), copiedArmies));
         }
 
         Simulation simulation = new Simulation(graphModel);
@@ -111,12 +112,12 @@ public class TopMenuController {
         viewModel.setBattleLog(simulation.getBattleLog());
         viewModel.setEventLog(simulation.getEventLog());
 
-        HashMap<Integer, List<Army>> armiesMapNew = new HashMap<>();
+        List<NodeArmyState> nodeArmyStatesNew = new ArrayList<>();
         for (Node node : graphModel.getNodes()) {
-            armiesMapNew.put(node.getId(), node.copyArmies());
+            List<Army> copiedArmies = node.copyArmies();
+            nodeArmyStatesNew.add(new NodeArmyState(node.getId(), copiedArmies));
         }
-
-        Command command = new SimulationCommand(graphModel, armiesMap, armiesMapNew);
+        Command command = new SimulationCommand(graphModel, nodeArmyStates, nodeArmyStatesNew);
         mainController.addCommand(command);
     }
 }

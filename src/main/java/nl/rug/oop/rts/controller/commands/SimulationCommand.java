@@ -1,11 +1,10 @@
 package nl.rug.oop.rts.controller.commands;
 
 import lombok.AllArgsConstructor;
-import nl.rug.oop.rts.model.army.Army;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
+import nl.rug.oop.rts.model.simulation.NodeArmyState;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,33 +16,43 @@ public class SimulationCommand implements Command {
      * The graph of the game.
      */
     private final GraphModel graphModel;
-
     /**
-     * The armies of the game before the simulation.
-     * Stored in a map with the node id as the key and the armies as value.
+     * The armies before the simulation.
+     * Stored with nodeID.
      */
-    private HashMap<Integer, List<Army>> armiesMap;
+    private List<NodeArmyState> nodeArmyStates;
     /**
-     * The armies of the game after the simulation.
-     * Stored in a map with the node id as the key and the armies as value.
+     * The armies after the simulation.
+     * Stored with nodeID.
      */
-    private HashMap<Integer, List<Army>> armiesMapNew;
+    private List<NodeArmyState> nodeArmyStatesNew;
 
     @Override
+
     public void execute() {
-        for (Node node : graphModel.getNodes()) {
-            List<Army> copiedArmies = armiesMapNew.get(node.getId());
-            node.setArmies(copiedArmies);
-        }
+        setArmiesMap(nodeArmyStatesNew);
         graphModel.updateAllObservers();
     }
 
     @Override
     public void undo() {
-        for (Node node : graphModel.getNodes()) {
-            List<Army> copiedArmies = armiesMap.get(node.getId());
-            node.setArmies(copiedArmies);
-        }
+        setArmiesMap(nodeArmyStates);
         graphModel.updateAllObservers();
+    }
+
+    /**
+     * Sets the armies of the nodes in the graph to the armies in the given list.
+     *
+     * @param nodeArmyState The list of armies to set.
+     */
+    private void setArmiesMap(List<NodeArmyState> nodeArmyState) {
+        for (Node node : graphModel.getNodes()) {
+            for (NodeArmyState savedState : nodeArmyState) {
+                if (savedState.getNodeId() == node.getId()) {
+                    node.setArmies(savedState.getArmies());
+                    break;
+                }
+            }
+        }
     }
 }

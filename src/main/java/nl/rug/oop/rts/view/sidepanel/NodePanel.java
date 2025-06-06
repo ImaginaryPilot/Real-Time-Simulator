@@ -44,7 +44,7 @@ class NodePanel extends JPanel {
      *
      * @param sideMenuController The controller for the side menu.
      */
-    public NodePanel(SideMenuController sideMenuController) {
+    NodePanel(SideMenuController sideMenuController) {
         this.sideMenuController = sideMenuController;
 
         // Army list setup
