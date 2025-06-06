@@ -4,16 +4,21 @@ import lombok.AllArgsConstructor;
 import nl.rug.oop.rts.model.events.Event;
 import nl.rug.oop.rts.model.panel.Edge;
 import nl.rug.oop.rts.model.panel.GraphModel;
+import nl.rug.oop.rts.model.panel.ViewModel;
 
 /**
  * Command for removing an edge event.
  */
 @AllArgsConstructor
-public class RemoveEdgeEventCommand implements Command{
+public class RemoveEdgeEventCommand implements Command {
     /**
      * The graph of the game.
      */
     private final GraphModel graphModel;
+    /**
+     * The view model of the game.
+     */
+    private final ViewModel viewModel;
     /**
      * The edge from which the event is removed.
      */
@@ -26,10 +31,14 @@ public class RemoveEdgeEventCommand implements Command{
     @Override
     public void execute() {
         graphModel.removeEdgeEvent(edge, event);
+        viewModel.setSelectedEdge(edge);
+        viewModel.updateAllObservers();
     }
 
     @Override
     public void undo() {
         graphModel.addEdgeEvent(edge, event);
+        viewModel.setSelectedEdge(edge);
+        viewModel.updateAllObservers();
     }
 }

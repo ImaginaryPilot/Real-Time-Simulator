@@ -11,6 +11,7 @@ import nl.rug.oop.rts.view.utilities.NameTextField;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 /**
  * The panel for the edge properties.
@@ -135,7 +136,7 @@ class EdgePanel extends JPanel {
      * Button to add event to node.
      *
      * @param addEventButton add event button.
-     * @param eventSelector the event selector.
+     * @param eventSelector  the event selector.
      */
     private void addEventButton(JButton addEventButton, JComboBox<String> eventSelector) {
         addEventButton.addActionListener(e -> {
@@ -145,7 +146,6 @@ class EdgePanel extends JPanel {
 
                 if (newEvent != null) {
                     sideMenuController.addEdgeEvent(currentEdge, newEvent);
-                    eventListModel.addElement(selectedEventType);
                 }
             }
         });
@@ -178,10 +178,23 @@ class EdgePanel extends JPanel {
                 Event selectedEvent = currentEdge.getEvents().get(selectedEventType);
                 if (selectedEvent != null) {
                     sideMenuController.removeEdgeEvent(currentEdge, selectedEvent);
-                    eventListModel.remove(eventList.getSelectedIndex());
                 }
             }
         });
+    }
+
+    /**
+     * refreshing the JList everytime an event was added or removed.
+     */
+    private void refreshEventEdgeList() {
+        System.out.println("refreshing the JList everytime an event was added or removed.");
+        eventListModel.clear();
+        if (currentEdge != null) {
+            List<Event> events = currentEdge.getEvents();
+            for (Event event : events) {
+                eventListModel.addElement(event.getClass().getSimpleName());
+            }
+        }
     }
 
     /**
@@ -194,6 +207,6 @@ class EdgePanel extends JPanel {
         edgeNameField.setValidName(edge.getName());
         nodeALabel.setText("Node 1: " + edge.getNodeA().getName());
         nodeBLabel.setText("Node 2: " + edge.getNodeB().getName());
-        //System.out.println("new edge with name: " + edge.getName());
+        refreshEventEdgeList();
     }
 }

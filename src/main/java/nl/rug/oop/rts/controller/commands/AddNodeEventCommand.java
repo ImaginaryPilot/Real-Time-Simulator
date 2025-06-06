@@ -4,16 +4,21 @@ import lombok.AllArgsConstructor;
 import nl.rug.oop.rts.model.events.Event;
 import nl.rug.oop.rts.model.panel.GraphModel;
 import nl.rug.oop.rts.model.panel.Node;
+import nl.rug.oop.rts.model.panel.ViewModel;
 
 /**
  * Command for adding an event to a node.
  */
 @AllArgsConstructor
-public class AddNodeEventCommand implements Command{
+public class AddNodeEventCommand implements Command {
     /**
      * The graph of the game.
      */
     private final GraphModel graphModel;
+    /**
+     * The view model of the game.
+     */
+    private final ViewModel viewModel;
     /**
      * The event to add.
      */
@@ -26,10 +31,14 @@ public class AddNodeEventCommand implements Command{
     @Override
     public void execute() {
         graphModel.addNodeEvent(node, event);
+        viewModel.setSelectedNode(node);
+        viewModel.updateAllObservers();
     }
 
     @Override
     public void undo() {
         graphModel.removeNodeEvent(node, event);
+        viewModel.setSelectedNode(node);
+        viewModel.updateAllObservers();
     }
 }

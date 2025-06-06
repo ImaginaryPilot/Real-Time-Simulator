@@ -42,11 +42,11 @@ class NodePanel extends JPanel {
     /**
      * The list of the events listed in a JList.
      */
-    private final DefaultListModel<String> eventListModel = new DefaultListModel<>();
+    private final DefaultListModel<String> eventListModel;
     /**
      * The visual component that shows all the events stored.
      */
-    private final JList<String> eventList = new JList<>(eventListModel);
+    private final JList<String> eventList;
 
     /**
      * Selected index from JList for removal or stats.
@@ -64,6 +64,9 @@ class NodePanel extends JPanel {
         // Army list setup
         armyListModel = new DefaultListModel<>();
         armyList = new JList<>(armyListModel);
+
+        eventListModel = new DefaultListModel<>();
+        eventList = new JList<>(eventListModel);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.DARK_GRAY);
@@ -122,7 +125,7 @@ class NodePanel extends JPanel {
      * Button to add event to node.
      *
      * @param addEventButton the button.
-     * @param eventSelector the event selector.
+     * @param eventSelector  the event selector.
      */
     private void addEventButton(JButton addEventButton, JComboBox<String> eventSelector) {
         addEventButton.addActionListener(e -> {
@@ -132,7 +135,6 @@ class NodePanel extends JPanel {
 
                 if (newEvent != null) {
                     sideMenuController.addNodeEvent(currentNode, newEvent);
-                    eventListModel.addElement(selectedEventType);
                 }
             }
         });
@@ -165,7 +167,6 @@ class NodePanel extends JPanel {
                 Event selectedEvent = currentNode.getEvents().get(selectedEventType);
                 if (selectedEvent != null) {
                     sideMenuController.removeNodeEvent(currentNode, selectedEvent);
-                    eventListModel.remove(eventList.getSelectedIndex());
                 }
             }
         });
@@ -318,6 +319,19 @@ class NodePanel extends JPanel {
     }
 
     /**
+     * refreshing the JList everytime an event was added or removed.
+     */
+    private void refreshEventNodeList() {
+        eventListModel.clear();
+        if (currentNode != null) {
+            List<Event> events = currentNode.getEvents();
+            for (Event event : events) {
+                eventListModel.addElement(event.getClass().getSimpleName());
+            }
+        }
+    }
+
+    /**
      * Sets the node.
      *
      * @param node The node to set.
@@ -326,5 +340,6 @@ class NodePanel extends JPanel {
         this.currentNode = node;
         nodeNameField.setValidName(node.getName());
         refreshArmyList();
+        refreshEventNodeList();
     }
 }
