@@ -48,7 +48,7 @@ Armies move across the map, encounter events, and battle enemy forces.
 
 ## Screenshot
 
-![Example](screenshots/example.png)
+<img width="1230" height="834" alt="image" src="https://github.com/user-attachments/assets/b4a828a1-4d32-462c-88a8-eb2852d4cba8" />
 
 ---
 
