@@ -56,7 +56,7 @@ Armies move across the map, encounter events, and battle enemy forces.
 
 1. Clone the repository  
    ```bash
-   git clone https://github.com/yourusername/rts-battle-simulator.git```
+   git clone git@github.com:ImaginaryPilot/Real-Time-Simulator.git```
 2. Build and run with Maven:
 ```
 mvn clean compile exec:java
